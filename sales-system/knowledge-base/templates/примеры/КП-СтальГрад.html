@@ -1,0 +1,477 @@
+<title>КП для СтальГрад</title>
+<style>
+  :root{
+    --ground:#F5F6F3;
+    --surface:#FFFFFF;
+    --surface-2:#EFF1EC;
+    --ink:#171C18;
+    --muted:#6B756E;
+    --line:#DCE0DA;
+    --accent:#2F5D3A;
+    --accent-soft:#E7EEE6;
+    --accent-ink:#24462C;
+    --warn:#8F4630;
+    --warn-soft:#F4E7E2;
+    --radius:3px;
+    --maxw:820px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#121512;
+      --surface:#1A1E1B;
+      --surface-2:#212722;
+      --ink:#E7EBE4;
+      --muted:#95A197;
+      --line:#2C332D;
+      --accent:#84B58E;
+      --accent-soft:#1E2A20;
+      --accent-ink:#A6CDAD;
+      --warn:#C88268;
+      --warn-soft:#2A1F1B;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#121512;
+    --surface:#1A1E1B;
+    --surface-2:#212722;
+    --ink:#E7EBE4;
+    --muted:#95A197;
+    --line:#2C332D;
+    --accent:#84B58E;
+    --accent-soft:#1E2A20;
+    --accent-ink:#A6CDAD;
+    --warn:#C88268;
+    --warn-soft:#2A1F1B;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    font-size:16.5px;
+    line-height:1.62;
+    margin:0;
+    padding:0 20px 96px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;}
+
+  h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;font-weight:600;text-wrap:balance;margin:0;}
+  h1{font-size:clamp(30px,5vw,44px);line-height:1.14;letter-spacing:-.015em;}
+  h2{font-size:clamp(22px,3.4vw,28px);line-height:1.22;}
+  h3{font-size:18px;line-height:1.3;}
+  p{margin:0;}
+
+  .eyebrow{
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  }
+  .lede{font-size:18.5px;color:var(--ink);}
+  .muted{color:var(--muted);}
+  .num{font-variant-numeric:tabular-nums;}
+
+  /* ── ритм штакетника: разделитель крупных частей ── */
+  .picket{
+    height:14px;
+    background:repeating-linear-gradient(90deg,
+      var(--accent) 0 2px, transparent 2px 11px);
+    opacity:.32;
+    margin:0;
+  }
+
+  header.doc{padding:56px 0 0;}
+  .meta{
+    display:flex;flex-wrap:wrap;gap:8px 28px;
+    padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    font-size:13.5px;color:var(--muted);margin-top:28px;
+  }
+  .meta b{color:var(--ink);font-weight:600;}
+
+  section{padding:44px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:0;}
+  .stack{display:flex;flex-direction:column;gap:18px;}
+  .stack-sm{display:flex;flex-direction:column;gap:10px;}
+
+  .note{
+    background:var(--accent-soft);color:var(--ink);
+    border-left:3px solid var(--accent);
+    padding:14px 18px;border-radius:0 var(--radius) var(--radius) 0;
+    font-size:15px;
+  }
+
+  .todo{
+    border:1px dashed var(--accent);
+    background:var(--accent-soft);
+    padding:16px 18px;border-radius:var(--radius);
+    font-size:14.5px;
+  }
+  .todo .eyebrow{color:var(--accent-ink);}
+
+  .card{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);padding:20px 22px;
+  }
+  .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
+
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .fact{background:var(--surface);padding:16px 18px;}
+  .fact .v{font-family:Georgia,serif;font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums;}
+  .fact .k{font-size:13px;color:var(--muted);margin-top:4px;}
+
+  .problem{display:flex;gap:16px;align-items:flex-start;}
+  .problem .idx{
+    font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--accent-ink);
+    background:var(--accent-soft);border:1px solid var(--accent);
+    width:26px;height:26px;flex:0 0 26px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;margin-top:3px;
+  }
+
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);}
+  table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:520px;}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);}
+  thead th{
+    font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--surface-2);
+    white-space:nowrap;
+  }
+  td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  tbody tr:last-child td{border-bottom:0;}
+  tr.total td{font-weight:700;background:var(--surface-2);}
+  tr.group td{background:var(--surface-2);font-weight:600;font-size:13.5px;}
+  .was{color:var(--warn);}
+  .now{color:var(--accent-ink);font-weight:600;}
+
+  ol.steps{list-style:none;counter-reset:s;padding:0;margin:0;display:flex;flex-direction:column;gap:14px;}
+  ol.steps li{counter-increment:s;display:flex;gap:14px;align-items:flex-start;}
+  ol.steps li::before{
+    content:counter(s);
+    font-family:ui-monospace,Menlo,monospace;font-size:12px;
+    background:var(--accent);color:var(--ground);
+    width:24px;height:24px;flex:0 0 24px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;margin-top:2px;
+  }
+  ul.plain{margin:0;padding-left:20px;}
+  ul.plain li{margin-bottom:7px;}
+  ul.plain li:last-child{margin-bottom:0;}
+
+  .vs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+  .vs .col{border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;background:var(--surface);}
+  .vs .col.good{border-color:var(--accent);}
+  .vs h3{margin-bottom:10px;}
+
+  footer.doc{padding:44px 0 0;}
+  a{color:var(--accent-ink);}
+  a:focus-visible,:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+</style>
+
+<div class="wrap">
+
+  <header class="doc">
+    <div class="todo" style="margin-bottom:32px;">
+      <div class="eyebrow">образец</div>
+      <p style="margin-top:6px;">Все названия, цифры и кейсы ниже — <b>вымышленные</b>, для демонстрации структуры.
+      Блоки с пунктирной рамкой замените своими реальными данными перед отправкой клиенту.</p>
+    </div>
+
+    <div class="eyebrow">Коммерческое предложение</div>
+    <h1 style="margin-top:14px;">Заявки на заборы уже ищут в Яндексе. Сейчас они уходят конкурентам</h1>
+    <p class="lede muted" style="margin-top:18px;">
+      Предложение для компании «СтальГрад» — производство и монтаж заборов
+      из профнастила, евроштакетника и 3D-сетки.
+    </p>
+
+    <div class="meta">
+      <span><b>Кому:</b> Марии, руководителю «СтальГрад»</span>
+      <span><b>От:</b> [ваше имя / агентство]</span>
+      <span><b>Дата:</b> 18 августа 2026</span>
+      <span><b>Действительно:</b> 14 дней</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="eyebrow">Что мы поняли из разговора</div>
+    <h2 style="margin-top:10px;">Дано</h2>
+    <div class="stack" style="margin-top:20px;">
+      <div class="facts">
+        <div class="fact"><div class="v">B2C + B2B</div><div class="k">частные участки и подрядчики</div></div>
+        <div class="fact"><div class="v">Казань и РТ</div><div class="k">радиус выезда до 120 км</div></div>
+        <div class="fact"><div class="v">120 000 ₽</div><div class="k">средний чек объекта</div></div>
+        <div class="fact"><div class="v">апрель–сентябрь</div><div class="k">сезон, дающий 80 % выручки</div></div>
+      </div>
+
+      <div class="card">
+        <h3>Цели, которые вы обозначили</h3>
+        <ul class="plain" style="margin-top:10px;">
+          <li>Выйти на <b>180–200 заявок в месяц</b> в сезон вместо текущих 60–70.</li>
+          <li>Снизить стоимость заявки — сейчас с Авито выходит около <b>1 900 ₽</b>.</li>
+          <li>Загрузить вторую монтажную бригаду, которая простаивает половину сезона.</li>
+          <li>Перестать зависеть от Авито как единственного источника обращений.</li>
+        </ul>
+      </div>
+
+      <p class="muted" style="font-size:15px;">
+        Сейчас реклама не запускалась: заявки идут из Авито и по рекомендациям.
+        Сайт сделан в 2021 году, аналитика не подключена.
+      </p>
+    </div>
+  </section>
+
+  <div class="picket"></div>
+
+  <section>
+    <div class="eyebrow">Аудит</div>
+    <h2 style="margin-top:10px;">Что мешает вашему сайту приносить заявки</h2>
+    <div class="stack" style="margin-top:22px;">
+
+      <div class="problem">
+        <div class="idx">1</div>
+        <div class="stack-sm">
+          <h3>На первом экране нет цены за метр</h3>
+          <p class="muted">Больше половины запросов в нише звучат как «забор из профнастила цена за метр под ключ».
+          Человек ищет цифру. Не найдя её за пять секунд, он уходит к тем, кто её показал —
+          и вы теряете заявку до того, как успели рассказать о качестве монтажа.</p>
+        </div>
+      </div>
+
+      <div class="problem">
+        <div class="idx">2</div>
+        <div class="stack-sm">
+          <h3>В галерее стоковые картинки вместо ваших объектов</h3>
+          <p class="muted">У вас 400+ смонтированных заборов, но на сайте — фото из фотобанка.
+          Реальные объекты с подписью «евроштакетник, 46 м, Высокая Гора, 3 дня» продают сами:
+          человек видит свой случай и понимает порядок цены и сроков.</p>
+        </div>
+      </div>
+
+      <div class="problem">
+        <div class="idx">3</div>
+        <div class="stack-sm">
+          <h3>Оставить заявку можно только звонком</h3>
+          <p class="muted">Формы расчёта нет, телефон — внизу страницы. Часть аудитории смотрит сайт вечером
+          и звонить не станет. Калькулятор «длина участка → материал → высота» даёт заявку
+          без звонка и одновременно квалифицирует клиента до звонка менеджера.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <b>Вывод:</b> запускать рекламу на текущий сайт нельзя — бюджет уйдёт на трафик,
+        который не конвертируется. Сначала посадочная страница, затем трафик.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Рынок</div>
+    <h2 style="margin-top:10px;">Что уже делают конкуренты</h2>
+    <div class="grid-2" style="margin-top:20px;">
+      <div class="card">
+        <h3>«ЗаборСтрой16»</h3>
+        <p class="muted" style="margin-top:8px;">Держит первые позиции в Директе по «забор под ключ Казань».
+        На первом экране — калькулятор и цена от 1 450 ₽/м. Отзывы с фото объектов.</p>
+      </div>
+      <div class="card">
+        <h3>«Профнастил-Казань»</h3>
+        <p class="muted" style="margin-top:8px;">Слабее в поиске, но забрал ВКонтакте: ведёт видео с монтажа,
+        собирает заявки в сообществе. Работает с рассрочкой — это снимает возражение по цене.</p>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:16px;font-size:15px;">
+      Обе компании берут то, что доступно и вам: понятная цена на входе, реальные объекты,
+      закрытие возражения по деньгам. Мы соберём это в одну связку и добавим то, чего нет у них —
+      расчёт стоимости до звонка.
+    </p>
+  </section>
+
+  <div class="picket"></div>
+
+  <section>
+    <div class="eyebrow">Решение</div>
+    <h2 style="margin-top:10px;">Связка «посадочная страница + трафик»</h2>
+    <div class="grid-2" style="margin-top:20px;">
+      <div class="card">
+        <h3>Продающая страница</h3>
+        <ul class="plain" style="margin-top:10px;">
+          <li>Цена за метр и калькулятор на первом экране</li>
+          <li>Ваши объекты: материал, метраж, район, срок</li>
+          <li>Блок «из чего складывается цена» — снимает торг</li>
+          <li>Адаптив под мобильные, скорость загрузки до 2 сек</li>
+          <li>Заявка в 2 клика + мессенджеры</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Реклама</h3>
+        <ul class="plain" style="margin-top:10px;">
+          <li>Яндекс.Директ: поиск по горячим запросам + РСЯ</li>
+          <li>Ретаргетинг на тех, кто считал калькулятор</li>
+          <li>Таргет ВКонтакте по гео дачных посёлков</li>
+          <li>Метрика, цели, отслеживание источника каждой заявки</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note" style="margin-top:16px;">
+      Сезонность учтена: основной бюджет с апреля по сентябрь, зимой кампании переводим
+      в режим сбора заявок на весенний монтаж по сниженной ставке.
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Прогноз</div>
+    <h2 style="margin-top:10px;">Медиаплан на тестовый месяц</h2>
+    <div class="tablewrap" style="margin-top:20px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Канал</th><th class="n">Бюджет</th><th class="n">Клик</th><th class="n">Кликов</th>
+            <th class="n">Конв. сайта</th><th class="n">Заявок</th><th class="n">Цена заявки</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Яндекс.Директ</td><td class="n">120 000 ₽</td><td class="n">45 ₽</td><td class="n">2 667</td><td class="n">5 %</td><td class="n">133</td><td class="n">900 ₽</td></tr>
+          <tr><td>Таргет ВКонтакте</td><td class="n">60 000 ₽</td><td class="n">25 ₽</td><td class="n">2 400</td><td class="n">2,5 %</td><td class="n">60</td><td class="n">1 000 ₽</td></tr>
+          <tr class="total"><td>Итого</td><td class="n">180 000 ₽</td><td class="n">—</td><td class="n">5 067</td><td class="n">3,8 %</td><td class="n">193</td><td class="n">933 ₽</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="facts" style="margin-top:16px;">
+      <div class="fact"><div class="v">193</div><div class="k">заявки в месяц</div></div>
+      <div class="fact"><div class="v">20 %</div><div class="k">конверсия в договор</div></div>
+      <div class="fact"><div class="v">38</div><div class="k">объекта</div></div>
+      <div class="fact"><div class="v">4,56 млн ₽</div><div class="k">выручка при чеке 120 000 ₽</div></div>
+    </div>
+
+    <p class="muted" style="margin-top:16px;font-size:15px;">
+      При марже 30 % это <b>около 1,37 млн ₽</b> валовой прибыли с месяца.
+      Расчёт — прогноз по средним показателям ниши, а не гарантия: фактические цифры
+      уточняем после первых двух недель открутки и корректируем кампании.
+      Заявку считаем целевой, если человек оставил контакт и подтвердил замер.
+    </p>
+  </section>
+
+  <div class="picket"></div>
+
+  <section>
+    <div class="eyebrow">Смета</div>
+    <h2 style="margin-top:10px;">Из чего складывается стоимость</h2>
+    <div class="tablewrap" style="margin-top:20px;">
+      <table>
+        <thead>
+          <tr><th>Работа</th><th>Кто делает</th><th class="n">Часы</th><th class="n">Сумма</th></tr>
+        </thead>
+        <tbody>
+          <tr class="group"><td colspan="3">Запуск — единоразово</td><td class="n">70 000 ₽</td></tr>
+          <tr><td>Анализ ниши, конкурентов, ЦА</td><td>Маркетолог</td><td class="n">3</td><td class="n">9 000 ₽</td></tr>
+          <tr><td>Прототип и структура страницы</td><td>Маркетолог</td><td class="n">3</td><td class="n">9 000 ₽</td></tr>
+          <tr><td>Тексты и смыслы</td><td>Копирайтер</td><td class="n">4</td><td class="n">8 000 ₽</td></tr>
+          <tr><td>Дизайн страницы</td><td>Дизайнер</td><td class="n">6</td><td class="n">12 000 ₽</td></tr>
+          <tr><td>Вёрстка, калькулятор, формы</td><td>Верстальщик</td><td class="n">5</td><td class="n">10 000 ₽</td></tr>
+          <tr><td>Сбор семантики и минус-слов</td><td>Директолог</td><td class="n">4</td><td class="n">8 000 ₽</td></tr>
+          <tr><td>Объявления, запуск кампаний</td><td>Директолог</td><td class="n">4</td><td class="n">8 000 ₽</td></tr>
+          <tr><td>Метрика, цели, аналитика</td><td>Директолог</td><td class="n">3</td><td class="n">6 000 ₽</td></tr>
+          <tr class="group"><td colspan="3">Ведение — ежемесячно</td><td class="n">30 000 ₽</td></tr>
+          <tr><td>Корректировки кампаний, ставки, минус-слова</td><td>Директолог</td><td class="n">8</td><td class="n">16 000 ₽</td></tr>
+          <tr><td>Ведение таргета ВК, тест креативов</td><td>Таргетолог</td><td class="n">4</td><td class="n">8 000 ₽</td></tr>
+          <tr><td>Аналитика, отчёт, гипотезы на месяц</td><td>Маркетолог</td><td class="n">2</td><td class="n">6 000 ₽</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="margin-top:14px;font-size:15px;">
+      Рекламный бюджет оплачивается напрямую площадкам и в смету не входит.
+      Ведение при бюджете свыше 300 000 ₽/мес — 40 000 ₽.
+    </p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Условия</div>
+    <h2 style="margin-top:10px;">Стоимость и сроки</h2>
+    <div class="facts" style="margin-top:20px;">
+      <div class="fact"><div class="v">70 000 ₽</div><div class="k">запуск, единоразово</div></div>
+      <div class="fact"><div class="v">30 000 ₽</div><div class="k">ведение, ежемесячно</div></div>
+      <div class="fact"><div class="v">14 дней</div><div class="k">до запуска рекламы</div></div>
+      <div class="fact"><div class="v">50 %</div><div class="k">предоплата по договору</div></div>
+    </div>
+    <div class="note" style="margin-top:16px;">
+      Если хотите начать осторожно — берём тестовый бюджет 60 000 ₽ на две недели
+      только по Директу. Смотрим стоимость заявки на ваших цифрах и после этого
+      решаем по остальным каналам.
+    </div>
+  </section>
+
+  <div class="picket"></div>
+
+  <section>
+    <div class="eyebrow">Опыт</div>
+    <h2 style="margin-top:10px;">Кейсы</h2>
+    <div class="todo" style="margin-top:20px;">
+      <div class="eyebrow">заменить своими</div>
+      <p style="margin-top:8px;">Вставьте сюда 1–3 своих проекта. Если кейсов пока нет — уберите
+      этот раздел целиком и усильте блоки «Аудит» и «Медиаплан»: они показывают
+      компетентность на материале самого клиента.</p>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <div class="eyebrow">пример структуры</div>
+      <h3 style="margin-top:8px;">Ворота и ограждения, Ижевск — заявка с 2 100 ₽ до 870 ₽</h3>
+      <p class="muted" style="margin-top:8px;">Задача: снизить стоимость обращения и загрузить бригады в межсезонье.
+      Сделали новую страницу с калькулятором, пересобрали кампании, добавили ретаргетинг.</p>
+      <div class="tablewrap" style="margin-top:14px;">
+        <table>
+          <thead><tr><th>Показатель</th><th class="n">Было</th><th class="n">Стало</th></tr></thead>
+          <tbody>
+            <tr><td>Бюджет в месяц</td><td class="n was">90 000 ₽</td><td class="n now">160 000 ₽</td></tr>
+            <tr><td>Стоимость заявки</td><td class="n was">2 100 ₽</td><td class="n now">870 ₽</td></tr>
+            <tr><td>Заявок в месяц</td><td class="n was">43</td><td class="n now">184</td></tr>
+            <tr><td>Конверсия сайта</td><td class="n was">1,8 %</td><td class="n now">4,9 %</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Почему мы</div>
+    <h2 style="margin-top:10px;">Подрядчик против штатного маркетолога</h2>
+    <div class="vs" style="margin-top:20px;">
+      <div class="col">
+        <h3 class="muted">Штатный маркетолог</h3>
+        <ul class="plain">
+          <li>Оклад плюс отдельные подрядчики на дизайн и вёрстку</li>
+          <li>Результат зависит от одного человека и его настроения</li>
+          <li>На окладе нет прямой связи с количеством заявок</li>
+          <li>В межсезонье платите столько же</li>
+        </ul>
+      </div>
+      <div class="col good">
+        <h3>Работа с нами</h3>
+        <ul class="plain">
+          <li>Маркетолог, дизайнер, верстальщик и директолог — в одной стоимости</li>
+          <li>Отчёт «план / факт» каждый месяц по каждому каналу</li>
+          <li>Объём работ и сроки закреплены договором</li>
+          <li>В межсезонье переводим кампании в экономный режим</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Дальше</div>
+    <h2 style="margin-top:10px;">Три шага до первых заявок</h2>
+    <ol class="steps" style="margin-top:20px;">
+      <li><div><b>Подписываем договор</b><br><span class="muted">Фиксируем объём работ, сроки и порядок отчётности.</span></div></li>
+      <li><div><b>Предоплата 50 %</b><br><span class="muted">Запускаем работу в тот же день, согласуем прототип страницы за 3 дня.</span></div></li>
+      <li><div><b>Через 14 дней включаем рекламу</b><br><span class="muted">Первые заявки — на первой неделе открутки. Дальше растим объём и снижаем стоимость обращения.</span></div></li>
+    </ol>
+  </section>
+
+  <footer class="doc">
+    <div class="todo">
+      <div class="eyebrow">ваши контакты</div>
+      <p style="margin-top:8px;">Имя · телефон · мессенджер · почта · ссылка на портфолио</p>
+    </div>
+    <p class="muted" style="margin-top:22px;font-size:14px;">
+      Прогнозные цифры основаны на средних показателях ниши и подлежат уточнению
+      после запуска. Документ носит характер коммерческого предложения и не является офертой.
+    </p>
+  </footer>
+
+</div>

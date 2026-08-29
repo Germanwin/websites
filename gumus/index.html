@@ -1,0 +1,1244 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Мануфактура Гумусъ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,500;0,700;0,800;1,600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+/* ============================================================
+   ГУМУСЪ — токены
+   ============================================================ */
+:root{
+  --ground:#F7F0E1;
+  --surface:#FFFBF3;
+  --surface-2:#EFE3CD;
+  --ink:#2B1B0D;
+  --ink-2:#6E5843;
+  --line:#DCC9A9;
+  --line-soft:#E8DAC0;
+  --brand:#7A5024;
+  --brand-deep:#4A2E12;
+  --accent:#BC5A0C;
+  --accent-hi:#D8700F;
+  --on-accent:#FFF6EA;
+  --leaf:#55691F;
+  --field:#FFFFFF;
+  --field-ink:#2B1B0D;
+  --shadow:0 1px 0 rgba(43,27,13,.06), 0 18px 40px -24px rgba(74,46,18,.45);
+  --shadow-lift:0 2px 0 rgba(43,27,13,.08), 0 28px 56px -26px rgba(74,46,18,.55);
+  --stamp:#8C3B12;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#17100A;
+    --surface:#201710;
+    --surface-2:#2A1E14;
+    --ink:#F2E7D6;
+    --ink-2:#B7A48C;
+    --line:#3E2E1E;
+    --line-soft:#33251891;
+    --brand:#C69257;
+    --brand-deep:#E0BC8B;
+    --accent:#E89238;
+      --accent-hi:#F5A44E;
+    --on-accent:#201408;
+    --leaf:#A9BA5B;
+    --field:#F5EDE0;
+    --field-ink:#221609;
+    --shadow:0 1px 0 rgba(0,0,0,.4), 0 18px 40px -24px rgba(0,0,0,.8);
+    --shadow-lift:0 2px 0 rgba(0,0,0,.5), 0 28px 56px -26px rgba(0,0,0,.9);
+    --stamp:#E0763C;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#17100A;
+  --surface:#201710;
+  --surface-2:#2A1E14;
+  --ink:#F2E7D6;
+  --ink-2:#B7A48C;
+  --line:#3E2E1E;
+  --line-soft:#332518;
+  --brand:#C69257;
+  --brand-deep:#E0BC8B;
+  --accent:#E89238;
+  --accent-hi:#F5A44E;
+  --on-accent:#201408;
+  --leaf:#A9BA5B;
+  --field:#F5EDE0;
+  --field-ink:#221609;
+  --shadow:0 1px 0 rgba(0,0,0,.4), 0 18px 40px -24px rgba(0,0,0,.8);
+  --shadow-lift:0 2px 0 rgba(0,0,0,.5), 0 28px 56px -26px rgba(0,0,0,.9);
+  --stamp:#E0763C;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background-color:var(--ground);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+  color:var(--ink);
+  font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%}
+h1,h2,h3,h4{font-family:"Bitter",Georgia,serif;margin:0;text-wrap:balance;line-height:1.12;letter-spacing:-.01em}
+h1{font-size:clamp(34px,4.6vw,60px);font-weight:800}
+h2{font-size:clamp(28px,3.4vw,44px);font-weight:800}
+h3{font-size:clamp(20px,2vw,26px);font-weight:700}
+p{margin:0}
+a{color:inherit}
+
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.sec{padding:clamp(56px,7vw,104px) 0;position:relative}
+.sec--straw{background:var(--surface-2)}
+.sec--dark{background:var(--brand-deep);color:#F6EBD8}
+.stack{display:flex;flex-direction:column}
+.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}.g20{gap:20px}.g24{gap:24px}.g32{gap:32px}.g40{gap:40px}.g56{gap:56px}
+
+/* ---- служебные надписи «паспорта» ---- */
+.mono{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--brand);
+}
+.sec--dark .eyebrow{color:#D9AE74}
+.lead{font-size:clamp(17px,1.6vw,20px);color:var(--ink-2);max-width:62ch}
+.sec--dark .lead{color:#DCC7A9}
+
+/* ---- кнопки ---- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:"Manrope",sans-serif;font-size:17px;font-weight:800;line-height:1.15;
+  padding:19px 30px;border-radius:10px;border:0;cursor:pointer;
+  background:var(--accent);color:var(--on-accent);text-decoration:none;
+  box-shadow:0 3px 0 rgba(74,26,4,.35), 0 14px 26px -12px rgba(188,90,12,.75);
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  text-align:center;
+}
+.btn:hover{background:var(--accent-hi);transform:translateY(-2px);box-shadow:0 5px 0 rgba(74,26,4,.35), 0 20px 34px -12px rgba(188,90,12,.85)}
+.btn:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(74,26,4,.35)}
+.btn--ghost{
+  background:transparent;color:var(--brand);border:1.5px solid var(--line);
+  box-shadow:none;font-weight:700;padding:14px 22px;font-size:15px;
+}
+.btn--ghost:hover{background:var(--surface);border-color:var(--brand);transform:none;box-shadow:none}
+.btn--wide{width:100%}
+:where(a,button,input,select,summary):focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+/* ---- карточки ---- */
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:26px;box-shadow:var(--shadow);
+}
+.card--flat{box-shadow:none}
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+
+/* ============================================================
+   ШАПКА
+   ============================================================ */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in srgb, var(--ground) 92%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.topbar__in{display:flex;align-items:center;gap:24px;padding:12px 24px;max-width:1180px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;flex:0 0 auto}
+.logo__mark{
+  width:42px;height:42px;border-radius:50%;
+  background:radial-gradient(circle at 32% 28%, #9A6A33, #4A2E12 72%);
+  border:2px solid var(--brand-deep);
+  display:grid;place-items:center;color:#F2DCB8;
+  font-family:"Bitter",serif;font-weight:800;font-size:19px;flex:0 0 auto;
+}
+.logo__name{font-family:"Bitter",serif;font-weight:800;font-size:23px;letter-spacing:.02em;line-height:1}
+.logo__desc{font-size:11.5px;color:var(--ink-2);line-height:1.25;margin-top:3px;max-width:210px}
+.topbar__spacer{flex:1}
+.tel{text-decoration:none;font-family:"Bitter",serif;font-weight:700;font-size:19px;white-space:nowrap}
+.tel small{display:block;font-family:"Manrope",sans-serif;font-size:11px;font-weight:600;color:var(--ink-2);letter-spacing:.04em}
+.topbar .btn--ghost{white-space:nowrap}
+
+/* ============================================================
+   ПЕРВЫЙ ЭКРАН
+   ============================================================ */
+.hero{padding:clamp(40px,5vw,72px) 0 clamp(56px,6vw,88px);position:relative;overflow:hidden}
+.hero__grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,4vw,64px);align-items:start}
+.hero h1 .hl{color:var(--accent);white-space:nowrap}
+.hero h1 .hl-leaf{color:var(--leaf)}
+.hero__sub{font-size:clamp(17px,1.7vw,20px);color:var(--ink-2);max-width:56ch}
+.hero__sub b{color:var(--ink);font-weight:800}
+
+.bullets{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px}
+.bullets li{display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:start;font-size:16px;line-height:1.5}
+.bullets .tick{
+  width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+  background:color-mix(in srgb, var(--leaf) 18%, transparent);
+  color:var(--leaf);font-size:14px;font-weight:800;margin-top:1px;
+}
+.bullets b{font-weight:800}
+
+.cta-block{display:flex;flex-direction:column;gap:12px;max-width:520px}
+.cta-note{font-size:14.5px;color:var(--ink-2);line-height:1.5}
+.cta-note b{color:var(--ink)}
+
+/* --- карточка «паспорт партии» --- */
+.passport{position:relative}
+.passport__doc{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  box-shadow:var(--shadow-lift);
+  padding:8px;
+}
+.passport__inner{border:1px dashed var(--line);border-radius:9px;padding:22px 20px}
+.passport__head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;border-bottom:1.5px solid var(--ink);padding-bottom:12px}
+.passport__title{font-family:"Bitter",serif;font-weight:800;font-size:17px;letter-spacing:.02em;text-transform:uppercase;line-height:1.2}
+.passport__no{font-size:11px;letter-spacing:.1em;color:var(--ink-2);text-transform:uppercase}
+.ptable{width:100%;border-collapse:collapse;margin-top:6px}
+.ptable td{padding:9px 0;border-bottom:1px dotted var(--line);font-size:14.5px;vertical-align:baseline}
+.ptable td:last-child{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ptable tr:last-child td{border-bottom:0}
+.ptable .ok{color:var(--leaf)}
+.passport__foot{margin-top:14px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.sign{font-family:"Bitter",serif;font-style:italic;font-size:15px;color:var(--ink-2);line-height:1.3}
+.sign span{display:block;font-family:"JetBrains Mono",monospace;font-style:normal;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
+.stamp{
+  flex:0 0 auto;width:108px;height:108px;border-radius:50%;
+  border:2.5px solid var(--stamp);color:var(--stamp);
+  display:grid;place-items:center;text-align:center;
+  transform:rotate(-13deg);opacity:.85;
+  font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;
+  letter-spacing:.06em;line-height:1.35;text-transform:uppercase;
+  box-shadow:inset 0 0 0 4px transparent;
+}
+.stamp i{display:block;font-style:normal;border-top:1.5px solid var(--stamp);border-bottom:1.5px solid var(--stamp);padding:3px 0;margin:4px 6px;font-size:11px}
+
+.trust-strip{
+  margin-top:clamp(32px,4vw,52px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:20px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+}
+.trust-strip div{text-align:center}
+.trust-strip .n{font-family:"Bitter",serif;font-weight:800;font-size:clamp(24px,2.6vw,34px);line-height:1;color:var(--brand)}
+.trust-strip .t{font-size:13px;color:var(--ink-2);margin-top:6px;line-height:1.35}
+
+/* ============================================================
+   БОЛЬ
+   ============================================================ */
+.pain{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.pain__c{
+  background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--stamp);
+  border-radius:10px;padding:22px;box-shadow:var(--shadow);
+}
+.pain__q{font-family:"Bitter",serif;font-weight:700;font-style:italic;font-size:17px;line-height:1.3;margin-bottom:10px}
+.pain__a{font-size:15px;color:var(--ink-2);line-height:1.55}
+
+/* ============================================================
+   ТАЙМЛАЙН БУРТА
+   ============================================================ */
+.tl{display:grid;gap:0;margin-top:8px}
+.tl__row{
+  display:grid;grid-template-columns:132px 1fr;gap:28px;
+  padding:24px 0;border-top:1px solid var(--line);align-items:start;
+}
+.tl__row:last-child{border-bottom:1px solid var(--line)}
+.tl__when{font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--accent);padding-top:4px}
+.tl__when span{display:block;color:var(--ink-2);font-weight:400;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
+.tl__what h3{margin-bottom:8px}
+.tl__what p{color:var(--ink-2);font-size:16px;max-width:70ch}
+.tl__what b{color:var(--ink)}
+.therm{
+  margin-top:14px;height:9px;border-radius:5px;background:var(--surface-2);overflow:hidden;max-width:420px;
+  border:1px solid var(--line);
+}
+.therm i{display:block;height:100%;background:linear-gradient(90deg,#8C6A2E,#BC5A0C)}
+
+/* ============================================================
+   ПРОДУКЦИЯ
+   ============================================================ */
+.prods{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+.prod{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:0;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.prod:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift)}
+.prod--hit{border:2px solid var(--accent)}
+.prod__top{padding:24px 24px 18px;border-bottom:1px dashed var(--line);position:relative}
+.prod__badge{
+  position:absolute;top:0;right:0;background:var(--accent);color:var(--on-accent);
+  font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  padding:6px 12px;border-bottom-left-radius:10px;
+}
+.prod__swatch{width:56px;height:56px;border-radius:12px;margin-bottom:14px;border:1px solid rgba(0,0,0,.2)}
+.sw-1{background:radial-gradient(circle at 30% 25%, #8A6435, #4E3418 75%)}
+.sw-2{background:radial-gradient(circle at 30% 25%, #7A4B22, #35200C 75%)}
+.sw-3{background:radial-gradient(circle at 30% 25%, #4A3A2C, #15100A 75%)}
+.prod__name{font-family:"Bitter",serif;font-weight:800;font-size:20px;line-height:1.15}
+.prod__for{font-size:14px;color:var(--ink-2);margin-top:6px}
+.prod__price{font-family:"Bitter",serif;font-weight:800;font-size:31px;margin-top:16px;line-height:1}
+.prod__price span{font-family:"Manrope",sans-serif;font-size:14px;font-weight:600;color:var(--ink-2)}
+.prod__list{list-style:none;margin:0;padding:20px 24px;display:flex;flex-direction:column;gap:11px;font-size:15px;flex:1}
+.prod__list li{display:grid;grid-template-columns:18px 1fr;gap:10px;color:var(--ink-2);line-height:1.45}
+.prod__list li b{color:var(--ink);font-weight:700}
+.prod__list .d{color:var(--leaf);font-weight:800}
+.prod__foot{padding:0 24px 24px}
+
+/* ============================================================
+   КАЛЬКУЛЯТОР
+   ============================================================ */
+.calc{display:grid;grid-template-columns:1.05fr .95fr;gap:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-lift);background:var(--surface)}
+.calc__left{padding:clamp(26px,3vw,38px);display:flex;flex-direction:column;gap:26px}
+.calc__right{padding:clamp(26px,3vw,38px);background:var(--brand-deep);color:#F6EBD8;display:flex;flex-direction:column;gap:20px}
+.field label{display:block;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);margin-bottom:10px}
+.calc__val{font-family:"Bitter",serif;font-weight:800;font-size:26px;color:var(--accent);line-height:1}
+.calc__val small{font-family:"Manrope",sans-serif;font-size:14px;color:var(--ink-2);font-weight:600}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:30px;margin:0;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:var(--surface-2);border:1px solid var(--line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:var(--accent);border:3px solid var(--surface);box-shadow:0 3px 10px rgba(0,0,0,.3);margin-top:-11px}
+input[type=range]::-moz-range-track{height:8px;border-radius:4px;background:var(--surface-2);border:1px solid var(--line)}
+input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--accent);border:3px solid var(--surface);box-shadow:0 3px 10px rgba(0,0,0,.3)}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;width:0;height:0}
+.chip span{
+  display:block;padding:11px 16px;border-radius:9px;border:1.5px solid var(--line);
+  background:var(--surface);font-size:14.5px;font-weight:600;cursor:pointer;transition:.15s;
+}
+.chip input:checked + span{border-color:var(--accent);background:color-mix(in srgb, var(--accent) 12%, var(--surface));font-weight:800}
+.chip input:focus-visible + span{outline:3px solid var(--accent);outline-offset:2px}
+.calc__res{display:flex;flex-direction:column;gap:12px}
+.res-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-bottom:11px;border-bottom:1px dotted rgba(246,235,216,.28);font-size:15px;color:#DCC7A9}
+.res-row b{font-family:"JetBrains Mono",monospace;font-size:17px;color:#F6EBD8;font-variant-numeric:tabular-nums}
+.res-row.big{border-bottom:0;padding-top:6px}
+.res-row.big span{font-size:16px;color:#F6EBD8;font-weight:700}
+.res-row.big b{font-family:"Bitter",serif;font-size:32px;color:#F7A44E;line-height:1}
+.res-yield{background:rgba(169,186,91,.14);border:1px solid rgba(169,186,91,.35);border-radius:10px;padding:14px 16px;font-size:14.5px;color:#DCEBAE;line-height:1.45}
+.res-yield b{font-family:"JetBrains Mono",monospace;color:#CBE07A;font-size:16px}
+.inp{
+  width:100%;padding:16px 16px;border-radius:10px;border:1.5px solid var(--line);
+  background:var(--field);color:var(--field-ink);font-family:"Manrope",sans-serif;font-size:17px;font-weight:600;
+}
+.inp::placeholder{color:#9B8875;font-weight:500}
+.inp:focus{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.form-lbl{display:block;font-size:13.5px;font-weight:700;color:#DCC7A9;margin-bottom:9px;line-height:1.4}
+.agree{display:grid;grid-template-columns:20px 1fr;gap:10px;align-items:start;font-size:12px;line-height:1.45;color:#BFA98A}
+.agree input{width:18px;height:18px;margin:1px 0 0;accent-color:var(--accent)}
+.agree a{color:#DCC7A9}
+.thanks{background:rgba(169,186,91,.16);border:1px solid rgba(169,186,91,.4);border-radius:10px;padding:16px;font-size:15px;color:#DCEBAE;line-height:1.5}
+.thanks b{color:#EAF3CE}
+
+/* ============================================================
+   ЭТАПЫ / КАК ПРОХОДИТ ЗАКАЗ
+   ============================================================ */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:s}
+.step{position:relative;padding-top:22px;border-top:3px solid var(--line)}
+.step::before{
+  counter-increment:s;content:counter(s,decimal-leading-zero);
+  position:absolute;top:-16px;left:0;background:var(--ground);padding-right:12px;
+  font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.08em;
+}
+.sec--straw .step::before{background:var(--surface-2)}
+.step h3{font-size:19px;margin-bottom:8px}
+.step p{font-size:15px;color:var(--ink-2);line-height:1.55}
+.step .when{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--leaf);font-weight:700;margin-top:10px;display:block;letter-spacing:.04em}
+
+/* ============================================================
+   ОТЗЫВЫ
+   ============================================================ */
+.revs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.rev{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:16px}
+.rev__stars{color:var(--accent);letter-spacing:2px;font-size:15px}
+.rev__text{font-size:15.5px;line-height:1.6;color:var(--ink-2)}
+.rev__text mark{background:color-mix(in srgb, var(--leaf) 26%, transparent);color:var(--ink);padding:1px 3px;border-radius:3px;font-weight:700}
+.rev__who{display:flex;align-items:center;gap:12px;margin-top:auto;border-top:1px dotted var(--line);padding-top:16px}
+.ava{width:44px;height:44px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;font-family:"Bitter",serif;font-weight:800;font-size:16px;color:#F2DCB8;background:radial-gradient(circle at 32% 28%, #916033, #43290F 75%)}
+.rev__who .n{font-weight:800;font-size:15px}
+.rev__who .p{font-size:12.5px;color:var(--ink-2)}
+
+/* ============================================================
+   ТАБЛИЦА СРАВНЕНИЯ
+   ============================================================ */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);box-shadow:var(--shadow)}
+table.cmp{width:100%;border-collapse:collapse;min-width:760px}
+table.cmp th,table.cmp td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--line-soft);font-size:15px;vertical-align:top}
+table.cmp thead th{
+  font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-2);font-weight:500;background:var(--surface-2);border-bottom:1.5px solid var(--line);
+}
+table.cmp thead th:first-child{width:210px}
+table.cmp thead th.us{color:var(--accent);font-weight:700}
+table.cmp tbody th{font-weight:700;font-size:14.5px;width:210px}
+table.cmp td.us{background:color-mix(in srgb, var(--leaf) 9%, transparent);font-weight:700}
+table.cmp tr:last-child th,table.cmp tr:last-child td{border-bottom:0}
+.no{color:var(--stamp);font-weight:700}
+
+/* ============================================================
+   СТРАХИ
+   ============================================================ */
+.fears{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.fear{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px;box-shadow:var(--shadow)}
+.fear h3{font-size:19px;font-style:italic;margin-bottom:12px;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+.fear h3 i{
+  width:34px;height:34px;border-radius:50%;background:color-mix(in srgb,var(--stamp) 16%,transparent);
+  color:var(--stamp);display:grid;place-items:center;font-style:normal;font-family:"Bitter",serif;font-size:18px;font-weight:800;
+}
+.fear p{font-size:15.5px;color:var(--ink-2);line-height:1.6}
+.fear p b{color:var(--ink);font-weight:800}
+
+/* ============================================================
+   ОСНОВАТЕЛЬ
+   ============================================================ */
+.founder{display:grid;grid-template-columns:300px 1fr;gap:clamp(28px,4vw,56px);align-items:center}
+.founder__photo{
+  aspect-ratio:4/5;border-radius:var(--r);border:1px solid rgba(246,235,216,.25);
+  background:
+    radial-gradient(circle at 50% 34%, rgba(246,235,216,.16), transparent 55%),
+    linear-gradient(160deg,#5A3A18,#2A1809);
+  display:grid;place-items:center;position:relative;overflow:hidden;
+}
+.founder__photo .initials{font-family:"Bitter",serif;font-size:76px;font-weight:800;color:#E6C89A;letter-spacing:.04em}
+.founder__photo .cap{
+  position:absolute;left:0;right:0;bottom:0;padding:12px 16px;background:rgba(20,12,5,.7);
+  font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#D9C0A0;text-align:center;
+}
+.quote{font-family:"Bitter",serif;font-size:clamp(21px,2.4vw,30px);font-weight:600;font-style:italic;line-height:1.35;text-wrap:balance}
+.regalia{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.regalia li{
+  font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid rgba(246,235,216,.3);border-radius:100px;padding:7px 14px;color:#DCC7A9;
+}
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq{display:flex;flex-direction:column;gap:12px;max-width:900px}
+details.q{background:var(--surface);border:1px solid var(--line);border-radius:11px;box-shadow:var(--shadow);overflow:hidden}
+details.q summary{
+  list-style:none;cursor:pointer;padding:20px 56px 20px 24px;position:relative;
+  font-family:"Bitter",serif;font-weight:700;font-size:17.5px;line-height:1.35;
+}
+details.q summary::-webkit-details-marker{display:none}
+details.q summary::after{
+  content:"+";position:absolute;right:22px;top:50%;transform:translateY(-50%);
+  font-family:"JetBrains Mono",monospace;font-size:24px;font-weight:400;color:var(--accent);transition:transform .2s ease;
+}
+details.q[open] summary::after{content:"−"}
+details.q summary:hover{background:var(--surface-2)}
+details.q .a{padding:0 24px 22px;color:var(--ink-2);font-size:16px;line-height:1.62;max-width:72ch}
+details.q .a b{color:var(--ink)}
+
+/* ============================================================
+   ФИНАЛЬНАЯ ФОРМА
+   ============================================================ */
+.final{
+  background:var(--brand-deep);color:#F6EBD8;border-radius:20px;
+  padding:clamp(30px,4vw,56px);display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,4vw,56px);align-items:center;
+  box-shadow:var(--shadow-lift);position:relative;overflow:hidden;
+}
+.final::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(700px 320px at 88% 0%, rgba(232,146,56,.22), transparent 70%);
+}
+.final > *{position:relative}
+.final h2{color:#FFF4E2}
+.deadline{display:flex;flex-wrap:wrap;gap:10px}
+.pill{
+  font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  padding:8px 14px;border-radius:100px;border:1px solid rgba(246,235,216,.3);color:#EBD6B6;
+}
+.pill.hot{border-color:rgba(232,146,56,.6);color:#F7BE7F;background:rgba(232,146,56,.12)}
+.formbox{background:rgba(11,7,3,.34);border:1px solid rgba(246,235,216,.2);border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:16px}
+
+/* ============================================================
+   ПОЗДРАВЛЕНИЕ
+   ============================================================ */
+.gramota{
+  border:2px solid var(--brand);border-radius:18px;padding:8px;background:var(--surface);
+  box-shadow:var(--shadow-lift);max-width:840px;margin:0 auto;
+}
+.gramota__in{
+  border:1px dashed var(--line);border-radius:12px;padding:clamp(30px,4.5vw,56px);
+  text-align:center;display:flex;flex-direction:column;gap:20px;align-items:center;
+}
+.gramota h2{font-size:clamp(28px,4vw,46px);color:var(--brand-deep)}
+:root[data-theme="dark"] .gramota h2{color:var(--brand-deep)}
+.gramota p{max-width:58ch;color:var(--ink-2);font-size:16.5px;line-height:1.65}
+.gramota .big{font-family:"Bitter",serif;font-size:clamp(24px,3vw,34px);font-weight:800;color:var(--accent);font-style:italic}
+.gramota .rule{width:72px;height:3px;background:var(--accent);border-radius:2px}
+
+/* ============================================================
+   ПОДВАЛ
+   ============================================================ */
+.foot{background:var(--surface-2);border-top:1px solid var(--line);padding:48px 0 100px;font-size:14px;color:var(--ink-2)}
+.foot__grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+.foot h4{font-family:"Manrope",sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:14px}
+.foot ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.foot a{text-decoration:none;border-bottom:1px solid transparent}
+.foot a:hover{border-bottom-color:var(--accent);color:var(--ink)}
+.foot .req{font-family:"JetBrains Mono",monospace;font-size:11.5px;line-height:1.7;color:var(--ink-2)}
+.disclaimer{margin-top:36px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;line-height:1.6;color:var(--ink-2);opacity:.85}
+
+/* ============================================================
+   МОБИЛЬНАЯ STICKY-ПАНЕЛЬ
+   ============================================================ */
+.sticky{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;gap:10px;padding:10px 14px;
+  background:color-mix(in srgb, var(--ground) 95%, transparent);
+  backdrop-filter:blur(10px);border-top:1px solid var(--line);
+}
+.sticky .btn{flex:1;padding:15px 12px;font-size:15px}
+.sticky .btn--ghost{flex:0 0 54px;padding:15px 0}
+
+/* ============================================================
+   АНИМАЦИЯ ПОЯВЛЕНИЯ
+   ============================================================ */
+.rise{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.2,.7,.3,1), transform .6s cubic-bezier(.2,.7,.3,1)}
+.rise.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .rise{opacity:1;transform:none;transition:none}
+  .btn:hover,.prod:hover{transform:none}
+}
+
+/* ============================================================
+   АДАПТИВ
+   ============================================================ */
+@media (max-width:1000px){
+  .hero__grid{grid-template-columns:1fr}
+  .calc,.final,.founder{grid-template-columns:1fr}
+  .pain,.steps{grid-template-columns:repeat(2,1fr)}
+  .prods,.revs{grid-template-columns:1fr}
+  .fears{grid-template-columns:1fr}
+  .founder__photo{max-width:260px}
+  .logo__desc{display:none}
+  .topbar .tel small{display:none}
+}
+@media (max-width:720px){
+  body{font-size:16px}
+  .trust-strip{grid-template-columns:repeat(2,1fr);gap:22px}
+  .pain,.steps{grid-template-columns:1fr}
+  .tl__row{grid-template-columns:1fr;gap:8px;padding:20px 0}
+  .foot__grid{grid-template-columns:1fr}
+  .sticky{display:flex}
+  .topbar .btn--ghost{display:none}
+  .passport__foot{flex-direction:column;align-items:flex-start;gap:8px}
+  .stamp{align-self:flex-end;margin-top:-24px}
+}
+</style>
+
+<!-- ==========================================================
+     ШАПКА
+     ========================================================== -->
+<header class="topbar">
+  <div class="topbar__in">
+    <a class="logo" href="#top">
+      <span class="logo__mark">Г</span>
+      <span>
+        <span class="logo__name">ГУМУСЪ</span>
+        <span class="logo__desc">Петербургская мануфактура говна. Выдержка от 3 лет</span>
+      </span>
+    </a>
+    <span class="topbar__spacer"></span>
+    <a class="tel" href="tel:+78120002408">+7 (812) 000-24-08<small>Пн–Вс, 07:00–22:00</small></a>
+    <a class="btn btn--ghost" href="#calc">Перезвоните мне</a>
+  </div>
+</header>
+
+<!-- ==========================================================
+     1. ПЕРВЫЙ ЭКРАН
+     ========================================================== -->
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div class="hero__grid">
+
+      <div class="stack g24">
+        <span class="eyebrow">ГОСТ Р 53117 · Партия № 4417 · Отгрузка с 22 августа</span>
+
+        <h1>Отборное трёхлетнее говно с доставкой по&nbsp;Петербургу <span class="hl">за 4 часа</span> — и урожай <span class="hl-leaf">на 47% больше</span> уже этой осенью</h1>
+
+        <p class="hero__sub">Трёхлетняя выдержка в буртах, <b>лабораторный паспорт NPK на каждую партию</b> и скидка до <b>12 400 ₽</b> на первый самосвал.</p>
+
+        <ul class="bullets">
+          <li><span class="tick">✓</span><span><b>Три года в бурте, разогрев до 68 °C.</b> Семена сорняков погибают — вы не полете грядки всё лето.</span></li>
+          <li><span class="tick">✓</span><span><b>Паспорт партии с цифрами</b> азота, фосфора и калия. А не «ну оно жирное, берите».</span></li>
+          <li><span class="tick">✓</span><span><b>4 часа по городу и 60 км области.</b> Самосвалы от 2 до 12 м³, разгрузка в стороне до 4 метров.</span></li>
+          <li><span class="tick">✓</span><span><b>12 847 участков удобрено с 1998 года.</b> Средняя оценка 4,9 из 5 по 1 213 отзывам.</span></li>
+        </ul>
+
+        <div class="cta-block">
+          <a class="btn" href="#calc">Рассчитать свои кубометры →</a>
+          <p class="cta-note">40 секунд, три ползунка, без звонка. Дальше агроном перезвонит <b>за 27 секунд</b> и назовёт точную цену вместе с доставкой на ваш адрес.</p>
+        </div>
+      </div>
+
+      <!-- паспорт партии -->
+      <div class="passport">
+        <div class="passport__doc">
+          <div class="passport__inner">
+            <div class="passport__head">
+              <div>
+                <div class="passport__title">Паспорт<br>партии</div>
+                <div class="passport__no mono">№ 4417 · говно классическое · бурт 6</div>
+              </div>
+              <div class="mono" style="font-size:11px;text-align:right;color:var(--ink-2);line-height:1.6">
+                ЗАЛОЖЕН<br><b style="color:var(--ink)">04.2023</b><br>ГОТОВ<br><b style="color:var(--ink)">08.2026</b>
+              </div>
+            </div>
+            <table class="ptable">
+              <tr><td>Азот общий (N)</td><td>0,54 %</td></tr>
+              <tr><td>Фосфор (P₂O₅)</td><td>0,28 %</td></tr>
+              <tr><td>Калий (K₂O)</td><td>0,60 %</td></tr>
+              <tr><td>Органика на сухое в-во</td><td>71,3 %</td></tr>
+              <tr><td>Влажность</td><td>66 %</td></tr>
+              <tr><td>Кислотность pH</td><td>7,2</td></tr>
+              <tr><td>Семян сорняков</td><td class="ok">0 шт/кг</td></tr>
+              <tr><td>Патогенная микрофлора</td><td class="ok">не обнаружена</td></tr>
+            </table>
+            <div class="passport__foot">
+              <div class="sign">Агроном 1&nbsp;категории<span>Лаборатория № 2, пос. Тельмана</span></div>
+              <div class="stamp">ГУМУСЪ<i>ПРОВЕРЕНО</i>1998 · СПб</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="trust-strip">
+      <div><div class="n mono">28</div><div class="t">лет на рынке<br>Северо-Запада</div></div>
+      <div><div class="n mono">12 847</div><div class="t">удобренных<br>участков</div></div>
+      <div><div class="n mono">4 ч</div><div class="t">доставка<br>по городу</div></div>
+      <div><div class="n mono">4,9</div><div class="t">средняя оценка<br>по 1 213 отзывам</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================
+     2. БОЛЬ
+     ========================================================== -->
+<section class="sec sec--straw">
+  <div class="wrap stack g32">
+    <div class="stack g12 rise">
+      <span class="eyebrow">Знакомая история</span>
+      <h2>Четыре способа потерять сезон, купив говно не там</h2>
+      <p class="lead">Мы собрали их из 1 213 отзывов и разговоров с людьми, которые пришли к нам после чужого самосвала.</p>
+    </div>
+
+    <div class="pain rise">
+      <div class="pain__c">
+        <p class="pain__q">«Взял говно у мужика с газели, он клялся, что перепревшее»</p>
+        <p class="pain__a">Приехали опилки с птичником пополам. Пахло так, что соседи вызвали Роспотребнадзор, а грядки не родили год.</p>
+      </div>
+      <div class="pain__c">
+        <p class="pain__q">«Рассада сгорела за трое суток»</p>
+        <p class="pain__a">Свежее говно при разложении даёт до 70 °C и аммиак. Корни оно не удобряет — оно их варит.</p>
+      </div>
+      <div class="pain__c">
+        <p class="pain__q">«Сорняки полезли ковром»</p>
+        <p class="pain__a">В невыдержанном говне до 8 000 всхожих семян на килограмм. Один самосвал — и вы пропалываете три сезона.</p>
+      </div>
+      <div class="pain__c">
+        <p class="pain__q">«Обещали завтра. Четыре дня подряд»</p>
+        <p class="pain__a">Окно осенней заправки почвы — две недели. Пропустили — вносить придётся весной, эффект вдвое слабее.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================
+     3. КАК СОЗРЕВАЕТ БУРТ
+     ========================================================== -->
+<section class="sec">
+  <div class="wrap stack g32">
+    <div class="stack g12 rise">
+      <span class="eyebrow">Технология · 36 месяцев</span>
+      <h2>Что происходит с нашим говном, пока вы ждёте весну</h2>
+      <p class="lead">Настоящее говно нельзя произвести быстро. Можно только вовремя заложить бурт и не мешать ему три года. Мы заложили ваш в апреле 2023-го.</p>
+    </div>
+
+    <div class="tl rise">
+      <div class="tl__row">
+        <div class="tl__when">МЕСЯЦ 0<span>Приёмка</span></div>
+        <div class="tl__what">
+          <h3>Берём сырьё только с шести хозяйств Ленобласти</h3>
+          <p>С теми, где коров кормят сеном и силосом, а не комбикормом с кокцидиостатиками. <b>Антибиотики из подстилки попадают в почву и держатся в ней до пяти лет</b> — поэтому от восьми поставщиков мы за 28 лет отказались.</p>
+        </div>
+      </div>
+      <div class="tl__row">
+        <div class="tl__when">МЕСЯЦ 1–3<span>Горячая фаза</span></div>
+        <div class="tl__what">
+          <h3>Бурт разогревается до 68 °C и сам себя стерилизует</h3>
+          <p>Термофильные бактерии поднимают температуру внутри бурта выше, чем в бане. <b>При 68 °C гибнут семена сорняков, яйца гельминтов и патогенная микрофлора.</b> Температуру снимаем щупом на глубине 1,2 м три раза в неделю.</p>
+          <div class="therm"><i style="width:82%"></i></div>
+        </div>
+      </div>
+      <div class="tl__row">
+        <div class="tl__when">МЕСЯЦ 4–24<span>Перелопачивание</span></div>
+        <div class="tl__what">
+          <h3>Пять перебивок за два года</h3>
+          <p>Фронтальный погрузчик перекладывает бурт целиком: кислород заходит внутрь, анаэробные карманы — где как раз и рождается тот самый запах — не образуются. <b>Каждая перебивка стоит нам 40 000 ₽ на бурт.</b> Именно поэтому дешёвое говно никто не перелопачивает.</p>
+        </div>
+      </div>
+      <div class="tl__row">
+        <div class="tl__when">МЕСЯЦ 25–36<span>Созревание</span></div>
+        <div class="tl__what">
+          <h3>Масса становится рассыпчатой, тёмной и почти не пахнет</h3>
+          <p>Готовое говно пахнет лесной подстилкой после дождя, а не фермой. <b>Объём усыхает примерно втрое</b> — то, что вы получаете, это концентрат из трёх исходных кубов.</p>
+        </div>
+      </div>
+      <div class="tl__row">
+        <div class="tl__when">ОТГРУЗКА<span>Лаборатория</span></div>
+        <div class="tl__what">
+          <h3>Проба в лабораторию, паспорт — вам в руки</h3>
+          <p>Из каждой партии берём пробу в пяти точках бурта. Азот, фосфор, калий, pH, влажность, семена сорняков. <b>Распечатанный паспорт водитель отдаёт вместе с чеком</b> — по нему вы точно знаете, сколько чего внесли.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================
+     4. ПРОДУКЦИЯ
+     ========================================================== -->
+<section class="sec sec--straw">
+  <div class="wrap stack g32">
+    <div class="stack g12 rise">
+      <span class="eyebrow">Три позиции · цены за кубометр с НДС</span>
+      <h2>Что лежит на складе прямо сейчас</h2>
+      <p class="lead">Больше позиций не держим намеренно: на каждый бурт нужен свой цикл, площадка и лаборатория. Лучше три честных, чем двенадцать «под заказ».</p>
+    </div>
+
+    <div class="prods rise">
+      <div class="prod">
+        <div class="prod__top">
+          <div class="prod__swatch sw-1"></div>
+          <div class="prod__name">Говно классическое</div>
+          <div class="prod__for">Картофель, капуста, ягодник, осенняя заправка</div>
+          <div class="prod__price mono">2 400 ₽ <span>/ м³</span></div>
+        </div>
+        <ul class="prod__list">
+          <li><span class="d">✓</span><span>Выдержка <b>3 года 2 месяца</b></span></li>
+          <li><span class="d">✓</span><span>Мягкое и универсальное: <b>ошибиться дозировкой почти невозможно</b></span></li>
+          <li><span class="d">✓</span><span>Норма внесения <b>0,7 м³ на сотку</b> раз в 3 года</span></li>
+          <li><span class="d">✓</span><span>На складе <b>410 м³</b></span></li>
+        </ul>
+        <div class="prod__foot"><a class="btn btn--wide" href="#calc">Рассчитать классическое</a></div>
+      </div>
+
+      <div class="prod prod--hit">
+        <div class="prod__top">
+          <span class="prod__badge">Берут чаще всего</span>
+          <div class="prod__swatch sw-2"></div>
+          <div class="prod__name">Говно конское, премиум</div>
+          <div class="prod__for">Теплицы, парники, тёплые грядки, розы</div>
+          <div class="prod__price mono">3 900 ₽ <span>/ м³</span></div>
+        </div>
+        <ul class="prod__list">
+          <li><span class="d">✓</span><span>Самое «горячее»: поднимает температуру грядки <b>на 6–8 °C</b></span></li>
+          <li><span class="d">✓</span><span>Рыхлая структура — <b>тяжёлые суглинки Ленобласти дышат</b></span></li>
+          <li><span class="d">✓</span><span>С конюшен, где подстилка — <b>солома, а не опилки</b></span></li>
+          <li><span class="d">✓</span><span>На складе <b>180 м³</b></span></li>
+        </ul>
+        <div class="prod__foot"><a class="btn btn--wide" href="#calc">Рассчитать конское</a></div>
+      </div>
+
+      <div class="prod">
+        <div class="prod__top">
+          <div class="prod__swatch sw-3"></div>
+          <div class="prod__name">Говно элитное «Чёрное золото»</div>
+          <div class="prod__for">Рассада, комнатные, цветники, точечная подкормка</div>
+          <div class="prod__price mono">8 700 ₽ <span>/ м³</span></div>
+        </div>
+        <ul class="prod__list">
+          <li><span class="d">✓</span><span>Переработано <b>калифорнийским червём</b>, 14 месяцев</span></li>
+          <li><span class="d">✓</span><span>Не пахнет вообще — <b>можно занести в квартиру</b></span></li>
+          <li><span class="d">✓</span><span>Расход в 8 раз меньше: <b>горсть в лунку</b></span></li>
+          <li><span class="d">✓</span><span>Фасовка от <b>мешка 40 л</b>, самосвал не нужен</span></li>
+        </ul>
+        <div class="prod__foot"><a class="btn btn--wide" href="#calc">Рассчитать элитное</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================
+     5. КАЛЬКУЛЯТОР — ФОРМА ЗАХВАТА №2
+     ========================================================== -->
+<section class="sec" id="calc">
+  <div class="wrap stack g32">
+    <div class="stack g12 rise">
+      <span class="eyebrow">Шаг 1 из 2 · 40 секунд</span>
+      <h2>Посчитайте, сколько кубов нужно именно вашему участку</h2>
+      <p class="lead">Мы считаем по нормам внесения для суглинков Ленинградской области. Переплачивать за лишний куб не даём: если по расчёту нужно меньше — так и напишем.</p>
+    </div>
+
+    <div class="calc rise">
+      <div class="calc__left">
+        <div class="field">
+          <label for="sotki">Площадь под удобрение</label>
+          <div class="calc__val mono"><span id="sotki-out">6</span> <small>соток</small></div>
+          <input type="range" id="sotki" min="1" max="40" value="6" step="1" aria-label="Площадь под удобрение в сотках">
+        </div>
+
+        <div class="field">
+          <label>Что удобряем</label>
+          <div class="chips" id="kind">
+            <label class="chip"><input type="radio" name="kind" value="ogorod" checked><span>Огород и картофель</span></label>
+            <label class="chip"><input type="radio" name="kind" value="teplica"><span>Теплицы и парники</span></label>
+            <label class="chip"><input type="radio" name="kind" value="sad"><span>Сад и ягодник</span></label>
+            <label class="chip"><input type="radio" name="kind" value="gazon"><span>Газон и цветники</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Состояние почвы</label>
+          <div class="chips" id="soil">
+            <label class="chip"><input type="radio" name="soil" value="1.25" checked><span>Истощена, урожай падает</span></label>
+            <label class="chip"><input type="radio" name="soil" value="1"><span>Нормальная</span></label>
+            <label class="chip"><input type="radio" name="soil" value="0.8"><span>Удобряли год назад</span></label>
+            <label class="chip"><input type="radio" name="soil" value="1.1"><span>Не знаю, нужна консультация</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc__right">
+        <div class="eyebrow" style="color:#D9AE74">Предварительный расчёт</div>
+        <div class="calc__res">
+          <div class="res-row"><span>Рекомендуем</span><b id="r-prod">Говно классическое</b></div>
+          <div class="res-row"><span>Объём</span><b><span id="r-vol">4,5</span> м³</b></div>
+          <div class="res-row"><span>Машина</span><b id="r-truck">ГАЗон, 5 м³</b></div>
+          <div class="res-row"><span>Доставка</span><b id="r-deliv">бесплатно</b></div>
+          <div class="res-row"><span>Скидка первому заказу</span><b id="r-disc">− 864 ₽</b></div>
+          <div class="res-row big"><span>Итого под ключ</span><b class="mono"><span id="r-total">9 936</span> ₽</b></div>
+        </div>
+        <div class="res-yield">Ожидаемая прибавка урожая по нашей статистике — <b id="r-yield">+ 252 кг</b> за сезон. Это примерно <b id="r-money">18 900 ₽</b> в рыночных ценах на овощи.</div>
+
+        <form class="stack g16" id="calc-form" novalidate>
+          <div>
+            <label class="form-lbl" for="tel1">Введите номер, на который отправить расчёт и паспорт партии. За этим номером мы закрепим скидку на 3 дня.</label>
+            <input class="inp" type="tel" id="tel1" name="tel" placeholder="+7 (___) ___-__-__" required>
+          </div>
+          <button class="btn btn--wide" type="submit">Получить расчёт и паспорт партии</button>
+          <label class="agree"><input type="checkbox" required checked><span>Согласен на обработку персональных данных и на то, что мне позвонит человек, который знает про говно больше меня.</span></label>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================
+     6. КАК ПРОХОДИТ ЗАКАЗ
+     ========================================================== -->
+<section class="sec sec--straw">
+  <div class="wrap stack g32">
+    <div class="stack g12 rise">
+      <span class="eyebrow">От звонка до разгрузки</span>
+      <h2>Как проходит заказ</h2>
+      <p class="lead">Четыре шага, из которых вы участвуете в двух. Деньги — только на последнем.</p>
+    </div>
+
+    <div class="steps rise">
+      <div class="step">
+        <h3>Агроном перезванивает</h3>
+        <p>Уточняет культуру, тип почвы и подъезд к участку. Если по расчёту вам хватит меньшего объёма — скажет прямо и продаст меньше.</p>
+        <span class="when">27 секунд</span>
+      </div>
+      <div class="step">
+        <h3>Проверяем адрес по спутнику</h3>
+        <p>Смотрим ворота, ширину проезда и уклон. Если 10-кубовый самосвал не пройдёт — сразу предлагаем два рейса на ГАЗоне, без сюрприза на месте.</p>
+        <span class="when">в тот же день</span>
+      </div>
+      <div class="step">
+        <h3>Грузим и везём</h3>
+        <p>Взвешивание на весах при выезде, фото загруженного кузова вам в мессенджер, ссылка на трекинг машины.</p>
+        <span class="when">4 часа по СПб</span>
+      </div>
+      <div class="step">
+        <h3>Смотрите и принимаете</h3>
+        <p>Водитель поднимает кузов только после вашего «да». Оплата после разгрузки — картой или наличными, чек и паспорт партии на руки.</p>
+        <span class="when">15 минут</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================
+     7. ОТЗЫВЫ
+     ========================================================== -->
+<section class="sec">
+  <div class="wrap stack g32">
+    <div class="stack g12 rise">
+      <span class="eyebrow">1 213 отзывов · 4,9 из 5</span>
+      <h2>Что пишут после первого сезона</h2>
+    </div>
+
+    <div class="revs rise">
+      <div class="rev">
+        <div class="rev__stars">★★★★★</div>
+        <p class="rev__text">Брали 8 кубов конского под теплицы в сентябре. Честно, заказывала со скепсисом — до этого три года покупали у частников. Разница в том, что <mark>сорняков этой весной не было вообще</mark>, я первый год не полола в мае. Огурцы пошли на две недели раньше.</p>
+        <div class="rev__who"><span class="ava">ЕС</span><span><span class="n">Елена С.</span><span class="p">Всеволожск, участок 12 соток</span></span></div>
+      </div>
+      <div class="rev">
+        <div class="rev__stars">★★★★★</div>
+        <p class="rev__text">Отдельно про доставку. Заказал в 9:40, в 13:20 машина была у ворот. <mark>Водитель сам предложил не заезжать во двор, чтобы не продавить плитку</mark>, и выгрузил стрелой через забор. Такого сервиса от говна я не ожидал.</p>
+        <div class="rev__who"><span class="ava">ДК</span><span><span class="n">Дмитрий К.</span><span class="p">Пушкин, дом с участком 6 соток</span></span></div>
+      </div>
+      <div class="rev">
+        <div class="rev__stars">★★★★★</div>
+        <p class="rev__text">Мы фермерское хозяйство, берём по 40 кубов дважды в год с 2019-го. Ценим за одно: <mark>паспорт партии совпадает с нашими собственными анализами</mark>. За семь лет ни одного расхождения по азоту больше 0,03%. Поэтому и не уходим.</p>
+        <div class="rev__who"><span class="ava">АМ</span><span><span class="n">Андрей М.</span><span class="p">КФХ «Ижорские грядки», Гатчинский р-н</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================
+     8. СРАВНЕНИЕ
+     ========================================================== -->
+<section class="sec sec--straw">
+  <div class="wrap stack g32">
+    <div class="stack g12 rise">
+      <span class="eyebrow">Честное сравнение</span>
+      <h2>Мы, мужик с газели и мешок из гипермаркета</h2>
+      <p class="lead">Мы дороже за куб. Ниже — таблица, из которой видно, за что именно.</p>
+    </div>
+
+    <div class="tablewrap rise">
+      <table class="cmp">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="us">ГУМУСЪ</th>
+            <th>Объявление на «Авито»</th>
+            <th>Мешок 50 л в гипермаркете</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th>Выдержка</th><td class="us">3 года, документально</td><td>«ну год где-то лежал»</td><td>не указана</td></tr>
+          <tr><th>Паспорт с NPK</th><td class="us">на каждую партию</td><td><span class="no">нет</span></td><td>диапазон «от и до»</td></tr>
+          <tr><th>Семена сорняков</th><td class="us">0 шт/кг</td><td>до 8 000 шт/кг</td><td>0 шт/кг</td></tr>
+          <tr><th>Цена за кубометр</th><td class="us">2 400 ₽</td><td>1 400–1 800 ₽</td><td>≈ 11 000 ₽</td></tr>
+          <tr><th>Реально приедет</th><td class="us">за 4 часа, с трекингом</td><td>«завтра после обеда»</td><td>увезёте сами, 20 мешков в багажник</td></tr>
+          <tr><th>Если привезли не то</th><td class="us">не разгружаем, вы не платите</td><td><span class="no">телефон вне зоны</span></td><td>чек и очередь в возврат</td></tr>
+          <tr><th>Юрлицо и договор</th><td class="us">ООО, договор, безнал, УПД</td><td><span class="no">нет</span></td><td>есть</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================
+     9. СТРАХИ
+     ========================================================== -->
+<section class="sec">
+  <div class="wrap stack g32">
+    <div class="stack g12 rise">
+      <span class="eyebrow">Отвечаем прямо</span>
+      <h2>Пять причин не покупать говно — и что мы с ними сделали</h2>
+    </div>
+
+    <div class="fears rise">
+      <div class="fear">
+        <h3><i>?</i><span>«А вдруг привезут не то, что показывали»</span></h3>
+        <p>Водитель поднимает кузов <b>только после вашего осмотра</b>. Не понравился цвет, структура или запах — машина разворачивается, вы не платите ни рубля, включая подачу. За 28 лет таких разворотов было 34.</p>
+      </div>
+      <div class="fear">
+        <h3><i>?</i><span>«А если сожжёт посадки»</span></h3>
+        <p>Перепревшее трёхлетнее говно сжечь корни физически не может — процесс горения в нём закончился два года назад. Но мы всё равно <b>страхуем: если посадки пострадают от нашей паспортизированной партии, компенсируем до 50 000 ₽</b> по факту акта.</p>
+      </div>
+      <div class="fear">
+        <h3><i>?</i><span>«Соседи взвоют от запаха»</span></h3>
+        <p>Трёхлетнее говно пахнет лесной землёй. Если сомневаетесь — <b>привезём пробу в ведре бесплатно</b>, до заказа. Понюхаете, помнёте в руке, покажете жене. 60% клиентов после пробы берут больше, чем планировали.</p>
+      </div>
+      <div class="fear">
+        <h3><i>?</i><span>«Самосвал не заедет / раздавит участок»</span></h3>
+        <p>Проверяем подъезд по спутнику до выезда. В парке есть машины <b>от 2 м³ и манипулятор с вылетом стрелы 7 метров</b> — выгружаем через забор, не заезжая на участок. Плитку и газон никто не трогает.</p>
+      </div>
+      <div class="fear">
+        <h3><i>?</i><span>«Просят предоплату — значит, разведут»</span></h3>
+        <p><b>Предоплаты нет.</b> Оплата после разгрузки: карта, наличные, СБП. Для юрлиц — договор, УПД и отсрочка до 14 дней.</p>
+      </div>
+      <div class="fear">
+        <h3><i>?</i><span>«Куплю дешевле — какая разница»</span></h3>
+        <p>Разница в 1 000 ₽ на кубе. Пересев сгоревшей рассады на 6 сотках — <b>от 14 000 ₽ и потерянный сезон</b>. Прополка сорняков из чужого говна — три года по выходным. Мы просто считаем это в деньгах, а не в ощущениях.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================
+     10. ОСНОВАТЕЛЬ
+     ========================================================== -->
+<section class="sec sec--dark">
+  <div class="wrap">
+    <div class="founder rise">
+      <div class="founder__photo">
+        <span class="initials" data-n="инициалы">АГ</span>
+        <span class="cap">Бурт № 6 · сентябрь 2025</span>
+      </div>
+      <div class="stack g24">
+        <span class="eyebrow">Основатель мануфактуры</span>
+        <p class="quote">«Говно — единственный товар, который невозможно подделать маркетингом. Оно либо три года лежало, либо не лежало. Всё остальное вам расскажут в объявлении.»</p>
+        <div>
+          <div style="font-family:Bitter,serif;font-weight:800;font-size:22px" data-n="имяФамилия">Аркадий Гумусов</div>
+          <div style="color:#DCC7A9;font-size:15px;margin-top:4px">Основатель и главный технолог «ГУМУСЪ», Санкт-Петербург</div>
+        </div>
+        <ul class="regalia">
+          <li>28 лет в отрасли</li>
+          <li>Агроном 1 категории</li>
+          <li>Судья чемпионата СЗФО по компостированию</li>
+          <li>Лично перебил 1 400 буртов</li>
+          <li>Различает 9 сортов говна на ощупь</li>
+        </ul>
+        <p style="color:#DCC7A9;font-size:16px;max-width:62ch">Начинал в 1998-м с одной «шестьдесятшестёрки» и договорённости с совхозом под Гатчиной. Сегодня у мануфактуры <b style="color:#F6EBD8">четыре площадки, 22 бурта и собственная лаборатория</b> — но пробу из каждой новой партии он до сих пор берёт сам.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================
+     11. FAQ
+     ========================================================== -->
+<section class="sec">
+  <div class="wrap stack g32">
+    <div class="stack g12 rise">
+      <span class="eyebrow">Частые вопросы</span>
+      <h2>О чём спрашивают перед заказом</h2>
+    </div>
+
+    <div class="faq rise">
+      <details class="q">
+        <summary>Сколько кубов нужно на 6 соток?</summary>
+        <div class="a">По нормам для суглинков Ленобласти — <b>0,7 м³ на сотку раз в три года</b>, то есть около 4,5 м³. Если почва истощена и урожай падает третий год подряд, первую заправку делаем с коэффициентом 1,25 — примерно 5,5 м³. Точную цифру даст калькулятор выше, а агроном перепроверит по вашей культуре.</div>
+      </details>
+      <details class="q">
+        <summary>Когда вносить — осенью или весной?</summary>
+        <div class="a">Под перекопку <b>осенью, с середины сентября до конца октября</b> — за зиму органика равномерно разойдётся по пахотному слою. Весной вносят под теплицы и тёплые грядки, там нужно как раз «горячее» конское. Осенняя заправка эффективнее весенней примерно вдвое — поэтому в сентябре у нас очередь.</div>
+      </details>
+      <details class="q">
+        <summary>Чем ваше говно отличается от «говна с фермы за полцены»?</summary>
+        <div class="a">Свежее говно с фермы — это <b>сырьё, а не удобрение</b>. В нём живой аммиак, семена сорняков и патогены. Чтобы оно стало говном, его нужно три года держать в бурте, пять раз перелопатить и следить за температурой. Вы можете сделать это сами — площадка 4×8 метров, погрузчик и терпение. Мы просто сделали это за вас три года назад.</div>
+      </details>
+      <details class="q">
+        <summary>Работаете с юрлицами и садоводствами?</summary>
+        <div class="a">Да. Договор, УПД, безнал, отсрочка до 14 дней. Для СНТ и коттеджных посёлков — <b>коллективная заявка от 30 м³ со скидкой 15%</b> и развозом по участкам в один день. Отдельно возим на муниципальные объекты и в питомники по 44-ФЗ.</div>
+      </details>
+      <details class="q">
+        <summary>А если мне нужно совсем немного, пары мешков?</summary>
+        <div class="a">Говно элитное «Чёрное золото» продаём <b>мешками по 40 литров</b>, минимальный заказ — 3 мешка, привозим обычной газелью. Классическое и конское говно мешками не фасуем: на маленьких объёмах доставка съедает всю выгоду, честнее отправить вас в садовый центр.</div>
+      </details>
+      <details class="q">
+        <summary>Правда, что можно приехать и посмотреть бурты?</summary>
+        <div class="a">Правда, и мы это любим. Площадка в пос. Тельмана, <b>экскурсия по субботам в 11:00</b>, длится минут сорок. Покажем термощуп, дадим потрогать бурт первого года и трёхлетний — разница на ощупь такая, что дальше объяснять не приходится. Запись по телефону.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================
+     12. ФИНАЛЬНАЯ ФОРМА
+     ========================================================== -->
+<section class="sec">
+  <div class="wrap">
+    <div class="final rise">
+      <div class="stack g20">
+        <div class="deadline">
+          <span class="pill hot">Скидка до 12 400 ₽ — до 31 августа</span>
+          <span class="pill">Свободно 7 самосвалов из 25 на неделю</span>
+        </div>
+        <h2>Заберите свою партию до осенней перекопки</h2>
+        <p style="color:#DCC7A9;font-size:17px;max-width:54ch;line-height:1.6">В сентябре мы отгружаем в четыре раза больше, чем в любой другой месяц, и запись уходит на 8–10 дней вперёд. Сейчас доставка ещё в тот же день.</p>
+        <ul class="bullets" style="color:#DCC7A9">
+          <li><span class="tick" style="background:rgba(169,186,91,.2);color:#BFD46A">✓</span><span>Расчёт объёма и стоимости — <b style="color:#F6EBD8">бесплатно и без обязательств</b></span></li>
+          <li><span class="tick" style="background:rgba(169,186,91,.2);color:#BFD46A">✓</span><span>Проба в ведре на пробу — <b style="color:#F6EBD8">привезём бесплатно</b></span></li>
+          <li><span class="tick" style="background:rgba(169,186,91,.2);color:#BFD46A">✓</span><span>Оплата <b style="color:#F6EBD8">после разгрузки</b>, предоплаты нет</span></li>
+        </ul>
+      </div>
+
+      <form class="formbox" id="final-form" novalidate>
+        <div style="font-family:Bitter,serif;font-weight:800;font-size:22px;color:#FFF4E2;line-height:1.25">Забронировать скидку 12&nbsp;400 ₽</div>
+        <p style="color:#DCC7A9;font-size:14.5px;line-height:1.5">Оставьте номер — агроном перезвонит за 27 секунд, посчитает объём под вашу культуру и закрепит скидку на 3 дня.</p>
+        <div>
+          <label class="form-lbl" for="tel2">Номер, на который перезвонить</label>
+          <input class="inp" type="tel" id="tel2" name="tel" placeholder="+7 (___) ___-__-__" required>
+        </div>
+        <button class="btn btn--wide" type="submit">Забронировать скидку 12 400 ₽</button>
+        <label class="agree"><input type="checkbox" required checked><span>Согласен на обработку персональных данных. Спам не шлём: у нас на это нет ни времени, ни маркетолога.</span></label>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================
+     13. ПОЗДРАВЛЕНИЕ
+     ========================================================== -->
+<section class="sec sec--straw">
+  <div class="wrap">
+    <div class="gramota rise">
+      <div class="gramota__in">
+        <span class="eyebrow">Приказ № 1 по мануфактуре</span>
+        <h2>С днём рождения, <span data-n="имя">Аркадий</span>!</h2>
+        <div class="rule"></div>
+        <p class="big">Ты стоишь во главе самого честного бизнеса на свете.</p>
+        <p>Товар не врёт, конкуренты не демпингуют качеством, а клиент всегда возвращается — потому что земля не прощает экономии. Пусть в наступающем году бурты греются до 68 градусов, самосвалы приходят вовремя, а люди вокруг ценят то, что ты делаешь, так же, как это ценят грядки.</p>
+        <p style="font-family:Bitter,serif;font-style:italic;font-size:19px;color:var(--ink)">Настоящим постановляю: считать <span data-n="имяРод">Аркадия</span> почётным гумусоводом Северо-Запада бессрочно.</p>
+        <div class="stamp" style="transform:rotate(-6deg);margin-top:8px">ГУМУСЪ<i>ПОЗДРАВЛЯЕМ</i>С Д. Р.</div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ==========================================================
+     ПОДВАЛ
+     ========================================================== -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div>
+        <a class="logo" href="#top" style="margin-bottom:14px">
+          <span class="logo__mark">Г</span>
+          <span><span class="logo__name">ГУМУСЪ</span></span>
+        </a>
+        <p style="max-width:38ch;margin-bottom:16px">Петербургская мануфактура говна. Перепревшее говно, конское говно и элитный биогумус с лабораторным паспортом. Работаем с 1998 года.</p>
+        <p class="req">
+          ООО «Гумусъ»<br>
+          ИНН 7838004417 · ОГРН 1027800004417<br>
+          188540, Ленинградская обл., пос. Тельмана, Промзона, стр. 2<br>
+          Склад-площадка № 2, экскурсии по субботам в 11:00
+        </p>
+      </div>
+      <div>
+        <h4>Продукция</h4>
+        <ul>
+          <li><a href="#calc">Говно классическое — 2 400 ₽/м³</a></li>
+          <li><a href="#calc">Говно конское, премиум — 3 900 ₽/м³</a></li>
+          <li><a href="#calc">Говно элитное «Чёрное золото» — 8 700 ₽/м³</a></li>
+          <li><a href="#calc">Коллективная заявка для СНТ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Связь</h4>
+        <ul>
+          <li><a href="tel:+78120002408">+7 (812) 000-24-08</a></li>
+          <li><a href="mailto:zakaz@gumus.spb.ru">zakaz@gumus.spb.ru</a></li>
+          <li>Пн–Вс, 07:00–22:00</li>
+          <li><a href="#calc">Заказать пробу в ведре</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="disclaimer">Этот сайт — шуточный подарок ко дню рождения. Компании «Гумусъ» не существует, телефон, реквизиты, цены и лабораторные показатели вымышлены, за исключением норм внесения — они, как ни странно, примерно настоящие. Заявки никуда не отправляются.</p>
+  </div>
+</footer>
+
+<!-- мобильная sticky-панель -->
+<div class="sticky">
+  <a class="btn btn--ghost" href="tel:+78120002408" aria-label="Позвонить">☎</a>
+  <a class="btn" href="#calc">Рассчитать кубометры</a>
+</div>
+
+<script>
+/* ============================================================
+   ↓↓↓ ПОМЕНЯЙТЕ ИМЯ ИМЕНИННИКА ЗДЕСЬ ↓↓↓
+   ============================================================ */
+const ИМЕНИННИК = {
+  имя:        "Аркадий",          // «С днём рождения, ...!»
+  имяРод:     "Аркадия",          // «считать ... почётным гумусоводом»
+  имяФамилия: "Аркадий Гумусов",  // подпись под фото основателя
+  инициалы:   "АГ"                // две буквы в кружке-«фото»
+};
+
+document.querySelectorAll("[data-n]").forEach(el => {
+  const v = ИМЕНИННИК[el.dataset.n];
+  if (v) el.textContent = v;
+});
+
+/* ---------- калькулятор ---------- */
+const PRODS = {
+  ogorod:  { name:"Говно классическое",        price:2400, norm:0.70, yield:42 },
+  teplica: { name:"Говно конское, премиум",             price:3900, norm:0.85, yield:64 },
+  sad:     { name:"Говно классическое",        price:2400, norm:0.55, yield:38 },
+  gazon:   { name:"Говно элитное «Чёрное золото»",    price:8700, norm:0.18, yield:12 }
+};
+
+const fmt = n => Math.round(n).toLocaleString("ru-RU").replace(/,/g, " ");
+const fmtVol = n => n.toFixed(1).replace(".", ",");
+
+const $ = id => document.getElementById(id);
+const sotki = $("sotki");
+
+function truckFor(v){
+  if (v <= 2)  return "Газель-самосвал, 2 м³";
+  if (v <= 5)  return "ГАЗон, 5 м³";
+  if (v <= 10) return "КамАЗ, 10 м³";
+  return "КамАЗ, 2 рейса";
+}
+
+function recalc(){
+  const s = +sotki.value;
+  const kind = document.querySelector("input[name=kind]:checked").value;
+  const soil = +document.querySelector("input[name=soil]:checked").value;
+  const p = PRODS[kind];
+
+  let vol = Math.max(1, Math.round(s * p.norm * soil * 2) / 2);
+  const base   = vol * p.price;
+  const deliv  = vol >= 4 ? 0 : 1800;
+  const disc   = Math.min(12400, Math.round(base * 0.09 / 100) * 100);
+  const total  = base + deliv - disc;
+
+  $("sotki-out").textContent = s;
+  $("r-prod").textContent    = p.name;
+  $("r-vol").textContent     = fmtVol(vol);
+  $("r-truck").textContent   = truckFor(vol);
+  $("r-deliv").textContent   = deliv ? fmt(deliv) + " ₽" : "бесплатно";
+  $("r-disc").textContent    = "− " + fmt(disc) + " ₽";
+  $("r-total").textContent   = fmt(total);
+  $("r-yield").textContent   = "+ " + fmt(s * p.yield * soil) + " кг";
+  $("r-money").textContent   = fmt(s * p.yield * soil * 75) + " ₽";
+}
+
+sotki.addEventListener("input", recalc);
+document.querySelectorAll("input[name=kind], input[name=soil]").forEach(el =>
+  el.addEventListener("change", recalc)
+);
+recalc();
+
+/* ---------- формы ---------- */
+function handle(formId, message){
+  const form = document.getElementById(formId);
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const tel = form.querySelector("input[type=tel]");
+    if (!tel.value.trim()){ tel.focus(); return; }
+    const ok = document.createElement("div");
+    ok.className = "thanks";
+    ok.innerHTML = message;
+    form.replaceWith(ok);
+  });
+}
+handle("calc-form",
+  "<b>Заявка принята.</b> Агроном уже надевает сапоги и перезвонит в течение 27 секунд. Паспорт партии № 4417 отправлен вам в мессенджер.");
+handle("final-form",
+  "<b>Скидка 12 400 ₽ закреплена за вашим номером на 3 дня.</b> Перезвоним за 27 секунд — если не дозвонимся, напишем в мессенджер.");
+
+/* ---------- появление блоков ---------- */
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); }
+    });
+  }, { rootMargin: "0px 0px -60px 0px", threshold: 0.05 });
+  document.querySelectorAll(".rise").forEach(el => io.observe(el));
+} else {
+  document.querySelectorAll(".rise").forEach(el => el.classList.add("in"));
+}
+</script>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#15211c"/><stop offset="1" stop-color="#1f4b3f"/></linearGradient>
+<linearGradient id="pf" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7a4a2c"/><stop offset=".5" stop-color="#96603b"/><stop offset="1" stop-color="#7a4a2c"/></linearGradient>
+</defs>
+<rect width="1200" height="630" fill="url(#bg)"/>
+<g opacity=".08" stroke="#ffffff" stroke-width="1"><path d="M0 0v630M60 0v630M120 0v630M180 0v630M240 0v630M300 0v630M360 0v630M420 0v630M480 0v630M540 0v630M600 0v630M660 0v630M720 0v630M780 0v630M840 0v630M900 0v630M960 0v630M1020 0v630M1080 0v630M1140 0v630"/></g>
+<g>
+<rect x="760" y="330" width="470" height="220" fill="url(#pf)"/>
+<g opacity=".3" stroke="#2d1a0e" stroke-width="3"><path d="M790 330v220M830 330v220M870 330v220M910 330v220M950 330v220M990 330v220M1030 330v220M1070 330v220M1110 330v220M1150 330v220M1190 330v220"/></g>
+<rect x="760" y="330" width="470" height="12" fill="#5e3620"/>
+<rect x="800" y="316" width="20" height="250" fill="#3b3f42"/><rect x="1000" y="316" width="20" height="250" fill="#3b3f42"/>
+</g>
+<rect y="550" width="1200" height="80" fill="#0f1814"/>
+<text x="70" y="128" font-family="Helvetica,Arial" font-size="30" font-weight="700" fill="#7fd0a8" letter-spacing="6">GOOD-ZABOR</text>
+<text x="70" y="228" font-family="Helvetica,Arial" font-size="62" font-weight="700" fill="#ffffff">Забор под ключ</text>
+<text x="70" y="300" font-family="Helvetica,Arial" font-size="62" font-weight="700" fill="#ffffff">от 1 102 ₽ за метр</text>
+<text x="70" y="368" font-family="Helvetica,Arial" font-size="30" fill="#b9c6c0">Санкт-Петербург и Ленобласть · монтаж за 4 дня</text>
+<text x="70" y="414" font-family="Helvetica,Arial" font-size="30" fill="#b9c6c0">Без предоплаты · столбы на 1,4 м</text>
+<rect x="70" y="452" width="330" height="66" rx="12" fill="#c2410c"/>
+<text x="235" y="495" font-family="Helvetica,Arial" font-size="26" font-weight="700" fill="#ffffff" text-anchor="middle">Рассчитать стоимость</text>
+<text x="70" y="600" font-family="Helvetica,Arial" font-size="26" fill="#7f918a">+7 (812) 635-10-10 · spb.good-zabor.ru</text>
+</svg>

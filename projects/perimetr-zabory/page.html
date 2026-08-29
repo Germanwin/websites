@@ -1,0 +1,987 @@
+<title>Периметр</title>
+<style>
+:root{
+  /* поверхности и текст */
+  --bg:#F7F8F5; --surface:#FFFFFF; --surface-2:#EFF2EC; --surface-3:#E6EBE2;
+  --ink:#0E1714; --ink-2:#4F5D57; --ink-3:#77857E;
+  --line:#E2E7DE; --line-2:#CCD5C9;
+  /* фирменный и акцент */
+  --brand:#0F5A3D; --brand-2:#2E9A6B; --brand-soft:#E4F0E9; --brand-ring:rgba(15,90,61,.16);
+  --accent:#E0521F; --accent-2:#FF8A3D; --accent-ink:#FFFFFF; --accent-soft:#FCE9DF;
+  /* поля ввода — всегда белые */
+  --field:#FFFFFF; --field-ink:#0E1714; --field-line:#BFC9BE;
+  /* подвал */
+  --foot-bg:#0D1613; --foot-ink:#E7EDE8; --foot-ink-2:#8FA098; --foot-line:#22302A;
+  /* иллюстрации */
+  --sky-1:#C3DAE8; --sky-2:#DFE9E4; --sky-3:#F6E9D6; --sun:#FFCE86;
+  --forest-far:#7FA893; --forest-near:#437C64;
+  --roof:#33484F; --house:#EAE5DA; --win:#F7C978;
+  --field-1:#C2D6AF; --field-2:#9CBE90; --field-line-c:#7FA57B;
+  --grass:#84AC72; --grass-2:#6D9762;
+  --pick-1:#3F8E69; --pick-2:#2E7355; --pick-3:#1D5440; --pick-hi:#8AC7A5; --post:#173F2E;
+  --wire:#6E8078; --wire-hi:#54675E; --snow:#F3F8FA;
+  --art-bg:#EDF2EA; --shadow-c:#0E2A20;
+  /* геометрия */
+  --r-xl:22px; --r-lg:16px; --r-md:11px; --r-sm:7px;
+  --sh-1:0 1px 2px rgba(14,42,32,.05), 0 2px 6px rgba(14,42,32,.04);
+  --sh-2:0 2px 4px rgba(14,42,32,.05), 0 12px 26px -14px rgba(14,42,32,.28);
+  --sh-3:0 4px 8px rgba(14,42,32,.06), 0 28px 60px -28px rgba(14,42,32,.42);
+  --maxw:1180px;
+  --f-body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --f-mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#0C110F; --surface:#131A17; --surface-2:#182120; --surface-3:#1F2A27;
+  --ink:#E8EEE9; --ink-2:#9AA9A2; --ink-3:#7B8A83;
+  --line:#242F2B; --line-2:#35433D;
+  --brand:#54C494; --brand-2:#7BD9AF; --brand-soft:#14261F; --brand-ring:rgba(84,196,148,.2);
+  --accent:#FF6E38; --accent-2:#FF9C5E; --accent-ink:#1B0A03; --accent-soft:#2B160D;
+  --field-line:#3A4842;
+  --foot-bg:#080D0B; --foot-ink:#E2E9E4; --foot-ink-2:#7E8F87; --foot-line:#1B2621;
+  --sky-1:#16242C; --sky-2:#182420; --sky-3:#232821; --sun:#8A7148;
+  --forest-far:#26473A; --forest-near:#1B342B;
+  --roof:#1E2A2E; --house:#39423C; --win:#C9A25C;
+  --field-1:#2A3D2C; --field-2:#1F2F23; --field-line-c:#38513C;
+  --grass:#25382A; --grass-2:#2E4432;
+  --pick-1:#2E6F53; --pick-2:#245743; --pick-3:#183E31; --pick-hi:#4E9B78; --post:#122B21;
+  --wire:#566159; --wire-hi:#3E4B44; --snow:#2A3538;
+  --art-bg:#131B18; --shadow-c:#000000;
+  --sh-1:0 1px 2px rgba(0,0,0,.4); --sh-2:0 2px 4px rgba(0,0,0,.45), 0 14px 28px -16px rgba(0,0,0,.8);
+  --sh-3:0 4px 10px rgba(0,0,0,.5), 0 30px 60px -30px rgba(0,0,0,.95);
+}}
+:root[data-theme="dark"]{
+  --bg:#0C110F; --surface:#131A17; --surface-2:#182120; --surface-3:#1F2A27;
+  --ink:#E8EEE9; --ink-2:#9AA9A2; --ink-3:#7B8A83;
+  --line:#242F2B; --line-2:#35433D;
+  --brand:#54C494; --brand-2:#7BD9AF; --brand-soft:#14261F; --brand-ring:rgba(84,196,148,.2);
+  --accent:#FF6E38; --accent-2:#FF9C5E; --accent-ink:#1B0A03; --accent-soft:#2B160D;
+  --field-line:#3A4842;
+  --foot-bg:#080D0B; --foot-ink:#E2E9E4; --foot-ink-2:#7E8F87; --foot-line:#1B2621;
+  --sky-1:#16242C; --sky-2:#182420; --sky-3:#232821; --sun:#8A7148;
+  --forest-far:#26473A; --forest-near:#1B342B;
+  --roof:#1E2A2E; --house:#39423C; --win:#C9A25C;
+  --field-1:#2A3D2C; --field-2:#1F2F23; --field-line-c:#38513C;
+  --grass:#25382A; --grass-2:#2E4432;
+  --pick-1:#2E6F53; --pick-2:#245743; --pick-3:#183E31; --pick-hi:#4E9B78; --post:#122B21;
+  --wire:#566159; --wire-hi:#3E4B44; --snow:#2A3538;
+  --art-bg:#131B18; --shadow-c:#000000;
+  --sh-1:0 1px 2px rgba(0,0,0,.4); --sh-2:0 2px 4px rgba(0,0,0,.45), 0 14px 28px -16px rgba(0,0,0,.8);
+  --sh-3:0 4px 10px rgba(0,0,0,.5), 0 30px 60px -30px rgba(0,0,0,.95);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--f-body); font-size:17px; line-height:1.62;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  padding-bottom:76px;
+}
+@media(min-width:721px){ body{padding-bottom:0} }
+svg{max-width:100%; display:block}
+h1,h2,h3,h4{margin:0; text-wrap:balance; font-weight:800; line-height:1.08; letter-spacing:-.028em}
+h1{font-size:clamp(2.05rem,1.05rem+3.7vw,3.65rem); letter-spacing:-.035em}
+h2{font-size:clamp(1.62rem,1.1rem+2.1vw,2.6rem)}
+h3{font-size:1.2rem; line-height:1.26; letter-spacing:-.02em}
+p{margin:0}
+a{color:inherit}
+::selection{background:var(--brand-soft); color:var(--ink)}
+:focus-visible{outline:2.5px solid var(--accent); outline-offset:3px; border-radius:4px}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 22px}
+.sec{padding:clamp(56px,7vw,110px) 0}
+.sec--tint{background:var(--surface-2)}
+.sec--tight{padding-top:0}
+.center{text-align:center}
+.center .chip{justify-content:center}
+.center .lead{margin-left:auto; margin-right:auto}
+
+/* ——— заголовки секций ——— */
+.chip{
+  display:inline-flex; align-items:center; gap:9px; margin-bottom:20px;
+  font-family:var(--f-mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+  color:var(--brand); background:var(--brand-soft); border-radius:99px; padding:7px 14px 7px 11px;
+}
+.chip::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--brand)}
+.lead{color:var(--ink-2); font-size:clamp(1rem,.96rem+.35vw,1.16rem); max-width:64ch; margin-top:18px}
+.mono{font-family:var(--f-mono); font-variant-numeric:tabular-nums}
+.hl{background:linear-gradient(transparent 74%, color-mix(in srgb, var(--accent) 34%, transparent) 74%); padding:0 .05em}
+em.b{font-style:normal; color:var(--brand)}
+
+/* ——— кнопки ——— */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px; position:relative;
+  font:inherit; font-weight:700; letter-spacing:-.012em; cursor:pointer; text-decoration:none;
+  padding:17px 30px; min-height:52px; border-radius:var(--r-md); border:1px solid transparent;
+  transition:transform .18s cubic-bezier(.2,.7,.3,1), box-shadow .18s ease, background .18s ease, border-color .18s ease;
+}
+.btn--accent{
+  color:var(--accent-ink); background:linear-gradient(170deg,var(--accent-2),var(--accent));
+  box-shadow:0 1px 0 rgba(255,255,255,.25) inset, 0 10px 22px -10px var(--accent);
+}
+.btn--accent:hover{transform:translateY(-2px); box-shadow:0 1px 0 rgba(255,255,255,.3) inset, 0 16px 30px -12px var(--accent)}
+.btn--accent:active{transform:translateY(0)}
+.btn--ghost{background:var(--surface); color:var(--ink); border-color:var(--line-2)}
+.btn--ghost:hover{border-color:var(--brand); color:var(--brand); background:var(--brand-soft)}
+.btn--light{background:#fff; color:#0F5A3D}
+.btn--light:hover{transform:translateY(-2px); box-shadow:var(--sh-2)}
+.btn--lg{padding:20px 36px; min-height:60px; font-size:1.06rem}
+.btn--block{width:100%}
+.note{font-size:13.5px; color:var(--ink-2); margin-top:12px; line-height:1.45}
+
+/* ——— шапка ——— */
+.top{position:sticky; top:0; z-index:50; background:color-mix(in srgb, var(--surface) 82%, transparent); backdrop-filter:saturate(1.6) blur(14px); -webkit-backdrop-filter:saturate(1.6) blur(14px); border-bottom:1px solid transparent; transition:border-color .25s, box-shadow .25s}
+.top.stuck{border-bottom-color:var(--line); box-shadow:var(--sh-1)}
+.top-in{display:flex; align-items:center; gap:20px; padding:13px 22px; max-width:var(--maxw); margin:0 auto}
+.brandmark{display:flex; align-items:center; gap:11px; margin-right:auto; min-width:0; text-decoration:none}
+.brandmark .glyph{width:36px; height:36px; border-radius:9px; background:linear-gradient(150deg,var(--brand-2),var(--brand)); display:grid; place-items:center; flex:none; box-shadow:0 4px 10px -4px var(--brand-ring)}
+.brandmark b{font-size:1.12rem; font-weight:800; letter-spacing:-.01em; text-transform:uppercase; display:block; line-height:1.1}
+.brandmark i{font-style:normal; font-size:11.5px; color:var(--ink-2); line-height:1.2; display:block}
+.top .tel{font-family:var(--f-mono); font-weight:600; text-decoration:none; white-space:nowrap; font-size:15px; letter-spacing:-.02em}
+.top .tel:hover{color:var(--brand)}
+.top .btn{padding:11px 18px; min-height:42px; font-size:14px}
+@media(max-width:900px){ .brandmark i{display:none} }
+@media(max-width:640px){ .top .btn{display:none} }
+
+/* ——— первый экран ——— */
+.hero{position:relative; overflow:hidden; background:linear-gradient(178deg,var(--sky-1) 0%,var(--sky-2) 52%,var(--sky-3) 100%)}
+.hero-art{position:absolute; left:0; right:0; bottom:-1px; width:100%; height:clamp(200px,27vw,360px); z-index:1}
+.hero-in{position:relative; z-index:2; display:grid; grid-template-columns:1.06fr .94fr; gap:56px;
+  align-items:start; padding:clamp(34px,4vw,58px) 22px clamp(190px,22vw,290px); max-width:var(--maxw); margin:0 auto}
+@media(max-width:980px){ .hero-in{grid-template-columns:1fr; gap:30px; padding-bottom:clamp(180px,44vw,260px)} }
+.hero h1{color:var(--ink)}
+.hero .lead{color:var(--ink-2)}
+.bullets{list-style:none; margin:28px 0 0; padding:0; display:grid; gap:12px}
+.bullets li{position:relative; padding-left:34px; font-size:15.5px; line-height:1.45; color:var(--ink)}
+.bullets li::before{
+  content:""; position:absolute; left:0; top:1px; width:22px; height:22px; border-radius:7px;
+  background:var(--brand); opacity:.14;
+}
+.bullets li::after{
+  content:""; position:absolute; left:6px; top:8px; width:10px; height:5.5px;
+  border-left:2px solid var(--brand); border-bottom:2px solid var(--brand); transform:rotate(-45deg);
+}
+.hero-cta{margin-top:34px; display:flex; flex-wrap:wrap; gap:16px 20px; align-items:center}
+
+/* карточка плана */
+.plan{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-xl); box-shadow:var(--sh-3); overflow:hidden}
+.plan-head{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid var(--line); font-family:var(--f-mono); font-size:11px; letter-spacing:.11em; text-transform:uppercase; color:var(--ink-2)}
+.plan-head b{color:var(--brand); font-size:12px}
+.plan figure{margin:0; padding:12px 14px 4px}
+.plan figcaption{padding:6px 18px 18px; font-size:13px; color:var(--ink-2); line-height:1.45}
+
+/* ——— доверие: счётчики ——— */
+.stats{display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
+@media(max-width:720px){ .stats{grid-template-columns:repeat(2,1fr)} }
+.stat{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:22px 20px; box-shadow:var(--sh-1); position:relative; overflow:hidden}
+.stat::before{content:""; position:absolute; left:20px; right:20px; top:0; height:3px; border-radius:0 0 3px 3px; background:linear-gradient(90deg,var(--brand-2),var(--brand))}
+.stat b{display:block; font-family:var(--f-mono); font-size:clamp(1.5rem,1.1rem+1.5vw,2.15rem); font-weight:700; letter-spacing:-.04em; font-variant-numeric:tabular-nums; line-height:1}
+.stat > span{display:block; font-size:13.5px; color:var(--ink-2); margin-top:8px; line-height:1.35}
+.stat b span{display:inline; font-size:inherit; color:inherit; margin:0}
+
+/* ——— сетки и карточки ——— */
+.grid{display:grid; gap:22px}
+.g-2{grid-template-columns:repeat(2,1fr)}
+.g-3{grid-template-columns:repeat(3,1fr)}
+.g-4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:920px){ .g-3,.g-4{grid-template-columns:repeat(2,1fr)} }
+@media(max-width:640px){ .g-2,.g-3,.g-4{grid-template-columns:1fr} }
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:28px; box-shadow:var(--sh-1); transition:transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s ease, border-color .22s ease}
+.card:hover{transform:translateY(-3px); box-shadow:var(--sh-2); border-color:var(--line-2)}
+.card h3{margin-bottom:10px}
+.card p{color:var(--ink-2); font-size:15px}
+.card .tag{display:inline-block; font-family:var(--f-mono); font-size:11px; letter-spacing:.12em; color:var(--brand); background:var(--brand-soft); border-radius:6px; padding:5px 9px; margin-bottom:16px}
+
+/* ——— боли ——— */
+.pains{display:grid; gap:12px; margin-top:38px; grid-template-columns:repeat(2,1fr)}
+@media(max-width:820px){ .pains{grid-template-columns:1fr} }
+.pain{display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:var(--r-md); padding:20px 22px}
+.pain svg{color:var(--accent); flex:none; margin-top:2px}
+.pain q{font-size:15.6px; line-height:1.5; quotes:"«" "»"; color:var(--ink)}
+.pain.pain--wide{grid-column:1/-1; border-left-color:var(--brand); background:var(--brand-soft)}
+.pain.pain--wide svg{color:var(--brand)}
+
+/* ——— выгоды ——— */
+.ben{display:grid; grid-template-columns:auto 1fr; gap:18px; align-items:start}
+.ben-ic{width:46px; height:46px; flex:none; border-radius:13px; display:grid; place-items:center; color:var(--brand);
+  background:linear-gradient(160deg,var(--brand-soft),transparent), var(--surface); border:1px solid var(--line-2); box-shadow:var(--sh-1)}
+.ben h3{font-size:1.06rem; margin-bottom:7px}
+.ben p{color:var(--ink-2); font-size:14.8px; line-height:1.55}
+
+/* ——— материалы ——— */
+.mat{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; display:flex; flex-direction:column; box-shadow:var(--sh-1); transition:transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s ease}
+.mat:hover{transform:translateY(-4px); box-shadow:var(--sh-2)}
+.mat-art{width:100%; height:auto; border-bottom:1px solid var(--line); transition:transform .35s cubic-bezier(.2,.7,.3,1)}
+.mat:hover .mat-art{transform:scale(1.035)}
+.mat-figure{overflow:hidden; margin:0}
+.mat-b{padding:22px 24px 26px; display:flex; flex-direction:column; gap:10px; flex:1}
+.mat-b h3{font-size:1.1rem}
+.mat-b p{color:var(--ink-2); font-size:14.4px; flex:1; line-height:1.5}
+.price{display:flex; align-items:baseline; gap:8px; margin-top:4px; padding-top:16px; border-top:1px dashed var(--line-2)}
+.price b{font-family:var(--f-mono); font-weight:700; font-size:1.28rem; letter-spacing:-.035em; color:var(--ink); font-variant-numeric:tabular-nums}
+.price span{font-size:12px; color:var(--ink-2); line-height:1.25}
+.mat--cta{background:linear-gradient(165deg,var(--brand),#0B4630); border-color:transparent; color:#fff; justify-content:center; align-items:flex-start; padding:32px 28px; gap:14px}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .mat--cta{background:linear-gradient(165deg,var(--brand-2),var(--brand)); color:#062018} }
+:root[data-theme="dark"] .mat--cta{background:linear-gradient(165deg,var(--brand-2),var(--brand)); color:#062018}
+.mat--cta h3{font-size:1.24rem}
+.mat--cta p{font-size:14.6px; opacity:.86}
+
+/* ——— этапы ——— */
+.steps{margin-top:42px; position:relative; display:grid; gap:4px}
+.step{display:grid; grid-template-columns:auto 1fr auto; gap:22px; align-items:start; padding:22px 0; position:relative}
+.step + .step{border-top:1px solid var(--line)}
+.step-n{width:44px; height:44px; border-radius:50%; display:grid; place-items:center; flex:none;
+  font-family:var(--f-mono); font-size:14px; font-weight:600; color:var(--brand);
+  background:var(--surface); border:1.5px solid var(--brand-ring); box-shadow:var(--sh-1)}
+.step h3{font-size:1.1rem; margin-bottom:7px}
+.step p{color:var(--ink-2); font-size:15px; max-width:62ch}
+.when{font-family:var(--f-mono); font-size:12.5px; color:var(--brand); background:var(--brand-soft); padding:7px 12px; border-radius:99px; white-space:nowrap}
+@media(max-width:680px){ .step{grid-template-columns:auto 1fr; gap:16px} .when{grid-column:2; margin-top:10px; justify-self:start} }
+
+/* ——— кейсы ——— */
+.case{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--sh-1); transition:transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s}
+.case:hover{transform:translateY(-4px); box-shadow:var(--sh-2)}
+.case-art{width:100%; height:auto; border-bottom:1px solid var(--line)}
+.case-b{padding:24px}
+.case-b .kicker{font-family:var(--f-mono); font-size:11px; letter-spacing:.11em; text-transform:uppercase; color:var(--ink-2)}
+.case-b h3{font-size:1.08rem; margin:11px 0 9px}
+.case-b p{font-size:14.6px; color:var(--ink-2); line-height:1.55}
+.case-b .res{margin-top:16px; padding:13px 15px; border-radius:var(--r-sm); background:var(--brand-soft); font-size:14.4px; color:var(--ink)}
+.case-b .res b{color:var(--brand)}
+
+/* ——— отзывы ——— */
+.rev{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:28px; display:flex; flex-direction:column; gap:16px; box-shadow:var(--sh-1); position:relative}
+.rev .stars{display:flex; gap:3px; color:var(--accent)}
+.rev p{font-size:15.4px; line-height:1.6}
+.rev mark{background:var(--accent-soft); color:var(--ink); padding:1px 4px; border-radius:4px}
+.rev footer{margin-top:auto; display:flex; align-items:center; gap:13px; padding-top:18px; border-top:1px solid var(--line)}
+.ava{width:42px; height:42px; border-radius:50%; flex:none; display:grid; place-items:center; font-weight:700; font-size:15px; color:var(--brand); background:var(--brand-soft); border:1px solid var(--line-2)}
+.rev .who b{display:block; font-size:14.8px}
+.rev .who span{display:block; font-size:12.8px; color:var(--ink-2)}
+
+/* ——— гарантии ——— */
+.guar{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:26px; box-shadow:var(--sh-1); display:flex; flex-direction:column; gap:12px; transition:transform .22s, box-shadow .22s}
+.guar:hover{transform:translateY(-3px); box-shadow:var(--sh-2)}
+.guar b.num{font-family:var(--f-mono); font-size:1.9rem; font-weight:700; letter-spacing:-.045em; color:var(--brand); line-height:1}
+.guar h3{font-size:1.02rem}
+.guar p{font-size:14.4px; color:var(--ink-2); line-height:1.5}
+
+/* ——— FAQ ——— */
+.faq{margin-top:38px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--sh-1)}
+.faq details + details{border-top:1px solid var(--line)}
+.faq summary{cursor:pointer; list-style:none; padding:23px 62px 23px 26px; position:relative; font-weight:700; font-size:1.05rem; letter-spacing:-.018em; transition:background .18s}
+.faq summary:hover{background:var(--surface-2)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:""; position:absolute; right:24px; top:50%; width:26px; height:26px; margin-top:-13px;
+  border-radius:50%; background:var(--brand-soft);
+}
+.faq summary::before{
+  content:"+"; position:absolute; right:32px; top:50%; margin-top:-14px; z-index:1;
+  font-family:var(--f-mono); font-size:16px; color:var(--brand); line-height:26px;
+}
+.faq details[open] summary::before{content:"–"; right:33px}
+.faq .ans{padding:0 26px 26px; color:var(--ink-2); max-width:74ch; font-size:15.4px; line-height:1.62}
+
+/* ——— формы ——— */
+.field{display:block}
+.field span{display:block; font-size:13.4px; color:var(--ink-2); margin-bottom:8px; line-height:1.4}
+.field input{
+  width:100%; font:inherit; font-family:var(--f-mono); font-size:1.04rem; letter-spacing:-.02em;
+  padding:17px 18px; border:1.5px solid var(--field-line); border-radius:var(--r-md);
+  background:var(--field); color:var(--field-ink); transition:border-color .18s, box-shadow .18s;
+}
+.field input:focus{outline:none; border-color:var(--brand); box-shadow:0 0 0 4px var(--brand-ring)}
+.field input::placeholder{color:#98A39C}
+.consent{display:flex; gap:11px; align-items:flex-start; font-size:12.6px; color:var(--ink-2); margin-top:15px; line-height:1.45; cursor:pointer}
+.consent input{margin:2px 0 0; width:17px; height:17px; flex:none; accent-color:var(--brand)}
+.err{color:var(--accent); font-size:13.5px; margin-top:11px; display:none; font-weight:600}
+.err.on{display:block}
+
+/* ——— цветные панели ——— */
+.panel{position:relative; overflow:hidden; border-radius:var(--r-xl); padding:clamp(30px,4vw,52px); color:#fff;
+  background:linear-gradient(150deg,#14724D 0%,#0C4732 62%,#0A3A2A 100%); box-shadow:var(--sh-2)}
+.panel::after{content:""; position:absolute; inset:0; opacity:.16; pointer-events:none;
+  background-image:repeating-linear-gradient(90deg,#fff 0 2px,transparent 2px 16px);
+  -webkit-mask-image:linear-gradient(255deg,#000,transparent 62%); mask-image:linear-gradient(255deg,#000,transparent 62%)}
+.panel > *{position:relative; z-index:1}
+.panel h2{color:#fff}
+.panel p{color:rgba(255,255,255,.84)}
+.panel .field span{color:rgba(255,255,255,.8)}
+.panel .consent{color:rgba(255,255,255,.76)}
+.panel .err{color:#FFC9AE}
+.panel-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:38px; align-items:center}
+@media(max-width:860px){ .panel-grid{grid-template-columns:1fr; gap:26px} }
+
+/* ——— финальный блок ——— */
+.final{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-xl); box-shadow:var(--sh-3); padding:clamp(30px,3.8vw,52px); display:grid; grid-template-columns:1.04fr .96fr; gap:44px}
+@media(max-width:860px){ .final{grid-template-columns:1fr; gap:28px} }
+.gift{margin-top:24px; border-radius:var(--r-md); padding:18px 20px; background:var(--accent-soft); border:1px solid var(--accent); font-size:14.6px; line-height:1.5}
+.gift b{display:block; font-size:11.5px; font-family:var(--f-mono); letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:7px}
+
+/* ——— квиз ——— */
+.quiz{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-xl); box-shadow:var(--sh-3); overflow:hidden; margin-top:38px}
+.qhead{padding:22px 28px 0}
+.qmeta{display:flex; justify-content:space-between; align-items:center; font-family:var(--f-mono); font-size:11.5px; letter-spacing:.11em; text-transform:uppercase; color:var(--ink-2)}
+.qmeta b{color:var(--brand)}
+.qbar{height:6px; background:var(--surface-2); border-radius:99px; margin-top:13px; overflow:hidden}
+.qbar i{display:block; height:100%; width:14%; border-radius:99px; background:linear-gradient(90deg,var(--brand-2),var(--brand)); transition:width .45s cubic-bezier(.2,.7,.3,1)}
+.qbody{padding:30px 28px 10px; min-height:352px}
+@media(max-width:640px){ .qbody{padding:24px 20px 8px; min-height:0} .qhead{padding:18px 20px 0} }
+.qstep{display:none}
+.qstep.on{display:block; animation:qin .32s cubic-bezier(.2,.7,.3,1)}
+@keyframes qin{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+.qstep h3{font-size:clamp(1.2rem,1rem+.8vw,1.6rem); margin-bottom:7px}
+.qsub{color:var(--ink-2); font-size:14.6px; margin-bottom:22px; max-width:60ch}
+.opts{display:grid; grid-template-columns:repeat(2,1fr); gap:11px}
+@media(max-width:640px){ .opts{grid-template-columns:1fr} }
+.opt{
+  font:inherit; text-align:left; cursor:pointer; padding:16px 46px 16px 18px; font-size:15.4px; position:relative;
+  background:var(--surface); color:var(--ink); border:1.5px solid var(--line-2); border-radius:var(--r-md);
+  transition:border-color .18s, background .18s, transform .18s cubic-bezier(.2,.7,.3,1), box-shadow .18s;
+}
+.opt::after{
+  content:""; position:absolute; right:16px; top:50%; margin-top:-10px; width:20px; height:20px; border-radius:50%;
+  border:1.5px solid var(--line-2); transition:border-color .18s, background .18s;
+}
+.opt:hover{border-color:var(--brand); background:var(--brand-soft); transform:translateY(-2px); box-shadow:var(--sh-1)}
+.opt.sel{border-color:var(--brand); background:var(--brand-soft); box-shadow:0 0 0 3px var(--brand-ring)}
+.opt.sel::after{border-color:var(--brand); background:var(--brand);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7'/%3E%3C/svg%3E");
+  background-size:13px; background-repeat:no-repeat; background-position:center}
+.opt.wide{grid-column:1/-1}
+.opt.soft{color:var(--ink-2)}
+.slide-val{font-family:var(--f-mono); font-size:clamp(2.2rem,1.5rem+2.6vw,3.2rem); font-weight:700; letter-spacing:-.05em; color:var(--brand); font-variant-numeric:tabular-nums; line-height:1}
+.slide-val small{font-size:.95rem; color:var(--ink-2); font-weight:400; letter-spacing:0; margin-left:6px}
+.rng{-webkit-appearance:none; appearance:none; width:100%; height:36px; background:transparent; margin:14px 0 2px; cursor:pointer}
+.rng::-webkit-slider-runnable-track{height:8px; border-radius:99px; background:var(--surface-3)}
+.rng::-moz-range-track{height:8px; border-radius:99px; background:var(--surface-3)}
+.rng::-webkit-slider-thumb{-webkit-appearance:none; width:30px; height:30px; margin-top:-11px; border-radius:50%;
+  background:linear-gradient(160deg,var(--brand-2),var(--brand)); border:3px solid var(--surface); box-shadow:var(--sh-2)}
+.rng::-moz-range-thumb{width:24px; height:24px; border-radius:50%;
+  background:linear-gradient(160deg,var(--brand-2),var(--brand)); border:3px solid var(--surface); box-shadow:var(--sh-2)}
+.range-legend{display:flex; justify-content:space-between; font-family:var(--f-mono); font-size:12px; color:var(--ink-2)}
+.checks{display:grid; gap:11px}
+.check{display:flex; gap:13px; align-items:center; padding:15px 18px; border:1.5px solid var(--line-2); border-radius:var(--r-md); cursor:pointer; font-size:15.4px; transition:border-color .18s, background .18s}
+.check:hover{border-color:var(--brand)}
+.check input{width:19px; height:19px; accent-color:var(--brand); flex:none}
+.check.on{border-color:var(--brand); background:var(--brand-soft)}
+.qfoot{display:flex; align-items:center; gap:16px; padding:18px 28px; border-top:1px solid var(--line); background:var(--surface-2)}
+@media(max-width:640px){ .qfoot{padding:15px 20px} }
+.qback{font:inherit; font-size:14px; background:none; border:0; color:var(--ink-2); cursor:pointer; padding:8px 0; transition:color .18s}
+.qback:hover{color:var(--brand)}
+.qfoot .mono{margin-left:auto; font-size:11.5px; color:var(--ink-2); letter-spacing:.09em; text-transform:uppercase}
+.qdone{display:none; padding:clamp(40px,5vw,68px) 28px; text-align:center}
+.qdone.on{display:block; animation:qin .4s ease}
+.qdone .tick{width:64px; height:64px; margin:0 auto 22px; border-radius:50%; color:#fff; display:grid; place-items:center;
+  background:linear-gradient(160deg,var(--brand-2),var(--brand)); box-shadow:0 12px 26px -12px var(--brand-ring)}
+.qdone p{color:var(--ink-2); max-width:54ch; margin:14px auto 0}
+
+/* ——— модалка ——— */
+dialog{border:1px solid var(--line); border-radius:var(--r-xl); padding:0; background:var(--surface); color:var(--ink); max-width:430px; width:calc(100% - 40px); box-shadow:var(--sh-3)}
+dialog::backdrop{background:rgba(8,20,16,.6); backdrop-filter:blur(3px)}
+.mbox{padding:30px; position:relative}
+.mbox h3{font-size:1.4rem; margin-bottom:9px}
+.mbox > p{color:var(--ink-2); font-size:14.6px; margin-bottom:22px}
+.mclose{position:absolute; top:14px; right:16px; background:none; border:0; font-size:26px; line-height:1; color:var(--ink-2); cursor:pointer; border-radius:6px}
+.mclose:hover{color:var(--ink)}
+
+/* ——— подвал ——— */
+.foot{background:var(--foot-bg); color:var(--foot-ink); padding:64px 0 40px; font-size:14.8px}
+.foot .brandmark b{color:var(--foot-ink)}
+.foot h4{font-family:var(--f-mono); font-size:11px; letter-spacing:.13em; text-transform:uppercase; color:var(--foot-ink-2); font-weight:400; margin-bottom:14px}
+.foot p{color:var(--foot-ink-2); line-height:1.55}
+.foot a{text-decoration:none; color:var(--foot-ink); border-bottom:1px solid var(--foot-line); transition:border-color .18s}
+.foot a:hover{border-color:var(--foot-ink)}
+.foot ul{list-style:none; margin:0; padding:0; display:grid; gap:10px; color:var(--foot-ink-2)}
+.legal{margin-top:44px; padding-top:24px; border-top:1px solid var(--foot-line); color:var(--foot-ink-2); font-size:12.4px; display:flex; flex-wrap:wrap; gap:8px 26px}
+
+/* ——— sticky на мобильных ——— */
+.sticky{position:fixed; left:0; right:0; bottom:0; z-index:60; display:none; gap:10px; padding:11px 14px calc(11px + env(safe-area-inset-bottom));
+  background:color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter:blur(12px); border-top:1px solid var(--line); box-shadow:0 -8px 24px -16px rgba(14,42,32,.5)}
+.sticky .btn{flex:1; padding:14px 10px; min-height:50px; font-size:15px}
+@media(max-width:720px){ .sticky{display:flex} }
+
+/* ——— появление ——— */
+.js .rv{opacity:0; transform:translateY(18px); transition:opacity .6s cubic-bezier(.2,.7,.3,1), transform .6s cubic-bezier(.2,.7,.3,1)}
+.js .rv.in{opacity:1; transform:none}
+.rv-2{transition-delay:.08s} .rv-3{transition-delay:.16s} .rv-4{transition-delay:.24s}
+@media (prefers-reduced-motion:reduce){
+  .rv{opacity:1; transform:none; transition:none}
+  .qstep.on,.qdone.on{animation:none}
+  .btn,.card,.mat,.case,.guar,.opt{transition:none}
+  .mat:hover .mat-art{transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+
+<header class="top" id="top">
+  <div class="top-in">
+    <a class="brandmark" href="#top">
+      <span class="glyph" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round">
+          <path d="M5 21V6l2.5-3L10 6v15M14 21V6l2.5-3L19 6v15M3 10h18M3 15h18"/>
+        </svg>
+      </span>
+      <span>
+        <b>Периметр</b>
+        <i>заборы под ключ в Москве и области с 2014 года</i>
+      </span>
+    </a>
+    <a class="tel" href="tel:+74951208419">+7 495 120-84-19</a>
+    <button class="btn btn--ghost" type="button" data-callback>Перезвоните мне</button>
+  </div>
+</header>
+
+<!-- ================= 01. ПЕРВЫЙ ЭКРАН ================= -->
+<section class="hero">
+  <svg class="hero-art" viewBox="0 0 1240 430" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Забор из евроштакетника вдоль участка на рассвете"><defs><radialGradient id="sun" cx="0.5" cy="0.5" r="0.5"><stop offset="0" style="stop-color:var(--sun);stop-opacity:.7"/><stop offset="1" style="stop-color:var(--sun);stop-opacity:0"/></radialGradient><linearGradient id="field" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--field-1)"/><stop offset="1" style="stop-color:var(--field-2)"/></linearGradient><linearGradient id="pick" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--pick-1)"/><stop offset=".55" style="stop-color:var(--pick-2)"/><stop offset="1" style="stop-color:var(--pick-3)"/></linearGradient><linearGradient id="haze" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sky-3);stop-opacity:.75"/><stop offset="1" style="stop-color:var(--sky-3);stop-opacity:0"/></linearGradient></defs><circle cx="880" cy="96" r="190" fill="url(#sun)"/><circle cx="880" cy="96" r="34" style="fill:var(--sun)" opacity=".45"/><path d="M-20 250 L-20.0 189.0 L-10.0 175.4 L0.0 177.7 L10.0 177.2 L20.0 174.1 L30.0 185.9 L40.0 195.3 L50.0 188.5 L60.0 185.8 L70.0 186.7 L80.0 175.1 L90.0 169.1 L100.0 180.2 L110.0 186.4 L120.0 188.7 L130.0 202.2 L140.0 208.1 L150.0 197.5 L160.0 193.6 L170.0 194.2 L180.0 184.6 L190.0 183.6 L200.0 197.3 L210.0 201.3 L220.0 199.3 L230.0 205.6 L240.0 201.8 L250.0 184.7 L260.0 179.2 L270.0 180.0 L280.0 173.0 L290.0 176.3 L300.0 190.8 L310.0 191.8 L320.0 186.8 L330.0 190.2 L340.0 184.3 L350.0 170.4 L360.0 172.7 L370.0 181.2 L380.0 181.4 L390.0 190.6 L400.0 205.6 L410.0 203.1 L420.0 195.8 L430.0 197.6 L440.0 191.2 L450.0 181.0 L460.0 188.5 L470.0 198.5 L480.0 197.3 L490.0 202.6 L500.0 209.1 L510.0 197.3 L520.0 184.7 L530.0 184.1 L540.0 177.6 L550.0 171.0 L560.0 182.0 L570.0 191.3 L580.0 187.6 L590.0 189.9 L600.0 192.1 L610.0 178.6 L620.0 170.3 L630.0 176.7 L640.0 177.5 L650.0 179.2 L660.0 195.4 L670.0 204.2 L680.0 198.2 L690.0 198.6 L700.0 198.5 L710.0 185.6 L720.0 182.3 L730.0 192.9 L740.0 195.1 L750.0 196.6 L760.0 208.1 L770.0 207.7 L780.0 193.5 L790.0 188.9 L800.0 185.4 L810.0 173.2 L820.0 173.9 L830.0 186.6 L840.0 187.8 L850.0 187.3 L860.0 194.7 L870.0 189.2 L880.0 174.6 L890.0 174.2 L900.0 176.6 L910.0 172.6 L920.0 181.9 L930.0 198.4 L940.0 199.1 L950.0 197.5 L960.0 202.3 L970.0 194.5 L980.0 182.3 L990.0 186.9 L1000.0 192.8 L1010.0 191.2 L1020.0 200.6 L1030.0 211.1 L1040.0 203.1 L1050.0 194.3 L1060.0 193.3 L1070.0 182.1 L1080.0 171.7 L1090.0 179.7 L1100.0 186.5 L1110.0 184.4 L1120.0 191.5 L1130.0 196.4 L1140.0 183.7 L1150.0 175.4 L1160.0 177.6 L1170.0 172.2 L1180.0 171.1 L1190.0 186.9 L1200.0 196.4 L1210.0 195.0 L1220.0 201.0 L1230.0 202.4 L1240.0 188.6 L1250.0 183.8 L1260.0 190.2 L1270.0 188.7 L1280.0 191.2 L1290.0 206.1 L1280 250 Z" style="fill:var(--forest-far)" opacity=".5"/><path d="M-20 264 L-20.0 194.6 L-6.0 188.4 L8.0 193.2 L22.0 204.5 L36.0 210.6 L50.0 208.2 L64.0 205.8 L78.0 209.6 L92.0 213.6 L106.0 208.8 L120.0 196.8 L134.0 189.7 L148.0 193.4 L162.0 200.7 L176.0 202.1 L190.0 199.6 L204.0 202.3 L218.0 211.8 L232.0 217.9 L246.0 212.7 L260.0 201.6 L274.0 196.4 L288.0 198.9 L302.0 200.4 L316.0 195.6 L330.0 191.5 L344.0 197.0 L358.0 209.1 L372.0 215.8 L386.0 211.9 L400.0 205.4 L414.0 205.0 L428.0 207.6 L442.0 204.0 L456.0 193.9 L470.0 188.0 L484.0 193.6 L498.0 204.1 L512.0 208.5 L526.0 206.0 L540.0 205.5 L554.0 211.2 L568.0 215.2 L582.0 209.1 L596.0 197.0 L610.0 190.9 L624.0 194.8 L638.0 200.5 L652.0 199.9 L666.0 197.3 L680.0 201.8 L694.0 212.4 L708.0 218.0 L722.0 212.2 L736.0 202.1 L750.0 198.6 L764.0 201.1 L778.0 200.6 L792.0 194.0 L806.0 190.1 L820.0 196.8 L834.0 208.9 L848.0 214.4 L862.0 210.4 L876.0 205.7 L890.0 207.2 L904.0 209.8 L918.0 204.5 L932.0 193.4 L946.0 188.1 L960.0 194.2 L974.0 203.6 L988.0 206.3 L1002.0 203.7 L1016.0 205.3 L1030.0 212.7 L1044.0 216.4 L1058.0 209.3 L1072.0 197.4 L1086.0 192.5 L1100.0 196.5 L1114.0 200.2 L1128.0 197.7 L1142.0 195.3 L1156.0 201.3 L1170.0 212.7 L1184.0 217.6 L1198.0 211.4 L1212.0 202.8 L1226.0 201.0 L1240.0 203.3 L1254.0 200.8 L1268.0 192.7 L1282.0 189.2 L1296.0 196.7 L1310.0 208.4 L1280 264 Z" style="fill:var(--forest-near)" opacity=".7"/><g opacity=".9"><path d="M452 218 L512 180 L572 218 Z" style="fill:var(--roof)"/><rect x="464" y="216" width="96" height="46" style="fill:var(--house)"/><rect x="482" y="230" width="17" height="17" style="fill:var(--win)"/><rect x="518" y="230" width="17" height="17" style="fill:var(--win)"/><rect x="543" y="188" width="9" height="20" style="fill:var(--roof)"/></g><path d="M-20 246 C 300 234, 700 244, 1280 230 L1280 430 L-20 430 Z" fill="url(#field)"/><path d="M-20 246 C 300 234, 700 244, 1280 230" fill="none" style="stroke:var(--field-line-c)" stroke-width="1.2" opacity=".45"/><rect x="-20" y="176" width="1280" height="94" fill="url(#haze)"/><path d="M-70.0 452.0 L-143.0 465.1 L-80.0 452.8 L-22.5 441.6 L30.2 431.3 L78.6 421.9 L123.3 413.1 L164.7 405.0 L203.1 397.5 L238.9 390.6 L272.2 384.0 L303.4 378.0 L332.6 372.2 L360.1 366.9 L385.9 361.8 L410.3 357.1 L433.3 352.6 L455.0 348.3 L475.6 344.3 L495.1 340.5 L513.7 336.9 L531.3 333.4 L548.1 330.2 L564.2 327.0 L579.5 324.0 L594.1 321.2 L608.0 318.5 L621.4 315.8 L634.2 313.3 L646.5 310.9 L658.3 308.6 L669.7 306.4 L680.6 304.3 L691.1 302.2 L701.2 300.3 L710.9 298.4 L720.3 296.5 L729.3 294.8 L738.1 293.1 L746.5 291.4 L754.7 289.8 L762.5 288.3 L770.2 286.8 L777.6 285.3 L784.7 283.9 L791.7 282.6 L798.4 281.3 L804.9 280.0 L811.3 278.8 L817.4 277.6 L823.4 276.4 L829.2 275.3 L834.9 274.2 L840.3 273.1 L845.7 272.0 L850.9 271.0 L856.0 270.0 L860.9 269.1 L865.7 268.1 L870.4 267.2 L874.9 266.3 L879.4 265.5 L883.7 264.6 L888.0 263.8 L892.1 263.0 L896.1 262.2 L900.1 261.4 L903.9 260.7 L907.7 259.9 L911.4 259.2 L915.0 258.5 L918.5 257.8 L922.0 257.1 L925.3 256.5 L928.6 255.8 L931.9 255.2 L935.0 254.6 L938.1 254.0 L941.2 253.4 L944.1 252.8 L947.0 252.2 L949.9 251.7 L952.7 251.1 L955.4 250.6 L958.1 250.1 L960.8 249.6 L963.4 249.1 L965.9 248.6 L968.4 248.1 L970.8 247.6 L973.3 247.1 L975.6 246.7 L977.9 246.2 L980.2 245.8 L982.4 245.3 L984.6 244.9 L986.8 244.5 L988.9 244.1 L991.0 243.7 L993.1 243.3 L995.1 242.9 L997.1 242.5 L999.0 242.1 L1000.9 241.7 L1002.8 241.3 L1004.7 241.0 L1006.5 240.6 L1008.3 240.3 L1010.1 239.9 L1011.8 239.6 L1013.6 239.2 L1015.3 238.9 L1016.9 238.6 L1018.6 238.3 L1020.2 238.0 L1021.8 237.6 L1023.3 237.3 L1024.9 237.0 L1026.4 236.7 L1027.9 236.4 L1029.4 236.2 L1030.9 235.9 L1032.3 235.6 L1033.7 235.3 L1035.1 235.0 L1036.5 234.8 L1037.8 234.5 L1039.2 234.2 L1040.5 234.0 L1041.8 233.7 L1043.1 233.5 L1044.4 233.2 L1045.6 233.0 L1046.9 232.7 L1048.1 232.5 L1049.3 232.3 L1050.5 232.0 L1051.7 231.8 L1052.8 231.6 L1054.0 231.4 L1055.1 231.1 L1056.2 230.9 L1057.3 230.7 L1058.4 230.5 L1059.5 230.3 L1060.6 230.1 L1061.6 229.9 L1062.7 229.7 L1063.7 229.5 L1064.7 229.3 L1065.7 229.1 L1066.7 228.9 L1067.7 228.7 L1068.6 228.5 L1069.6 228.3 L1070.5 228.1 L1071.5 227.9 L1072.4 227.8 L1073.3 227.6 L1074.2 227.4 L1075.1 227.2 L1076.0 227.1 L1076.9 226.9 L1077.7 226.7 L1078.6 226.5 L1079.4 226.4 L1080.3 226.2 L1081.1 226.1 L1081.9 225.9 L1082.7 225.7 L1083.5 225.6 L1084.3 225.4 L1085.1 225.3 L1085.9 225.1 L1086.7 225.0 L1087.4 224.8 L1088.2 224.7 L1088.9 224.5 L1089.7 224.4 L1090.4 224.2 L1091.1 224.1 L1091.8 224.0 L1092.5 223.8 L1093.2 223.7 L1093.9 223.6 L1094.6 223.4 L1095.3 223.3 L1096.0 223.2 L1096.7 223.0 L1097.3 222.9 L1098.0 222.8 L1105.2 221.5 Z" style="fill:var(--shadow-c)" opacity=".18"/><path d="M-70.0 408.2 L-70.0 408.2 L-10.3 398.5 L44.1 389.6 L94.0 381.5 L139.9 374.1 L182.2 367.2 L221.4 360.8 L257.8 354.9 L291.6 349.4 L323.2 344.3 L352.7 339.5 L380.4 335.0 L406.4 330.7 L430.9 326.8 L454.0 323.0 L475.7 319.5 L496.3 316.1 L515.8 312.9 L534.3 309.9 L551.9 307.1 L568.6 304.4 L584.5 301.8 L599.7 299.3 L614.2 296.9 L628.0 294.7 L641.3 292.5 L653.9 290.5 L666.1 288.5 L677.7 286.6 L688.9 284.8 L699.6 283.1 L709.9 281.4 L719.9 279.8 L729.4 278.2 L738.6 276.7 L747.5 275.3 L756.1 273.9 L764.4 272.5 L772.4 271.2 L780.1 270.0 L787.6 268.8 L794.8 267.6 L801.8 266.4 L808.6 265.3 L815.2 264.3 L821.5 263.2 L827.7 262.2 L833.7 261.3 L839.5 260.3 L845.2 259.4 L850.7 258.5 L856.1 257.6 L861.3 256.8 L866.3 256.0 L871.2 255.1 L876.0 254.4 L880.7 253.6 L885.3 252.9 L889.7 252.1 L894.0 251.4 L898.2 250.8 L902.3 250.1 L906.4 249.4 L910.3 248.8 L914.1 248.2 L917.8 247.6 L921.5 247.0 L925.1 246.4 L928.5 245.8 L932.0 245.3 L935.3 244.7 L938.5 244.2 L941.7 243.7 L944.9 243.2 L947.9 242.7 L950.9 242.2 L953.9 241.7 L956.7 241.2 L959.5 240.8 L962.3 240.3 L965.0 239.9 L967.7 239.5 L970.2 239.0 L972.8 238.6 L975.3 238.2 L977.8 237.8 L980.2 237.4 L982.5 237.1 L984.8 236.7 L987.1 236.3 L989.4 235.9 L991.5 235.6 L993.7 235.2 L995.8 234.9 L997.9 234.6 L1000.0 234.2 L1002.0 233.9 L1003.9 233.6 L1005.9 233.3 L1007.8 232.9 L1009.7 232.6 L1011.5 232.3 L1013.3 232.0 L1015.1 231.8 L1016.9 231.5 L1018.6 231.2 L1020.3 230.9 L1022.0 230.6 L1023.7 230.4 L1025.3 230.1 L1026.9 229.8 L1028.5 229.6 L1030.0 229.3 L1031.6 229.1 L1033.1 228.8 L1034.6 228.6 L1036.0 228.4 L1037.5 228.1 L1038.9 227.9 L1040.3 227.7 L1041.7 227.4 L1043.0 227.2 L1044.4 227.0 L1045.7 226.8 L1047.0 226.6 L1048.3 226.4 L1049.6 226.2 L1050.8 225.9 L1052.1 225.7 L1053.3 225.5 L1054.5 225.4 L1055.7 225.2 L1056.8 225.0 L1058.0 224.8 L1059.1 224.6 L1060.3 224.4 L1061.4 224.2 L1062.5 224.1 L1063.6 223.9 L1064.6 223.7 L1065.7 223.5 L1066.7 223.4 L1067.8 223.2 L1068.8 223.0 L1069.8 222.9 L1070.8 222.7 L1071.8 222.5 L1072.8 222.4 L1073.7 222.2 L1074.7 222.1 L1075.6 221.9 L1076.5 221.8 L1077.5 221.6 L1078.4 221.5 L1079.3 221.3 L1080.1 221.2 L1081.0 221.0 L1081.9 220.9 L1082.7 220.8 L1083.6 220.6 L1084.4 220.5 L1085.3 220.3 L1086.1 220.2 L1086.9 220.1 L1087.7 220.0 L1088.5 219.8 L1089.3 219.7 L1090.0 219.6 L1090.8 219.4 L1091.6 219.3 L1092.3 219.2 L1093.1 219.1 L1093.8 219.0 L1094.5 218.8 L1095.2 218.7 L1096.0 218.6 L1096.7 218.5 L1097.4 218.4 L1098.1 218.3 L1098.7 218.2 L1099.4 218.0 L1100.1 217.9 L1100.8 217.8 L1101.4 217.7 L1102.1 217.6 L1102.7 217.5 L1103.3 217.4 L1104.0 217.3 L1104.6 217.2 L1105.2 217.1 L1105.2 218.3 L1104.6 218.4 L1104.0 218.5 L1103.3 218.6 L1102.7 218.7 L1102.1 218.8 L1101.4 218.9 L1100.8 219.0 L1100.1 219.1 L1099.4 219.2 L1098.7 219.4 L1098.1 219.5 L1097.4 219.6 L1096.7 219.7 L1096.0 219.8 L1095.2 219.9 L1094.5 220.0 L1093.8 220.2 L1093.1 220.3 L1092.3 220.4 L1091.6 220.5 L1090.8 220.6 L1090.0 220.8 L1089.3 220.9 L1088.5 221.0 L1087.7 221.2 L1086.9 221.3 L1086.1 221.4 L1085.3 221.5 L1084.4 221.7 L1083.6 221.8 L1082.7 222.0 L1081.9 222.1 L1081.0 222.2 L1080.1 222.4 L1079.3 222.5 L1078.4 222.7 L1077.5 222.8 L1076.5 223.0 L1075.6 223.1 L1074.7 223.3 L1073.7 223.4 L1072.8 223.6 L1071.8 223.7 L1070.8 223.9 L1069.8 224.1 L1068.8 224.2 L1067.8 224.4 L1066.7 224.6 L1065.7 224.7 L1064.6 224.9 L1063.6 225.1 L1062.5 225.3 L1061.4 225.4 L1060.3 225.6 L1059.1 225.8 L1058.0 226.0 L1056.8 226.2 L1055.7 226.4 L1054.5 226.6 L1053.3 226.7 L1052.1 226.9 L1050.8 227.1 L1049.6 227.4 L1048.3 227.6 L1047.0 227.8 L1045.7 228.0 L1044.4 228.2 L1043.0 228.4 L1041.7 228.6 L1040.3 228.9 L1038.9 229.1 L1037.5 229.3 L1036.0 229.6 L1034.6 229.8 L1033.1 230.0 L1031.6 230.3 L1030.0 230.5 L1028.5 230.8 L1026.9 231.0 L1025.3 231.3 L1023.7 231.6 L1022.0 231.8 L1020.3 232.1 L1018.6 232.4 L1016.9 232.7 L1015.1 233.0 L1013.3 233.2 L1011.5 233.5 L1009.7 233.8 L1007.8 234.1 L1005.9 234.5 L1003.9 234.8 L1002.0 235.1 L1000.0 235.4 L997.9 235.8 L995.8 236.1 L993.7 236.4 L991.5 236.8 L989.4 237.1 L987.1 237.5 L984.8 237.9 L982.5 238.3 L980.2 238.6 L977.8 239.0 L975.3 239.4 L972.8 239.8 L970.2 240.3 L967.7 240.7 L965.0 241.1 L962.3 241.6 L959.5 242.1 L956.7 242.5 L953.9 243.0 L950.9 243.5 L947.9 244.0 L944.9 244.5 L941.7 245.0 L938.5 245.6 L935.3 246.1 L932.0 246.7 L928.5 247.2 L925.1 247.8 L921.5 248.4 L917.8 249.0 L914.1 249.7 L910.3 250.3 L906.4 251.0 L902.3 251.6 L898.2 252.3 L894.0 253.0 L889.7 253.7 L885.3 254.5 L880.7 255.2 L876.0 256.0 L871.2 256.8 L866.3 257.6 L861.3 258.5 L856.1 259.4 L850.7 260.3 L845.2 261.2 L839.5 262.1 L833.7 263.1 L827.7 264.1 L821.5 265.1 L815.2 266.2 L808.6 267.3 L801.8 268.4 L794.8 269.6 L787.6 270.8 L780.1 272.1 L772.4 273.4 L764.4 274.7 L756.1 276.1 L747.5 277.5 L738.6 279.0 L729.4 280.5 L719.9 282.1 L709.9 283.8 L699.6 285.5 L688.9 287.3 L677.7 289.2 L666.1 291.1 L653.9 293.2 L641.3 295.3 L628.0 297.5 L614.2 299.8 L599.7 302.2 L584.5 304.8 L568.6 307.4 L551.9 310.2 L534.3 313.2 L515.8 316.2 L496.3 319.5 L475.7 323.0 L454.0 326.6 L430.9 330.4 L406.4 334.5 L380.4 338.9 L352.7 343.5 L323.2 348.5 L291.6 353.7 L257.8 359.4 L221.4 365.5 L182.2 372.0 L139.9 379.1 L94.0 386.8 L44.1 395.1 L-10.3 404.2 L-70.0 414.2 Z" style="fill:var(--pick-3)" opacity=".85"/><path d="M-70.0 338.1 L-70.0 338.1 L-10.3 331.6 L44.1 325.7 L94.0 320.3 L139.9 315.3 L182.2 310.7 L221.4 306.4 L257.8 302.4 L291.6 298.7 L323.2 295.3 L352.7 292.1 L380.4 289.1 L406.4 286.2 L430.9 283.6 L454.0 281.1 L475.7 278.7 L496.3 276.4 L515.8 274.3 L534.3 272.3 L551.9 270.4 L568.6 268.6 L584.5 266.8 L599.7 265.2 L614.2 263.6 L628.0 262.1 L641.3 260.7 L653.9 259.3 L666.1 258.0 L677.7 256.7 L688.9 255.5 L699.6 254.3 L709.9 253.2 L719.9 252.1 L729.4 251.1 L738.6 250.1 L747.5 249.1 L756.1 248.2 L764.4 247.3 L772.4 246.4 L780.1 245.5 L787.6 244.7 L794.8 243.9 L801.8 243.2 L808.6 242.4 L815.2 241.7 L821.5 241.0 L827.7 240.4 L833.7 239.7 L839.5 239.1 L845.2 238.5 L850.7 237.9 L856.1 237.3 L861.3 236.7 L866.3 236.2 L871.2 235.6 L876.0 235.1 L880.7 234.6 L885.3 234.1 L889.7 233.6 L894.0 233.1 L898.2 232.7 L902.3 232.2 L906.4 231.8 L910.3 231.4 L914.1 230.9 L917.8 230.5 L921.5 230.1 L925.1 229.8 L928.5 229.4 L932.0 229.0 L935.3 228.6 L938.5 228.3 L941.7 227.9 L944.9 227.6 L947.9 227.3 L950.9 226.9 L953.9 226.6 L956.7 226.3 L959.5 226.0 L962.3 225.7 L965.0 225.4 L967.7 225.1 L970.2 224.8 L972.8 224.6 L975.3 224.3 L977.8 224.0 L980.2 223.8 L982.5 223.5 L984.8 223.2 L987.1 223.0 L989.4 222.8 L991.5 222.5 L993.7 222.3 L995.8 222.0 L997.9 221.8 L1000.0 221.6 L1002.0 221.4 L1003.9 221.2 L1005.9 221.0 L1007.8 220.7 L1009.7 220.5 L1011.5 220.3 L1013.3 220.1 L1015.1 219.9 L1016.9 219.8 L1018.6 219.6 L1020.3 219.4 L1022.0 219.2 L1023.7 219.0 L1025.3 218.8 L1026.9 218.7 L1028.5 218.5 L1030.0 218.3 L1031.6 218.2 L1033.1 218.0 L1034.6 217.8 L1036.0 217.7 L1037.5 217.5 L1038.9 217.4 L1040.3 217.2 L1041.7 217.1 L1043.0 216.9 L1044.4 216.8 L1045.7 216.6 L1047.0 216.5 L1048.3 216.3 L1049.6 216.2 L1050.8 216.1 L1052.1 215.9 L1053.3 215.8 L1054.5 215.7 L1055.7 215.5 L1056.8 215.4 L1058.0 215.3 L1059.1 215.2 L1060.3 215.0 L1061.4 214.9 L1062.5 214.8 L1063.6 214.7 L1064.6 214.6 L1065.7 214.4 L1066.7 214.3 L1067.8 214.2 L1068.8 214.1 L1069.8 214.0 L1070.8 213.9 L1071.8 213.8 L1072.8 213.7 L1073.7 213.6 L1074.7 213.5 L1075.6 213.4 L1076.5 213.3 L1077.5 213.2 L1078.4 213.1 L1079.3 213.0 L1080.1 212.9 L1081.0 212.8 L1081.9 212.7 L1082.7 212.6 L1083.6 212.5 L1084.4 212.4 L1085.3 212.3 L1086.1 212.2 L1086.9 212.1 L1087.7 212.0 L1088.5 212.0 L1089.3 211.9 L1090.0 211.8 L1090.8 211.7 L1091.6 211.6 L1092.3 211.5 L1093.1 211.5 L1093.8 211.4 L1094.5 211.3 L1095.2 211.2 L1096.0 211.1 L1096.7 211.1 L1097.4 211.0 L1098.1 210.9 L1098.7 210.8 L1099.4 210.8 L1100.1 210.7 L1100.8 210.6 L1101.4 210.5 L1102.1 210.5 L1102.7 210.4 L1103.3 210.3 L1104.0 210.3 L1104.6 210.2 L1105.2 210.1 L1105.2 211.3 L1104.6 211.4 L1104.0 211.5 L1103.3 211.5 L1102.7 211.6 L1102.1 211.7 L1101.4 211.7 L1100.8 211.8 L1100.1 211.9 L1099.4 212.0 L1098.7 212.0 L1098.1 212.1 L1097.4 212.2 L1096.7 212.3 L1096.0 212.3 L1095.2 212.4 L1094.5 212.5 L1093.8 212.6 L1093.1 212.7 L1092.3 212.7 L1091.6 212.8 L1090.8 212.9 L1090.0 213.0 L1089.3 213.1 L1088.5 213.2 L1087.7 213.2 L1086.9 213.3 L1086.1 213.4 L1085.3 213.5 L1084.4 213.6 L1083.6 213.7 L1082.7 213.8 L1081.9 213.9 L1081.0 214.0 L1080.1 214.1 L1079.3 214.2 L1078.4 214.3 L1077.5 214.4 L1076.5 214.5 L1075.6 214.6 L1074.7 214.7 L1073.7 214.8 L1072.8 214.9 L1071.8 215.0 L1070.8 215.1 L1069.8 215.2 L1068.8 215.3 L1067.8 215.4 L1066.7 215.5 L1065.7 215.6 L1064.6 215.8 L1063.6 215.9 L1062.5 216.0 L1061.4 216.1 L1060.3 216.2 L1059.1 216.4 L1058.0 216.5 L1056.8 216.6 L1055.7 216.7 L1054.5 216.9 L1053.3 217.0 L1052.1 217.1 L1050.8 217.3 L1049.6 217.4 L1048.3 217.5 L1047.0 217.7 L1045.7 217.8 L1044.4 218.0 L1043.0 218.1 L1041.7 218.3 L1040.3 218.4 L1038.9 218.6 L1037.5 218.7 L1036.0 218.9 L1034.6 219.0 L1033.1 219.2 L1031.6 219.4 L1030.0 219.5 L1028.5 219.7 L1026.9 219.9 L1025.3 220.0 L1023.7 220.2 L1022.0 220.4 L1020.3 220.6 L1018.6 220.8 L1016.9 221.0 L1015.1 221.1 L1013.3 221.3 L1011.5 221.5 L1009.7 221.7 L1007.8 221.9 L1005.9 222.2 L1003.9 222.4 L1002.0 222.6 L1000.0 222.8 L997.9 223.0 L995.8 223.2 L993.7 223.5 L991.5 223.7 L989.4 224.0 L987.1 224.2 L984.8 224.4 L982.5 224.7 L980.2 225.0 L977.8 225.2 L975.3 225.5 L972.8 225.8 L970.2 226.0 L967.7 226.3 L965.0 226.6 L962.3 227.0 L959.5 227.3 L956.7 227.6 L953.9 227.9 L950.9 228.2 L947.9 228.6 L944.9 228.9 L941.7 229.3 L938.5 229.6 L935.3 230.0 L932.0 230.4 L928.5 230.8 L925.1 231.2 L921.5 231.6 L917.8 232.0 L914.1 232.4 L910.3 232.9 L906.4 233.3 L902.3 233.8 L898.2 234.2 L894.0 234.7 L889.7 235.2 L885.3 235.7 L880.7 236.2 L876.0 236.7 L871.2 237.3 L866.3 237.8 L861.3 238.4 L856.1 239.0 L850.7 239.6 L845.2 240.2 L839.5 240.9 L833.7 241.5 L827.7 242.2 L821.5 242.9 L815.2 243.7 L808.6 244.4 L801.8 245.2 L794.8 246.0 L787.6 246.8 L780.1 247.6 L772.4 248.5 L764.4 249.4 L756.1 250.4 L747.5 251.3 L738.6 252.3 L729.4 253.4 L719.9 254.5 L709.9 255.6 L699.6 256.8 L688.9 258.0 L677.7 259.3 L666.1 260.6 L653.9 262.0 L641.3 263.4 L628.0 264.9 L614.2 266.5 L599.7 268.1 L584.5 269.8 L568.6 271.6 L551.9 273.5 L534.3 275.5 L515.8 277.6 L496.3 279.8 L475.7 282.2 L454.0 284.7 L430.9 287.3 L406.4 290.0 L380.4 293.0 L352.7 296.1 L323.2 299.5 L291.6 303.1 L257.8 306.9 L221.4 311.0 L182.2 315.5 L139.9 320.3 L94.0 325.5 L44.1 331.2 L-10.3 337.3 L-70.0 344.1 Z" style="fill:var(--pick-3)" opacity=".85"/><rect x="-81.2" y="291.4" width="22.5" height="160.6" rx="2.5" style="fill:var(--post)"/><rect x="399.3" y="256.6" width="14.3" height="102.0" rx="2.3" style="fill:var(--post)"/><rect x="622.8" y="240.4" width="10.5" height="74.7" rx="1.7" style="fill:var(--post)"/><rect x="752.0" y="231.0" width="8.2" height="58.9" rx="1.3" style="fill:var(--post)"/><rect x="836.1" y="224.9" width="6.8" height="48.7" rx="1.1" style="fill:var(--post)"/><rect x="895.3" y="220.6" width="5.8" height="41.4" rx="0.9" style="fill:var(--post)"/><rect x="939.2" y="217.4" width="5.1" height="36.1" rx="0.8" style="fill:var(--post)"/><rect x="973.1" y="215.0" width="4.5" height="32.0" rx="0.7" style="fill:var(--post)"/><rect x="1000.0" y="213.0" width="4.0" height="28.7" rx="0.6" style="fill:var(--post)"/><rect x="1021.8" y="211.4" width="3.6" height="26.0" rx="0.6" style="fill:var(--post)"/><rect x="1040.0" y="210.1" width="3.3" height="23.8" rx="0.5" style="fill:var(--post)"/><rect x="1055.3" y="209.0" width="3.1" height="21.9" rx="0.5" style="fill:var(--post)"/><rect x="1068.4" y="208.1" width="2.8" height="20.3" rx="0.5" style="fill:var(--post)"/><rect x="1079.7" y="207.3" width="2.7" height="18.9" rx="0.4" style="fill:var(--post)"/><rect x="1089.6" y="206.5" width="2.5" height="17.7" rx="0.4" style="fill:var(--post)"/><rect x="1098.2" y="205.9" width="2.3" height="16.7" rx="0.4" style="fill:var(--post)"/><rect x="-77.75" y="306.00" width="15.50" height="146.00" rx="3.00" fill="url(#pick)"/><rect x="-75.58" y="313.30" width="1.86" height="131.40" style="fill:var(--pick-hi)" opacity=".45"/><rect x="-17.72" y="300.97" width="14.79" height="139.32" rx="3.00" fill="url(#pick)"/><rect x="-15.65" y="307.94" width="1.77" height="125.39" style="fill:var(--pick-hi)" opacity=".45"/><rect x="37.05" y="296.38" width="14.14" height="133.23" rx="3.00" fill="url(#pick)"/><rect x="39.03" y="303.04" width="1.70" height="119.91" style="fill:var(--pick-hi)" opacity=".45"/><rect x="87.24" y="292.17" width="13.55" height="127.65" rx="2.98" fill="url(#pick)"/><rect x="89.14" y="298.56" width="1.63" height="114.89" style="fill:var(--pick-hi)" opacity=".45"/><rect x="133.39" y="288.31" width="13.01" height="122.52" rx="2.86" fill="url(#pick)"/><rect x="135.21" y="294.43" width="1.56" height="110.27" style="fill:var(--pick-hi)" opacity=".45"/><rect x="175.97" y="284.74" width="12.50" height="117.78" rx="2.75" fill="url(#pick)"/><rect x="177.73" y="290.63" width="1.50" height="106.00" style="fill:var(--pick-hi)" opacity=".45"/><rect x="215.39" y="281.44" width="12.04" height="113.40" rx="2.65" fill="url(#pick)"/><rect x="217.07" y="287.11" width="1.44" height="102.06" style="fill:var(--pick-hi)" opacity=".45"/><rect x="251.97" y="278.37" width="11.61" height="109.33" rx="2.55" fill="url(#pick)"/><rect x="253.60" y="283.84" width="1.39" height="98.40" style="fill:var(--pick-hi)" opacity=".45"/><rect x="286.02" y="275.52" width="11.20" height="105.54" rx="2.47" fill="url(#pick)"/><rect x="287.59" y="280.80" width="1.34" height="94.99" style="fill:var(--pick-hi)" opacity=".45"/><rect x="317.79" y="272.86" width="10.83" height="102.01" rx="2.38" fill="url(#pick)"/><rect x="319.31" y="277.96" width="1.30" height="91.81" style="fill:var(--pick-hi)" opacity=".45"/><rect x="347.51" y="270.37" width="10.48" height="98.70" rx="2.31" fill="url(#pick)"/><rect x="348.97" y="275.30" width="1.26" height="88.83" style="fill:var(--pick-hi)" opacity=".45"/><rect x="375.35" y="268.03" width="10.15" height="95.61" rx="2.23" fill="url(#pick)"/><rect x="376.78" y="272.81" width="1.22" height="86.05" style="fill:var(--pick-hi)" opacity=".45"/><rect x="401.51" y="265.84" width="9.84" height="92.70" rx="2.17" fill="url(#pick)"/><rect x="402.89" y="270.48" width="1.18" height="83.43" style="fill:var(--pick-hi)" opacity=".45"/><rect x="426.12" y="263.78" width="9.55" height="89.96" rx="2.10" fill="url(#pick)"/><rect x="427.45" y="268.28" width="1.15" height="80.97" style="fill:var(--pick-hi)" opacity=".45"/><rect x="449.31" y="261.84" width="9.28" height="87.38" rx="2.04" fill="url(#pick)"/><rect x="450.61" y="266.20" width="1.11" height="78.64" style="fill:var(--pick-hi)" opacity=".45"/><rect x="471.22" y="260.00" width="9.02" height="84.95" rx="1.98" fill="url(#pick)"/><rect x="472.48" y="264.25" width="1.08" height="76.45" style="fill:var(--pick-hi)" opacity=".45"/><rect x="491.93" y="258.26" width="8.77" height="82.64" rx="1.93" fill="url(#pick)"/><rect x="493.16" y="262.40" width="1.05" height="74.38" style="fill:var(--pick-hi)" opacity=".45"/><rect x="511.56" y="256.62" width="8.54" height="80.46" rx="1.88" fill="url(#pick)"/><rect x="512.75" y="260.64" width="1.03" height="72.41" style="fill:var(--pick-hi)" opacity=".45"/><rect x="530.17" y="255.06" width="8.32" height="78.39" rx="1.83" fill="url(#pick)"/><rect x="531.33" y="258.98" width="1.00" height="70.55" style="fill:var(--pick-hi)" opacity=".45"/><rect x="547.85" y="253.58" width="8.11" height="76.42" rx="1.78" fill="url(#pick)"/><rect x="548.98" y="257.40" width="0.97" height="68.78" style="fill:var(--pick-hi)" opacity=".45"/><rect x="564.66" y="252.17" width="7.91" height="74.55" rx="1.74" fill="url(#pick)"/><rect x="565.77" y="255.90" width="0.95" height="67.10" style="fill:var(--pick-hi)" opacity=".45"/><rect x="580.67" y="250.83" width="7.73" height="72.77" rx="1.70" fill="url(#pick)"/><rect x="581.75" y="254.47" width="0.93" height="65.50" style="fill:var(--pick-hi)" opacity=".45"/><rect x="595.93" y="249.55" width="7.55" height="71.08" rx="1.66" fill="url(#pick)"/><rect x="596.99" y="253.10" width="0.91" height="63.97" style="fill:var(--pick-hi)" opacity=".45"/><rect x="610.50" y="248.33" width="7.37" height="69.45" rx="1.62" fill="url(#pick)"/><rect x="611.53" y="251.80" width="0.88" height="62.51" style="fill:var(--pick-hi)" opacity=".45"/><rect x="624.42" y="247.16" width="7.21" height="67.91" rx="1.59" fill="url(#pick)"/><rect x="625.43" y="250.56" width="0.87" height="61.12" style="fill:var(--pick-hi)" opacity=".45"/><rect x="637.73" y="246.05" width="7.05" height="66.43" rx="1.55" fill="url(#pick)"/><rect x="638.72" y="249.37" width="0.85" height="59.78" style="fill:var(--pick-hi)" opacity=".45"/><rect x="650.47" y="244.98" width="6.90" height="65.01" rx="1.52" fill="url(#pick)"/><rect x="651.44" y="248.23" width="0.83" height="58.51" style="fill:var(--pick-hi)" opacity=".45"/><rect x="662.68" y="243.96" width="6.76" height="63.65" rx="1.49" fill="url(#pick)"/><rect x="663.63" y="247.14" width="0.81" height="57.29" style="fill:var(--pick-hi)" opacity=".45"/><rect x="674.40" y="242.98" width="6.62" height="62.35" rx="1.46" fill="url(#pick)"/><rect x="675.32" y="246.09" width="0.80" height="56.11" style="fill:var(--pick-hi)" opacity=".45"/><rect x="685.64" y="242.03" width="6.49" height="61.10" rx="1.43" fill="url(#pick)"/><rect x="686.54" y="245.09" width="0.80" height="54.99" style="fill:var(--pick-hi)" opacity=".45"/><rect x="696.44" y="241.13" width="6.36" height="59.90" rx="1.40" fill="url(#pick)"/><rect x="697.33" y="244.12" width="0.80" height="53.91" style="fill:var(--pick-hi)" opacity=".45"/><rect x="706.82" y="240.26" width="6.24" height="58.74" rx="1.37" fill="url(#pick)"/><rect x="707.69" y="243.20" width="0.80" height="52.87" style="fill:var(--pick-hi)" opacity=".45"/><rect x="716.81" y="239.42" width="6.12" height="57.63" rx="1.35" fill="url(#pick)"/><rect x="717.67" y="242.30" width="0.80" height="51.87" style="fill:var(--pick-hi)" opacity=".45"/><rect x="726.43" y="238.62" width="6.00" height="56.56" rx="1.32" fill="url(#pick)"/><rect x="727.27" y="241.44" width="0.80" height="50.91" style="fill:var(--pick-hi)" opacity=".45"/><rect x="735.70" y="237.84" width="5.90" height="55.53" rx="1.30" fill="url(#pick)"/><rect x="736.52" y="240.61" width="0.80" height="49.98" style="fill:var(--pick-hi)" opacity=".45"/><rect x="744.63" y="237.09" width="5.79" height="54.54" rx="1.27" fill="url(#pick)"/><rect x="745.44" y="239.82" width="0.80" height="49.08" style="fill:var(--pick-hi)" opacity=".45"/><rect x="753.26" y="236.37" width="5.69" height="53.58" rx="1.25" fill="url(#pick)"/><rect x="754.05" y="239.05" width="0.80" height="48.22" style="fill:var(--pick-hi)" opacity=".45"/><rect x="761.58" y="235.67" width="5.59" height="52.65" rx="1.23" fill="url(#pick)"/><rect x="762.36" y="238.30" width="0.80" height="47.39" style="fill:var(--pick-hi)" opacity=".45"/><rect x="769.62" y="235.00" width="5.49" height="51.76" rx="1.21" fill="url(#pick)"/><rect x="770.39" y="237.58" width="0.80" height="46.58" style="fill:var(--pick-hi)" opacity=".45"/><rect x="777.40" y="234.34" width="5.40" height="50.89" rx="1.19" fill="url(#pick)"/><rect x="778.15" y="236.89" width="0.80" height="45.80" style="fill:var(--pick-hi)" opacity=".45"/><rect x="784.91" y="233.71" width="5.31" height="50.06" rx="1.17" fill="url(#pick)"/><rect x="785.66" y="236.22" width="0.80" height="45.05" style="fill:var(--pick-hi)" opacity=".45"/><rect x="792.19" y="233.10" width="5.23" height="49.25" rx="1.15" fill="url(#pick)"/><rect x="792.92" y="235.57" width="0.80" height="44.32" style="fill:var(--pick-hi)" opacity=".45"/><rect x="799.23" y="232.51" width="5.15" height="48.46" rx="1.13" fill="url(#pick)"/><rect x="799.95" y="234.94" width="0.80" height="43.62" style="fill:var(--pick-hi)" opacity=".45"/><rect x="806.06" y="231.94" width="5.06" height="47.71" rx="1.11" fill="url(#pick)"/><rect x="806.76" y="234.33" width="0.80" height="42.94" style="fill:var(--pick-hi)" opacity=".45"/><rect x="812.67" y="231.39" width="4.99" height="46.97" rx="1.10" fill="url(#pick)"/><rect x="819.08" y="230.85" width="4.91" height="46.26" rx="1.08" fill="url(#pick)"/><rect x="825.30" y="230.33" width="4.84" height="45.57" rx="1.06" fill="url(#pick)"/><rect x="831.34" y="229.82" width="4.77" height="44.89" rx="1.05" fill="url(#pick)"/><rect x="837.20" y="229.33" width="4.70" height="44.24" rx="1.03" fill="url(#pick)"/><rect x="842.89" y="228.86" width="4.63" height="43.61" rx="1.02" fill="url(#pick)"/><rect x="848.42" y="228.39" width="4.56" height="42.99" rx="1.00" fill="url(#pick)"/><rect x="853.80" y="227.94" width="4.50" height="42.40" rx="0.99" fill="url(#pick)"/><rect x="859.03" y="227.50" width="4.44" height="41.81" rx="0.98" fill="url(#pick)"/><rect x="864.12" y="227.08" width="4.38" height="41.25" rx="0.96" fill="url(#pick)"/><rect x="869.08" y="226.66" width="4.32" height="40.70" rx="0.95" fill="url(#pick)"/><rect x="873.90" y="226.26" width="4.26" height="40.16" rx="0.94" fill="url(#pick)"/><rect x="878.60" y="225.86" width="4.21" height="39.64" rx="0.93" fill="url(#pick)"/><rect x="883.17" y="225.48" width="4.15" height="39.13" rx="0.91" fill="url(#pick)"/><rect x="887.64" y="225.11" width="4.10" height="38.63" rx="0.90" fill="url(#pick)"/><rect x="891.98" y="224.74" width="4.05" height="38.15" rx="0.89" fill="url(#pick)"/><rect x="896.23" y="224.39" width="4.00" height="37.68" rx="0.88" fill="url(#pick)"/><rect x="900.36" y="224.04" width="3.95" height="37.22" rx="0.87" fill="url(#pick)"/><rect x="904.40" y="223.70" width="3.90" height="36.77" rx="0.86" fill="url(#pick)"/><rect x="908.34" y="223.37" width="3.86" height="36.33" rx="0.85" fill="url(#pick)"/><rect x="912.19" y="223.05" width="3.81" height="35.90" rx="0.84" fill="url(#pick)"/><rect x="915.95" y="222.73" width="3.77" height="35.48" rx="0.83" fill="url(#pick)"/><rect x="919.62" y="222.43" width="3.72" height="35.08" rx="0.82" fill="url(#pick)"/><rect x="923.21" y="222.13" width="3.68" height="34.68" rx="0.81" fill="url(#pick)"/><rect x="926.72" y="221.83" width="3.64" height="34.29" rx="0.80" fill="url(#pick)"/><rect x="930.15" y="221.54" width="3.60" height="33.90" rx="0.79" fill="url(#pick)"/><rect x="933.51" y="221.26" width="3.56" height="33.53" rx="0.78" fill="url(#pick)"/><rect x="936.79" y="220.99" width="3.52" height="33.17" rx="0.77" fill="url(#pick)"/><rect x="940.00" y="220.72" width="3.48" height="32.81" rx="0.77" fill="url(#pick)"/><rect x="943.14" y="220.46" width="3.45" height="32.46" rx="0.76" fill="url(#pick)"/><rect x="946.22" y="220.20" width="3.41" height="32.12" rx="0.75" fill="url(#pick)"/><rect x="949.23" y="219.95" width="3.37" height="31.78" rx="0.74" fill="url(#pick)"/><rect x="952.18" y="219.70" width="3.34" height="31.45" rx="0.73" fill="url(#pick)"/><rect x="955.07" y="219.46" width="3.31" height="31.13" rx="0.73" fill="url(#pick)"/><rect x="957.90" y="219.22" width="3.27" height="30.82" rx="0.72" fill="url(#pick)"/><rect x="960.68" y="218.99" width="3.24" height="30.51" rx="0.71" fill="url(#pick)"/><rect x="963.40" y="218.76" width="3.21" height="30.21" rx="0.71" fill="url(#pick)"/><rect x="966.06" y="218.54" width="3.18" height="29.91" rx="0.70" fill="url(#pick)"/><rect x="968.68" y="218.32" width="3.14" height="29.62" rx="0.69" fill="url(#pick)"/><rect x="971.24" y="218.10" width="3.11" height="29.33" rx="0.69" fill="url(#pick)"/><rect x="973.76" y="217.89" width="3.08" height="29.05" rx="0.68" fill="url(#pick)"/><rect x="976.22" y="217.68" width="3.06" height="28.78" rx="0.67" fill="url(#pick)"/><rect x="978.65" y="217.48" width="3.03" height="28.51" rx="0.67" fill="url(#pick)"/><rect x="981.02" y="217.28" width="3.00" height="28.25" rx="0.66" fill="url(#pick)"/><rect x="983.35" y="217.09" width="2.97" height="27.99" rx="0.65" fill="url(#pick)"/><rect x="985.65" y="216.89" width="2.94" height="27.73" rx="0.65" fill="url(#pick)"/><rect x="987.89" y="216.71" width="2.92" height="27.48" rx="0.64" fill="url(#pick)"/><rect x="990.10" y="216.52" width="2.89" height="27.24" rx="0.64" fill="url(#pick)"/><rect x="992.27" y="216.34" width="2.87" height="27.00" rx="0.63" fill="url(#pick)"/><rect x="994.40" y="216.16" width="2.84" height="26.76" rx="0.62" fill="url(#pick)"/><rect x="996.50" y="215.98" width="2.82" height="26.53" rx="0.62" fill="url(#pick)"/><rect x="998.56" y="215.81" width="2.79" height="26.30" rx="0.61" fill="url(#pick)"/><rect x="1000.58" y="215.64" width="2.77" height="26.07" rx="0.61" fill="url(#pick)"/><rect x="1002.57" y="215.48" width="2.74" height="25.85" rx="0.60" fill="url(#pick)"/><rect x="1004.52" y="215.31" width="2.72" height="25.63" rx="0.60" fill="url(#pick)"/><rect x="1006.45" y="215.15" width="2.70" height="25.42" rx="0.59" fill="url(#pick)"/><rect x="1008.34" y="214.99" width="2.68" height="25.21" rx="0.59" fill="url(#pick)"/><rect x="1010.20" y="214.84" width="2.65" height="25.00" rx="0.58" fill="url(#pick)"/><rect x="1012.03" y="214.68" width="2.63" height="24.80" rx="0.58" fill="url(#pick)"/><rect x="1013.83" y="214.53" width="2.61" height="24.60" rx="0.57" fill="url(#pick)"/><rect x="1015.60" y="214.38" width="2.59" height="24.40" rx="0.57" fill="url(#pick)"/><rect x="1017.34" y="214.24" width="2.57" height="24.21" rx="0.57" fill="url(#pick)"/><rect x="1019.06" y="214.09" width="2.55" height="24.02" rx="0.56" fill="url(#pick)"/><rect x="1020.75" y="213.95" width="2.53" height="23.83" rx="0.56" fill="url(#pick)"/><rect x="1022.41" y="213.81" width="2.51" height="23.64" rx="0.55" fill="url(#pick)"/><rect x="1024.05" y="213.68" width="2.49" height="23.46" rx="0.55" fill="url(#pick)"/><rect x="1025.66" y="213.54" width="2.47" height="23.28" rx="0.54" fill="url(#pick)"/><rect x="1027.25" y="213.41" width="2.45" height="23.11" rx="0.54" fill="url(#pick)"/><rect x="1028.81" y="213.28" width="2.43" height="22.93" rx="0.54" fill="url(#pick)"/><rect x="1030.35" y="213.15" width="2.42" height="22.76" rx="0.53" fill="url(#pick)"/><rect x="1031.87" y="213.02" width="2.40" height="22.59" rx="0.53" fill="url(#pick)"/><rect x="1033.36" y="212.90" width="2.38" height="22.43" rx="0.52" fill="url(#pick)"/><rect x="1034.83" y="212.77" width="2.36" height="22.26" rx="0.52" fill="url(#pick)"/><rect x="1036.29" y="212.65" width="2.35" height="22.10" rx="0.52" fill="url(#pick)"/><rect x="1037.72" y="212.53" width="2.33" height="21.94" rx="0.51" fill="url(#pick)"/><rect x="1039.13" y="212.41" width="2.31" height="21.78" rx="0.51" fill="url(#pick)"/><rect x="1040.52" y="212.30" width="2.30" height="21.63" rx="0.51" fill="url(#pick)"/><rect x="1041.89" y="212.18" width="2.28" height="21.48" rx="0.50" fill="url(#pick)"/><rect x="1043.24" y="212.07" width="2.26" height="21.33" rx="0.50" fill="url(#pick)"/><rect x="1044.57" y="211.96" width="2.25" height="21.18" rx="0.49" fill="url(#pick)"/><rect x="1045.89" y="211.85" width="2.23" height="21.03" rx="0.49" fill="url(#pick)"/><rect x="1047.18" y="211.74" width="2.22" height="20.89" rx="0.49" fill="url(#pick)"/><rect x="1048.46" y="211.63" width="2.20" height="20.75" rx="0.48" fill="url(#pick)"/><rect x="1049.73" y="211.52" width="2.19" height="20.61" rx="0.48" fill="url(#pick)"/><rect x="1050.97" y="211.42" width="2.17" height="20.47" rx="0.48" fill="url(#pick)"/><rect x="1052.20" y="211.32" width="2.16" height="20.33" rx="0.47" fill="url(#pick)"/><rect x="1053.41" y="211.22" width="2.14" height="20.20" rx="0.47" fill="url(#pick)"/><rect x="1054.60" y="211.12" width="2.13" height="20.06" rx="0.47" fill="url(#pick)"/><rect x="1055.78" y="211.02" width="2.12" height="19.93" rx="0.47" fill="url(#pick)"/><rect x="1056.95" y="210.92" width="2.10" height="19.80" rx="0.46" fill="url(#pick)"/><rect x="1058.10" y="210.82" width="2.09" height="19.67" rx="0.46" fill="url(#pick)"/><rect x="1059.23" y="210.73" width="2.08" height="19.55" rx="0.46" fill="url(#pick)"/><rect x="1060.35" y="210.63" width="2.06" height="19.42" rx="0.45" fill="url(#pick)"/><rect x="1061.46" y="210.54" width="2.05" height="19.30" rx="0.45" fill="url(#pick)"/><rect x="1062.55" y="210.45" width="2.04" height="19.18" rx="0.45" fill="url(#pick)"/><rect x="1063.63" y="210.36" width="2.02" height="19.06" rx="0.45" fill="url(#pick)"/><rect x="1064.70" y="210.27" width="2.01" height="18.94" rx="0.44" fill="url(#pick)"/><rect x="1065.75" y="210.18" width="2.00" height="18.82" rx="0.44" fill="url(#pick)"/><rect x="1066.79" y="210.10" width="1.99" height="18.71" rx="0.44" fill="url(#pick)"/><rect x="1067.82" y="210.01" width="1.97" height="18.59" rx="0.43" fill="url(#pick)"/><rect x="1068.83" y="209.92" width="1.96" height="18.48" rx="0.43" fill="url(#pick)"/><rect x="1069.83" y="209.84" width="1.95" height="18.37" rx="0.43" fill="url(#pick)"/><rect x="1070.82" y="209.76" width="1.94" height="18.26" rx="0.43" fill="url(#pick)"/><rect x="1071.80" y="209.68" width="1.93" height="18.15" rx="0.42" fill="url(#pick)"/><rect x="1072.77" y="209.59" width="1.92" height="18.04" rx="0.42" fill="url(#pick)"/><rect x="1073.72" y="209.51" width="1.90" height="17.94" rx="0.42" fill="url(#pick)"/><rect x="1074.66" y="209.44" width="1.89" height="17.83" rx="0.42" fill="url(#pick)"/><rect x="1075.60" y="209.36" width="1.88" height="17.73" rx="0.41" fill="url(#pick)"/><rect x="1076.52" y="209.28" width="1.87" height="17.63" rx="0.41" fill="url(#pick)"/><rect x="1077.43" y="209.20" width="1.86" height="17.52" rx="0.41" fill="url(#pick)"/><rect x="1078.33" y="209.13" width="1.85" height="17.42" rx="0.41" fill="url(#pick)"/><rect x="1079.22" y="209.05" width="1.84" height="17.33" rx="0.40" fill="url(#pick)"/><rect x="1080.10" y="208.98" width="1.83" height="17.23" rx="0.40" fill="url(#pick)"/><rect x="1080.97" y="208.91" width="1.82" height="17.13" rx="0.40" fill="url(#pick)"/><rect x="1081.84" y="208.83" width="1.81" height="17.03" rx="0.40" fill="url(#pick)"/><rect x="1082.69" y="208.76" width="1.80" height="16.94" rx="0.40" fill="url(#pick)"/><rect x="1083.53" y="208.69" width="1.79" height="16.85" rx="0.39" fill="url(#pick)"/><rect x="1084.36" y="208.62" width="1.78" height="16.75" rx="0.39" fill="url(#pick)"/><rect x="1085.19" y="208.55" width="1.77" height="16.66" rx="0.39" fill="url(#pick)"/><rect x="1086.00" y="208.49" width="1.76" height="16.57" rx="0.39" fill="url(#pick)"/><rect x="1086.81" y="208.42" width="1.75" height="16.48" rx="0.38" fill="url(#pick)"/><rect x="1087.60" y="208.35" width="1.74" height="16.39" rx="0.38" fill="url(#pick)"/><rect x="1088.39" y="208.28" width="1.73" height="16.31" rx="0.38" fill="url(#pick)"/><rect x="1089.17" y="208.22" width="1.72" height="16.22" rx="0.38" fill="url(#pick)"/><rect x="1089.94" y="208.15" width="1.71" height="16.13" rx="0.38" fill="url(#pick)"/><rect x="1090.71" y="208.09" width="1.70" height="16.05" rx="0.37" fill="url(#pick)"/><rect x="1091.46" y="208.03" width="1.69" height="15.96" rx="0.37" fill="url(#pick)"/><rect x="1092.21" y="207.96" width="1.69" height="15.88" rx="0.37" fill="url(#pick)"/><rect x="1092.95" y="207.90" width="1.68" height="15.80" rx="0.37" fill="url(#pick)"/><rect x="1093.69" y="207.84" width="1.67" height="15.72" rx="0.37" fill="url(#pick)"/><rect x="1094.41" y="207.78" width="1.66" height="15.64" rx="0.37" fill="url(#pick)"/><rect x="1095.13" y="207.72" width="1.65" height="15.56" rx="0.36" fill="url(#pick)"/><rect x="1095.84" y="207.66" width="1.64" height="15.48" rx="0.36" fill="url(#pick)"/><rect x="1096.54" y="207.60" width="1.63" height="15.40" rx="0.36" fill="url(#pick)"/><rect x="1097.24" y="207.54" width="1.63" height="15.32" rx="0.36" fill="url(#pick)"/><rect x="1097.93" y="207.49" width="1.62" height="15.24" rx="0.36" fill="url(#pick)"/><rect x="1098.61" y="207.43" width="1.61" height="15.17" rx="0.35" fill="url(#pick)"/><rect x="1099.29" y="207.37" width="1.60" height="15.09" rx="0.35" fill="url(#pick)"/><rect x="1099.95" y="207.32" width="1.59" height="15.02" rx="0.35" fill="url(#pick)"/><rect x="1100.62" y="207.26" width="1.59" height="14.95" rx="0.35" fill="url(#pick)"/><rect x="1101.27" y="207.21" width="1.58" height="14.87" rx="0.35" fill="url(#pick)"/><rect x="1101.92" y="207.15" width="1.57" height="14.80" rx="0.35" fill="url(#pick)"/><rect x="1102.57" y="207.10" width="1.56" height="14.73" rx="0.34" fill="url(#pick)"/><rect x="1103.20" y="207.04" width="1.56" height="14.66" rx="0.34" fill="url(#pick)"/><rect x="1103.83" y="206.99" width="1.55" height="14.59" rx="0.34" fill="url(#pick)"/><rect x="1104.46" y="206.94" width="1.54" height="14.52" rx="0.34" fill="url(#pick)"/><path d="M-20 408 C 200 396, 430 416, 700 404 C 940 394, 1120 412, 1280 400 L1280 430 L-20 430 Z" style="fill:var(--grass)"/><path d="M-10.0 424 q 0.0 -4.2 0.0 -7.0" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M12.5 424 q 1.7 -7.2 3.1 -12.0" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M20.0 424 q 1.8 -3.4 2.8 -5.7" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M47.5 424 q 0.3 -1.4 -0.6 -2.4" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M63.3 424 q -1.5 -5.7 -3.3 -9.5" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M74.7 424 q -1.9 -6.6 -2.5 -11.0" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M103.7 424 q -0.6 -2.1 1.1 -3.5" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M113.7 424 q 1.3 -2.3 3.5 -3.9" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M131.4 424 q 2.0 -6.8 2.0 -11.3" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M157.8 424 q 0.8 -5.4 -1.6 -9.0" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M164.9 424 q -1.1 -1.3 -3.5 -2.2" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M189.0 424 q -2.0 -3.8 -1.6 -6.3" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M209.7 424 q -1.1 -7.2 2.1 -12.0" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M218.0 424 q 0.8 -3.9 3.5 -6.5" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M246.2 424 q 2.0 -1.3 1.1 -2.1" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M260.3 424 q 1.3 -5.3 -2.5 -8.8" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M273.3 424 q -0.6 -6.8 -3.3 -11.4" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M301.9 424 q -1.9 -2.4 -0.5 -4.1" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M310.8 424 q -1.5 -2.0 2.8 -3.4" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M330.3 424 q 0.3 -6.5 3.1 -10.9" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M355.4 424 q 1.8 -5.8 -0.0 -9.6" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M362.5 424 q 1.7 -1.5 -3.1 -2.5" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M388.0 424 q -0.0 -3.3 -2.8 -5.5" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M406.9 424 q -1.7 -7.2 0.6 -11.9" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M416.1 424 q -1.8 -4.3 3.3 -7.2" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M444.9 424 q -0.3 -1.2 2.4 -2.0" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M457.3 424 q 1.5 -4.8 -1.1 -8.1" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M472.0 424 q 1.9 -7.0 -3.5 -11.7" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M500.0 424 q 0.5 -2.8 -2.0 -4.7" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M508.0 424 q -1.3 -1.7 1.6 -2.9" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M529.3 424 q -2.0 -6.2 3.5 -10.4" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M552.9 424 q -0.8 -6.1 1.5 -10.2" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M560.2 424 q 1.1 -1.7 -2.1 -2.8" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M586.9 424 q 2.0 -2.9 -3.4 -4.8" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M604.0 424 q 1.1 -7.0 -1.0 -11.7" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M614.4 424 q -0.9 -4.8 2.5 -7.9" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M643.4 424 q -2.0 -1.2 3.3 -2.0" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M654.4 424 q -1.3 -4.4 0.5 -7.3" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M670.8 424 q 0.6 -7.1 -2.9 -11.9" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M697.9 424 q 1.9 -3.2 -3.1 -5.4" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M705.3 424 q 1.5 -1.5 0.1 -2.5" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M728.3 424 q -0.3 -5.9 3.1 -9.8" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M750.3 424 q -1.8 -6.5 2.8 -10.8" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M758.0 424 q -1.7 -2.0 -0.6 -3.3" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M785.7 424 q 0.0 -2.5 -3.3 -4.2" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M801.0 424 q 1.7 -6.9 -2.4 -11.5" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M812.9 424 q 1.8 -5.2 1.1 -8.7" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M841.8 424 q 0.2 -1.3 3.5 -2.1" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M851.4 424 q -1.5 -4.0 2.0 -6.6" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M869.7 424 q -1.9 -7.2 -1.7 -12.0" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M895.7 424 q -0.5 -3.7 -3.5 -6.1" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M902.8 424 q 1.3 -1.3 -1.5 -2.2" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M927.3 424 q 2.0 -5.5 2.1 -9.1" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M947.5 424 q 0.8 -6.7 3.4 -11.2" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M956.0 424 q -1.1 -2.3 1.0 -3.8" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M984.5 424 q -2.0 -2.2 -2.5 -3.6" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M998.0 424 q -1.0 -6.6 -3.3 -11.1" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M1011.5 424 q 0.9 -5.6 -0.5 -9.4" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M1040.0 424 q 2.0 -1.4 2.9 -2.3" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M1048.6 424 q 1.3 -3.5 3.1 -5.9" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M1068.6 424 q -0.6 -7.2 -0.1 -12.0" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M1093.3 424 q -1.9 -4.1 -3.2 -6.9" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M1100.3 424 q -1.5 -1.2 -2.8 -2.1" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M1126.3 424 q 0.3 -5.0 0.6 -8.4" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M1144.6 424 q 1.8 -6.9 3.4 -11.6" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M1154.2 424 q 1.7 -2.6 2.4 -4.4" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M1183.1 424 q -0.1 -1.9 -1.2 -3.1" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M1195.0 424 q -1.7 -6.4 -3.5 -10.6" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M1210.2 424 q -1.8 -6.0 -2.0 -10.0" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/><path d="M1238.0 424 q -0.2 -1.6 1.7 -2.6" fill="none" style="stroke:var(--grass-2)" stroke-width="1.8" stroke-linecap="round" opacity=".75"/></svg>
+  <div class="hero-in">
+    <div>
+      <h1>Поставим забор под ключ <em class="b" style="white-space:nowrap">за 3 дня</em> и сэкономим <span class="hl">до 47 000 ₽</span> — за счёт собственного цеха профлиста в Дмитрове</h1>
+      <p class="lead">Пройдите тест за 1 минуту — узнаете стоимость по вашим параметрам и получите смету в трёх вариантах: эконом, оптимум, премиум.</p>
+      <ul class="bullets">
+        <li>Цена фиксируется в договоре — за грунт, уклон и погоду вы не доплачиваете</li>
+        <li>7 лет гарантии на монтаж и 12 лет на покрытие от сквозной коррозии</li>
+        <li>Прораб присылает фото и видео с объекта каждый день в 18:00</li>
+        <li>1 843 объекта за 12 лет в Москве и области до 90 км от МКАД</li>
+      </ul>
+      <div class="hero-cta">
+        <button class="btn btn--accent btn--lg" type="button" data-goquiz>
+          Рассчитать стоимость забора
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+        </button>
+        <span class="note" style="margin:0">6 вопросов · 1 минута<br>Не звоним, пока вы не оставите номер</span>
+      </div>
+    </div>
+
+    <!-- ФОТО (в продакшене): репортажный кадр — бригада ставит евроштакетник, ямобур в кадре.
+         Пока фото нет — схема расчёта участка. -->
+    <div class="plan">
+      <div class="plan-head"><span>План участка · расчёт</span><b>42 × 27 м</b></div>
+      <figure><svg viewBox="0 0 520 400" role="img" aria-label="Схема участка: периметр 42 на 27 метров, дом, откатные ворота">
+<defs><pattern id="gp" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M26 0H0V26" fill="none" style="stroke:var(--line)" stroke-width="1"/></pattern></defs>
+<rect width="520" height="400" fill="url(#gp)" opacity=".9"/>
+<rect x="70" y="70" width="380" height="250" rx="4" style="fill:var(--brand-soft)" opacity=".7"/>
+<rect x="196" y="150" width="140" height="96" rx="3" style="fill:var(--surface-2); stroke:var(--line-2)" stroke-width="1.5"/>
+<text x="266" y="203" text-anchor="middle" style="fill:var(--ink-2)" font-family="ui-monospace,Menlo,monospace" font-size="12" letter-spacing="1.5">ДОМ</text>
+<path d="M70 320 L70 70 L450 70 L450 320 L318 320 M240 320 L70 320" fill="none" style="stroke:var(--brand)" stroke-width="3.4" stroke-linejoin="round"/>
+<path d="M70 320 L70 70 L450 70 L450 320 L318 320 M240 320 L70 320" fill="none" style="stroke:var(--brand)" stroke-width="9" stroke-linecap="round" stroke-dasharray="0 26"/>
+<path d="M240 320 L318 320" fill="none" style="stroke:var(--accent)" stroke-width="3.4" stroke-dasharray="7 5"/>
+<path d="M246 338 L318 338 M252 333 L246 338 L252 343" fill="none" style="stroke:var(--accent)" stroke-width="1.6" stroke-linecap="round"/>
+<text x="352" y="343" style="fill:var(--accent)" font-family="ui-monospace,Menlo,monospace" font-size="11" letter-spacing="1">ВОРОТА 3,8 м</text>
+<path d="M70 372 L450 372 M70 366 L70 378 M450 366 L450 378" fill="none" style="stroke:var(--ink-2)" stroke-width="1"/>
+<rect x="226" y="361" width="68" height="22" rx="4" style="fill:var(--surface)"/>
+<text x="260" y="376" text-anchor="middle" style="fill:var(--ink)" font-family="ui-monospace,Menlo,monospace" font-size="13" font-weight="600">42 м</text>
+<path d="M484 70 L484 320 M478 70 L490 70 M478 320 L490 320" fill="none" style="stroke:var(--ink-2)" stroke-width="1"/>
+<rect x="468" y="181" width="32" height="28" rx="4" style="fill:var(--surface)"/>
+<text x="484" y="200" text-anchor="middle" style="fill:var(--ink)" font-family="ui-monospace,Menlo,monospace" font-size="13" font-weight="600">27</text>
+<path d="M28 96 L28 300" fill="none" style="stroke:var(--line-2)" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="22" y="204" text-anchor="middle" transform="rotate(-90 22 204)" style="fill:var(--ink-2)" font-family="ui-monospace,Menlo,monospace" font-size="11" letter-spacing="1">УКЛОН 8°</text>
+</svg></figure>
+      <figcaption>Так выглядит расчёт после теста: периметр, ворота, уклон и стоимость в трёх вариантах.</figcaption>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ЦИФРЫ ================= -->
+<section class="sec" style="padding-top:clamp(34px,4vw,56px); padding-bottom:0">
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat rv"><b><span data-count="12">0</span> лет</b><span>на рынке Москвы и области</span></div>
+      <div class="stat rv rv-2"><b><span data-count="1843">0</span></b><span>сданных объектов</span></div>
+      <div class="stat rv rv-3"><b><span data-count="9">0</span> бригад</b><span>монтажников в штате</span></div>
+      <div class="stat rv rv-4"><b><span data-count="7">0</span> лет</b><span>гарантии на монтаж</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02. БОЛЬ ================= -->
+<section class="sec">
+  <div class="wrap">
+    <p class="chip rv">Что обычно происходит</p>
+    <h2 class="rv">Забор — та работа, где сюрпризы вылезают уже после предоплаты</h2>
+    <div class="pains">
+      <div class="pain rv"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 16.5v.5"/><circle cx="12" cy="12" r="9"/></svg><q>По телефону посчитали 180 000, а в договоре появилось 260 000: грунт не тот, доставка отдельно, ворота отдельно</q></div>
+      <div class="pain rv rv-2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 16.5v.5"/><circle cx="12" cy="12" r="9"/></svg><q>Бригада взяла 50% предоплаты, поставила столбы и пропала на две недели. Телефон в сети, трубку не берут</q></div>
+      <div class="pain rv"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 16.5v.5"/><circle cx="12" cy="12" r="9"/></svg><q>На склоне секции поставили «на глаз» — линия пошла волной, снизу щели по 15 сантиметров</q></div>
+      <div class="pain rv rv-2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 16.5v.5"/><circle cx="12" cy="12" r="9"/></svg><q>Первая же зима: столбы выдавило из грунта, калитка перестала закрываться</q></div>
+      <div class="pain pain--wide rv"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><q>Так устроен рынок заборов: считает менеджер, ставит случайная бригада, отвечать некому. Мы 12 лет собираем компанию, в которой эта цепочка замкнута на нас</q></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03. РЕШЕНИЕ ================= -->
+<section class="sec sec--tint">
+  <div class="wrap">
+    <p class="chip rv">Как устроен «Периметр»</p>
+    <h2 class="rv">Три вещи, из-за которых у нас так не бывает</h2>
+    <div class="grid g-3" style="margin-top:40px">
+      <div class="card rv"><span class="tag">СВОЙ ЦЕХ</span><h3>Гнём профлист сами</h3><p>Производство в Дмитрове: гибка, покраска, сварка секций. Между заводом металла и вашим участком нет ни одного посредника — это минус 18% к стоимости материала.</p></div>
+      <div class="card rv rv-2"><span class="tag">ШТАТ</span><h3>Монтажники в штате, а не на подряде</h3><p>9 бригад оформлены в ООО «Периметр». Пропасть с вашей предоплатой некому: за сроки и качество отвечает юрлицо, а не человек с объявления.</p></div>
+      <div class="card rv rv-3"><span class="tag">ДОГОВОР</span><h3>Сначала смета, потом договор</h3><p>Замерщик считает на месте всё: метраж, ворота, калитку, тип грунта, уклон. Цена уходит в договор и после подписания не меняется — ни на рубль.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04. ВЫГОДЫ ================= -->
+<section class="sec">
+  <div class="wrap">
+    <p class="chip rv">Что вы получаете</p>
+    <h2 class="rv">Выгода — и за счёт чего она возможна</h2>
+    <div class="grid g-2" style="margin-top:44px; gap:36px 52px">
+      <div class="ben rv"><div class="ben-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M7 7h7a3 3 0 010 6H7m0 5h10"/></svg></div><div><h3>Экономия до 47 000 ₽ на заборе 60 метров</h3><p>За счёт того, что профлист гнём в своём цехе и везём своим транспортом — вы не оплачиваете наценку перекупщика и стороннюю логистику.</p></div></div>
+      <div class="ben rv rv-2"><div class="ben-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.4 2"/></svg></div><div><h3>Монтаж за 3 дня вместо 2–3 недель</h3><p>За счёт 9 бригад в штате и собственной доставки: столбы ставим в первый день, секции и ворота — во второй и третий.</p></div></div>
+      <div class="ben rv"><div class="ben-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M8 12l4 4 4-4M4 21h16"/></svg></div><div><h3>Столбы не выдавит после первой зимы</h3><p>За счёт бурения ямобуром на 1,5 м — ниже глубины промерзания — с забутовкой щебнем. Забитый кувалдой на 80 см столб выпирает уже к марту.</p></div></div>
+      <div class="ben rv rv-2"><div class="ben-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8M3 21h18"/></svg></div><div><h3>Ровная линия на уклоне до 15°</h3><p>За счёт монтажа секций «лесенкой» с шагом 20 см по нивелиру. Просветы у земли закрываем подпорной планкой — собака не подкопает.</p></div></div>
+      <div class="ben rv"><div class="ben-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M18.8 5.2l-2.1 2.1M7.3 16.7l-2.1 2.1"/><circle cx="12" cy="12" r="3.6"/></svg></div><div><h3>Ставим и в −20 °C, не откладывая до мая</h3><p>За счёт ямобура на базе ГАЗона: мёрзлый грунт он проходит так же, как летний. Зимой у нас нет очереди — и цена ниже сезонной.</p></div></div>
+      <div class="ben rv rv-2"><div class="ben-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6.5" width="18" height="13" rx="2.5"/><circle cx="12" cy="13" r="3.2"/><path d="M8.5 6.5L10 4h4l1.5 2.5"/></svg></div><div><h3>Видите каждый этап, не приезжая на участок</h3><p>Прораб присылает фото и видео в 18:00 — включая скрытые работы: глубину лунок, бетонирование, узлы креплений. Всё складывается в паспорт объекта.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 05. КВИЗ ================= -->
+<section class="sec sec--tint" id="quiz">
+  <div class="wrap">
+    <p class="chip rv">Расчёт стоимости</p>
+    <h2 class="rv">Узнайте стоимость своего забора за 1 минуту</h2>
+    <p class="lead rv">Шесть вопросов — и инженер пришлёт смету в трёх вариантах плюс чек-лист «7 пунктов договора, из-за которых цена вырастает уже на монтаже».</p>
+
+    <div class="quiz rv">
+      <div class="qhead">
+        <div class="qmeta"><span id="qLabel">Шаг 1 из 7</span><b id="qPct">14%</b></div>
+        <div class="qbar"><i id="qFill"></i></div>
+      </div>
+
+      <div class="qbody" id="qBody">
+        <section class="qstep on" data-step="1">
+          <h3>Что будем ограждать?</h3>
+          <p class="qsub">Начнём с простого — от этого зависит высота и тип секций.</p>
+          <div class="opts" data-single>
+            <button class="opt" type="button">Дом в коттеджном посёлке</button>
+            <button class="opt" type="button">Дачный участок</button>
+            <button class="opt" type="button">Участок без построек</button>
+            <button class="opt" type="button">Объект организации, стройплощадка</button>
+            <button class="opt wide soft" type="button">Пока не решил — нужна консультация</button>
+          </div>
+        </section>
+        <section class="qstep" data-step="2">
+          <h3>Какой материал рассматриваете?</h3>
+          <p class="qsub">Если сомневаетесь — выберите последний пункт, инженер подберёт под задачу и бюджет.</p>
+          <div class="opts" data-single>
+            <button class="opt" type="button">Профнастил</button>
+            <button class="opt" type="button">Евроштакетник</button>
+            <button class="opt" type="button">3D-сетка</button>
+            <button class="opt" type="button">Сетка-рабица</button>
+            <button class="opt" type="button">Забор-жалюзи</button>
+            <button class="opt soft" type="button">Не знаю — подберите</button>
+          </div>
+        </section>
+        <section class="qstep" data-step="3">
+          <h3>Какой примерно периметр участка?</h3>
+          <p class="qsub">Двигайте ползунок. Точный метраж замерщик уточнит на месте — сейчас нужна вилка.</p>
+          <div class="slide-val"><span id="mVal">60</span><small>погонных метров</small></div>
+          <input type="range" class="rng" id="meters" min="20" max="300" step="5" value="60" aria-label="Периметр участка в метрах">
+          <div class="range-legend"><span>20 м</span><span>300 м</span></div>
+          <label class="check" style="margin-top:20px"><input type="checkbox" id="mUnknown"> Не знаю точно — посчитайте на замере</label>
+          <button class="btn btn--accent" type="button" style="margin-top:20px" data-next>Далее</button>
+        </section>
+        <section class="qstep" data-step="4">
+          <h3>Какой рельеф на участке?</h3>
+          <p class="qsub">От этого зависит, ставим секции в линию или «лесенкой» по нивелиру.</p>
+          <div class="opts" data-single>
+            <button class="opt" type="button">Ровный</button>
+            <button class="opt" type="button">Небольшой уклон</button>
+            <button class="opt" type="button">Сильный перепад, овраг</button>
+            <button class="opt soft" type="button">Не знаю</button>
+          </div>
+        </section>
+        <section class="qstep" data-step="5">
+          <h3>Когда планируете ставить?</h3>
+          <p class="qsub">На ближайшие две недели у нас держится резерв бригад — скажем честно, есть ли окно.</p>
+          <div class="opts" data-single>
+            <button class="opt" type="button">В ближайшие 2 недели</button>
+            <button class="opt" type="button">В этом месяце</button>
+            <button class="opt" type="button">Через 1–2 месяца</button>
+            <button class="opt soft" type="button">Считаю бюджет на будущее</button>
+          </div>
+        </section>
+        <section class="qstep" data-step="6">
+          <h3>Куда отправить смету в трёх вариантах?</h3>
+          <p class="qsub">Можно выбрать несколько способов — как вам удобнее.</p>
+          <div class="checks">
+            <label class="check"><input type="checkbox" value="WhatsApp"> WhatsApp</label>
+            <label class="check"><input type="checkbox" value="Telegram"> Telegram</label>
+            <label class="check"><input type="checkbox" value="SMS"> SMS</label>
+            <label class="check on"><input type="checkbox" value="Консультация по телефону" checked> Бесплатная консультация по телефону — хочу узнать про акции этого месяца</label>
+          </div>
+          <button class="btn btn--accent" type="button" style="margin-top:20px" data-next>Далее</button>
+        </section>
+        <section class="qstep" data-step="7">
+          <h3>Готово — смета собрана</h3>
+          <p class="qsub">Осталось указать номер. Инженер пришлёт три варианта стоимости и чек-лист по договору, а на замер приедет только если вы этого захотите.</p>
+          <label class="field">
+            <span>Номер, на который отправить смету. За ним закрепляем скидку и чек-лист</span>
+            <input type="tel" id="phone" placeholder="+7 900 000-00-00" autocomplete="tel" inputmode="tel">
+          </label>
+          <label class="consent"><input type="checkbox" id="agree"> Согласен на обработку персональных данных и принимаю <a href="#privacy">условия передачи информации</a></label>
+          <p class="err" id="qErr">Проверьте номер: нужно не меньше 10 цифр, и поставьте галочку согласия.</p>
+          <button class="btn btn--accent btn--lg btn--block" type="button" style="margin-top:20px" id="qSubmit">Получить смету в 3 вариантах</button>
+          <p class="note">Ведущий инженер свяжется в течение 12 минут в рабочее время (пн–сб, 9:00–20:00).</p>
+        </section>
+      </div>
+
+      <div class="qdone" id="qDone">
+        <div class="tick"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></div>
+        <h3>Заявка принята</h3>
+        <p>Ведущий инженер соберёт три варианта сметы по вашим параметрам и свяжется в течение 12 минут, чтобы уточнить адрес и удобное время замера. Чек-лист по договору придёт тем же сообщением.</p>
+      </div>
+
+      <div class="qfoot">
+        <button class="qback" type="button" id="qBack" hidden>← Назад</button>
+        <span class="mono">1 минута · без звонка до вашего номера</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 06. МАТЕРИАЛЫ ================= -->
+<section class="sec">
+  <div class="wrap">
+    <p class="chip rv">Материалы и цены</p>
+    <h2 class="rv">Пять решений — от бюджетного до «на всю жизнь»</h2>
+    <p class="lead rv">Цена за погонный метр под ключ: материал, столбы, лаги, бурение, бетонирование и монтаж. Без «звёздочек».</p>
+    <div class="grid g-3" style="margin-top:40px">
+      <article class="mat rv"><figure class="mat-figure"><svg class="mat-art" viewBox="0 0 300 168" role="img" aria-label="Забор из профнастила"><defs><linearGradient id="pf" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--pick-2)"/><stop offset=".5" style="stop-color:var(--pick-1)"/><stop offset="1" style="stop-color:var(--pick-3)"/></linearGradient></defs><rect width="300" height="168" style="fill:var(--art-bg)"/><rect x="26" y="24" width="248" height="126" rx="2" style="fill:var(--pick-2)"/><rect x="28" y="24" width="9" height="126" fill="url(#pf)"/><rect x="30" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="43" y="24" width="9" height="126" fill="url(#pf)"/><rect x="45" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="58" y="24" width="9" height="126" fill="url(#pf)"/><rect x="60" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="73" y="24" width="9" height="126" fill="url(#pf)"/><rect x="75" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="88" y="24" width="9" height="126" fill="url(#pf)"/><rect x="90" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="103" y="24" width="9" height="126" fill="url(#pf)"/><rect x="105" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="118" y="24" width="9" height="126" fill="url(#pf)"/><rect x="120" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="133" y="24" width="9" height="126" fill="url(#pf)"/><rect x="135" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="148" y="24" width="9" height="126" fill="url(#pf)"/><rect x="150" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="163" y="24" width="9" height="126" fill="url(#pf)"/><rect x="165" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="178" y="24" width="9" height="126" fill="url(#pf)"/><rect x="180" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="193" y="24" width="9" height="126" fill="url(#pf)"/><rect x="195" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="208" y="24" width="9" height="126" fill="url(#pf)"/><rect x="210" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="223" y="24" width="9" height="126" fill="url(#pf)"/><rect x="225" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="238" y="24" width="9" height="126" fill="url(#pf)"/><rect x="240" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="253" y="24" width="9" height="126" fill="url(#pf)"/><rect x="255" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="268" y="24" width="9" height="126" fill="url(#pf)"/><rect x="270" y="24" width="2" height="126" style="fill:var(--pick-hi)" opacity=".5"/><rect x="26" y="20" width="248" height="6" rx="3" style="fill:var(--post)"/><rect x="18" y="14" width="14" height="140" rx="3" style="fill:var(--post)"/><rect x="268" y="14" width="14" height="140" rx="3" style="fill:var(--post)"/><ellipse cx="150" cy="152" rx="132" ry="7" style="fill:var(--shadow-c)" opacity=".16"/></svg></figure><div class="mat-b"><h3>Профнастил С20</h3><p>Полностью закрывает участок от глаз и ветра. Полимерное покрытие с двух сторон, срок службы 25+ лет.</p><div class="price"><b>от 1 740 ₽</b><span>погонный метр<br>под ключ</span></div></div></article>
+      <article class="mat rv rv-2"><figure class="mat-figure"><svg class="mat-art" viewBox="0 0 300 168" role="img" aria-label="Забор из евроштакетника"><defs><linearGradient id="sh" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--pick-1)"/><stop offset=".6" style="stop-color:var(--pick-2)"/><stop offset="1" style="stop-color:var(--pick-3)"/></linearGradient></defs><rect width="300" height="168" style="fill:var(--art-bg)"/><rect x="30" y="52" width="240" height="9" style="fill:var(--pick-3)"/><rect x="30" y="112" width="240" height="9" style="fill:var(--pick-3)"/><rect x="24" y="18" width="15" height="132" rx="5" fill="url(#sh)"/><rect x="27" y="22" width="3" height="124" style="fill:var(--pick-hi)" opacity=".45"/><rect x="48" y="18" width="15" height="132" rx="5" fill="url(#sh)"/><rect x="51" y="22" width="3" height="124" style="fill:var(--pick-hi)" opacity=".45"/><rect x="72" y="18" width="15" height="132" rx="5" fill="url(#sh)"/><rect x="75" y="22" width="3" height="124" style="fill:var(--pick-hi)" opacity=".45"/><rect x="96" y="18" width="15" height="132" rx="5" fill="url(#sh)"/><rect x="99" y="22" width="3" height="124" style="fill:var(--pick-hi)" opacity=".45"/><rect x="120" y="18" width="15" height="132" rx="5" fill="url(#sh)"/><rect x="123" y="22" width="3" height="124" style="fill:var(--pick-hi)" opacity=".45"/><rect x="144" y="18" width="15" height="132" rx="5" fill="url(#sh)"/><rect x="147" y="22" width="3" height="124" style="fill:var(--pick-hi)" opacity=".45"/><rect x="168" y="18" width="15" height="132" rx="5" fill="url(#sh)"/><rect x="171" y="22" width="3" height="124" style="fill:var(--pick-hi)" opacity=".45"/><rect x="192" y="18" width="15" height="132" rx="5" fill="url(#sh)"/><rect x="195" y="22" width="3" height="124" style="fill:var(--pick-hi)" opacity=".45"/><rect x="216" y="18" width="15" height="132" rx="5" fill="url(#sh)"/><rect x="219" y="22" width="3" height="124" style="fill:var(--pick-hi)" opacity=".45"/><rect x="240" y="18" width="15" height="132" rx="5" fill="url(#sh)"/><rect x="243" y="22" width="3" height="124" style="fill:var(--pick-hi)" opacity=".45"/><rect x="264" y="18" width="15" height="132" rx="5" fill="url(#sh)"/><rect x="267" y="22" width="3" height="124" style="fill:var(--pick-hi)" opacity=".45"/><rect x="16" y="10" width="14" height="144" rx="3" style="fill:var(--post)"/><rect x="270" y="10" width="14" height="144" rx="3" style="fill:var(--post)"/><ellipse cx="150" cy="152" rx="132" ry="7" style="fill:var(--shadow-c)" opacity=".16"/></svg></figure><div class="mat-b"><h3>Евроштакетник</h3><p>Самый частый выбор в коттеджных посёлках: выглядит дороже профнастила, продувается, не парусит на ветру.</p><div class="price"><b>от 2 190 ₽</b><span>погонный метр<br>под ключ</span></div></div></article>
+      <article class="mat rv rv-3"><figure class="mat-figure"><svg class="mat-art" viewBox="0 0 300 168" role="img" aria-label="Забор из 3D-сетки"><defs></defs><rect width="300" height="168" style="fill:var(--art-bg)"/><rect x="34" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="49" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="64" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="79" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="94" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="109" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="124" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="139" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="154" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="169" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="184" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="199" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="214" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="229" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="244" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="259" y="26" width="3" height="124" rx="1.5" style="fill:var(--wire)"/><rect x="30" y="34" width="240" height="3" rx="1.5" style="fill:var(--wire)"/><rect x="30" y="58" width="240" height="3" rx="1.5" style="fill:var(--wire)"/><rect x="30" y="82" width="240" height="3" rx="1.5" style="fill:var(--wire)"/><rect x="30" y="106" width="240" height="3" rx="1.5" style="fill:var(--wire)"/><rect x="30" y="130" width="240" height="3" rx="1.5" style="fill:var(--wire)"/><path d="M30 66 q 120 -13 240 0" fill="none" style="stroke:var(--wire-hi)" stroke-width="5" stroke-linecap="round"/><path d="M30 114 q 120 -13 240 0" fill="none" style="stroke:var(--wire-hi)" stroke-width="5" stroke-linecap="round"/><rect x="18" y="14" width="13" height="140" rx="3" style="fill:var(--post)"/><rect x="269" y="14" width="13" height="140" rx="3" style="fill:var(--post)"/><ellipse cx="150" cy="152" rx="132" ry="7" style="fill:var(--shadow-c)" opacity=".16"/></svg></figure><div class="mat-b"><h3>3D-сетка</h3><p>Жёсткие сварные панели с рёбрами. Не затеняет посадки, не требует обслуживания, ставится за один день.</p><div class="price"><b>от 1 190 ₽</b><span>погонный метр<br>под ключ</span></div></div></article>
+      <article class="mat rv"><figure class="mat-figure"><svg class="mat-art" viewBox="0 0 300 168" role="img" aria-label="Забор из сетки-рабицы"><defs></defs><rect width="300" height="168" style="fill:var(--art-bg)"/><clipPath id="cr"><rect x="30" y="22" width="240" height="128"/></clipPath><g clip-path="url(#cr)"><path d="M-222 10 L-62 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-62 10 L-222 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-204 10 L-44 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-44 10 L-204 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-186 10 L-26 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-26 10 L-186 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-168 10 L-8 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-8 10 L-168 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-150 10 L10 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M10 10 L-150 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-132 10 L28 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M28 10 L-132 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-114 10 L46 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M46 10 L-114 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-96 10 L64 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M64 10 L-96 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-78 10 L82 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M82 10 L-78 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-60 10 L100 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M100 10 L-60 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-42 10 L118 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M118 10 L-42 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-24 10 L136 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M136 10 L-24 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M-6 10 L154 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M154 10 L-6 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M12 10 L172 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M172 10 L12 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M30 10 L190 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M190 10 L30 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M48 10 L208 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M208 10 L48 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M66 10 L226 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M226 10 L66 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M84 10 L244 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M244 10 L84 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M102 10 L262 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M262 10 L102 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M120 10 L280 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M280 10 L120 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M138 10 L298 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M298 10 L138 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M156 10 L316 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M316 10 L156 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M174 10 L334 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M334 10 L174 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M192 10 L352 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M352 10 L192 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M210 10 L370 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M370 10 L210 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M228 10 L388 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M388 10 L228 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M246 10 L406 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M406 10 L246 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M264 10 L424 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M424 10 L264 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M282 10 L442 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M442 10 L282 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M300 10 L460 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M460 10 L300 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M318 10 L478 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M478 10 L318 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M336 10 L496 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M496 10 L336 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M354 10 L514 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M514 10 L354 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M372 10 L532 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M532 10 L372 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M390 10 L550 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M550 10 L390 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M408 10 L568 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M568 10 L408 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M426 10 L586 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M586 10 L426 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M444 10 L604 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M604 10 L444 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M462 10 L622 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M622 10 L462 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M480 10 L640 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/><path d="M640 10 L480 170" style="stroke:var(--wire)" stroke-width="2.2" opacity=".9"/></g><rect x="30" y="20" width="240" height="4" rx="2" style="fill:var(--wire-hi)"/><rect x="18" y="12" width="13" height="142" rx="3" style="fill:var(--post)"/><rect x="269" y="12" width="13" height="142" rx="3" style="fill:var(--post)"/><ellipse cx="150" cy="152" rx="132" ry="7" style="fill:var(--shadow-c)" opacity=".16"/></svg></figure><div class="mat-b"><h3>Сетка-рабица</h3><p>Временное или межсоседское ограждение. Оцинковка 2,5 мм, натяжка по тросу — не провисает через год.</p><div class="price"><b>от 690 ₽</b><span>погонный метр<br>под ключ</span></div></div></article>
+      <article class="mat rv rv-2"><figure class="mat-figure"><svg class="mat-art" viewBox="0 0 300 168" role="img" aria-label="Забор-жалюзи"><defs><linearGradient id="jl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--pick-1)"/><stop offset="1" style="stop-color:var(--pick-3)"/></linearGradient></defs><rect width="300" height="168" style="fill:var(--art-bg)"/><path d="M28 31 L272 22 L272 33 L28 42 Z" fill="url(#jl)"/><path d="M28 31 L272 22" fill="none" style="stroke:var(--pick-hi)" stroke-width="1.6" opacity=".5"/><path d="M28 47 L272 38 L272 49 L28 58 Z" fill="url(#jl)"/><path d="M28 47 L272 38" fill="none" style="stroke:var(--pick-hi)" stroke-width="1.6" opacity=".5"/><path d="M28 63 L272 54 L272 65 L28 74 Z" fill="url(#jl)"/><path d="M28 63 L272 54" fill="none" style="stroke:var(--pick-hi)" stroke-width="1.6" opacity=".5"/><path d="M28 79 L272 70 L272 81 L28 90 Z" fill="url(#jl)"/><path d="M28 79 L272 70" fill="none" style="stroke:var(--pick-hi)" stroke-width="1.6" opacity=".5"/><path d="M28 95 L272 86 L272 97 L28 106 Z" fill="url(#jl)"/><path d="M28 95 L272 86" fill="none" style="stroke:var(--pick-hi)" stroke-width="1.6" opacity=".5"/><path d="M28 111 L272 102 L272 113 L28 122 Z" fill="url(#jl)"/><path d="M28 111 L272 102" fill="none" style="stroke:var(--pick-hi)" stroke-width="1.6" opacity=".5"/><path d="M28 127 L272 118 L272 129 L28 138 Z" fill="url(#jl)"/><path d="M28 127 L272 118" fill="none" style="stroke:var(--pick-hi)" stroke-width="1.6" opacity=".5"/><path d="M28 143 L272 134 L272 145 L28 154 Z" fill="url(#jl)"/><path d="M28 143 L272 134" fill="none" style="stroke:var(--pick-hi)" stroke-width="1.6" opacity=".5"/><rect x="16" y="12" width="14" height="142" rx="3" style="fill:var(--post)"/><rect x="270" y="12" width="14" height="142" rx="3" style="fill:var(--post)"/><ellipse cx="150" cy="152" rx="132" ry="7" style="fill:var(--shadow-c)" opacity=".16"/></svg></figure><div class="mat-b"><h3>Забор-жалюзи</h3><p>Ламели под углом: с улицы участок не просматривается, изнутри свет и воздух проходят. Премиальный вид.</p><div class="price"><b>от 3 480 ₽</b><span>погонный метр<br>под ключ</span></div></div></article>
+      <article class="mat mat--cta rv rv-3">
+        <h3>Не знаете, что выбрать?</h3>
+        <p>Ответьте на 6 вопросов — инженер подберёт материал под ваш бюджет, ветровую нагрузку и высоту забора.</p>
+        <button class="btn btn--light" type="button" data-goquiz style="margin-top:6px">Подобрать материал</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 07. ЭТАПЫ ================= -->
+<section class="sec sec--tint">
+  <div class="wrap">
+    <p class="chip rv">Порядок работы</p>
+    <h2 class="rv">От заявки до акта — 5 шагов и 4 дня</h2>
+    <div class="steps">
+      <div class="step rv"><span class="step-n">01</span><div><h3>Заявка и расчёт</h3><p>Инженер собирает вилку стоимости по вашим параметрам и присылает три варианта сметы.</p></div><span class="when">12 минут</span></div>
+      <div class="step rv"><span class="step-n">02</span><div><h3>Замер на участке</h3><p>Замерщик привозит образцы металла, меряет периметр, смотрит грунт и уклон, считает ворота и калитку. Бесплатно, даже если вы откажетесь.</p></div><span class="when">1 день · бесплатно</span></div>
+      <div class="step rv"><span class="step-n">03</span><div><h3>Договор с фиксированной ценой</h3><p>В договоре — смета, срок, гарантия и сумма. Предоплата 30%, остальное после сдачи. Дальше цена не меняется.</p></div><span class="when">предоплата 30%</span></div>
+      <div class="step rv"><span class="step-n">04</span><div><h3>Столбы</h3><p>Бурение ямобуром на 1,5 м, выставление по нивелиру, бетонирование или забутовка щебнем — по типу грунта.</p></div><span class="when">1 день</span></div>
+      <div class="step rv"><span class="step-n">05</span><div><h3>Секции, ворота и сдача</h3><p>Монтаж лаг и секций, установка ворот и калитки, уборка мусора. Подписываем акт и передаём паспорт объекта с фото скрытых работ.</p></div><span class="when">2 дня</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 08. ФОРМА ЗАХВАТА №2 ================= -->
+<section class="sec">
+  <div class="wrap">
+    <div class="panel panel-grid rv">
+      <div>
+        <h2>Приедем на бесплатный замер завтра</h2>
+        <p style="margin-top:14px">Замерщик привезёт образцы металла и посчитает точную стоимость на месте. Решите не ставить — ничего не должны: замер бесплатный в любом случае.</p>
+      </div>
+      <form id="formMeasure" novalidate>
+        <label class="field">
+          <span>Ваш телефон — перезвоним, чтобы согласовать время</span>
+          <input type="tel" name="phone" placeholder="+7 900 000-00-00" autocomplete="tel" inputmode="tel">
+        </label>
+        <label class="consent"><input type="checkbox" name="agree"> Согласен на обработку персональных данных</label>
+        <p class="err">Укажите номер и подтвердите согласие.</p>
+        <button class="btn btn--accent btn--block" type="submit" style="margin-top:16px">Записаться на замер</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 09. ОБЪЕКТЫ ================= -->
+<section class="sec sec--tight">
+  <div class="wrap">
+    <p class="chip rv">Объекты</p>
+    <h2 class="rv">Три недавние работы с цифрами</h2>
+    <div class="grid g-3" style="margin-top:40px">
+      <article class="case rv"><svg class="case-art" viewBox="0 0 420 220" role="img" aria-label="Забор на склоне, секции лесенкой"><rect width="420" height="220" style="fill:var(--art-bg)"/><path d="M0 150 C 120 120, 260 178, 420 132 L420 220 L0 220 Z" style="fill:var(--field-2)"/><rect x="22" y="74" width="38" height="76" rx="3" style="fill:var(--pick-2)"/><rect x="25" y="74" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="34" y="74" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="43" y="74" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="52" y="74" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="58" y="64" width="9" height="90" rx="2" style="fill:var(--post)"/><rect x="66" y="65" width="38" height="76" rx="3" style="fill:var(--pick-2)"/><rect x="69" y="65" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="78" y="65" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="87" y="65" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="96" y="65" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="102" y="55" width="9" height="90" rx="2" style="fill:var(--post)"/><rect x="110" y="56" width="38" height="76" rx="3" style="fill:var(--pick-2)"/><rect x="113" y="56" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="122" y="56" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="131" y="56" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="140" y="56" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="146" y="46" width="9" height="90" rx="2" style="fill:var(--post)"/><rect x="154" y="47" width="38" height="76" rx="3" style="fill:var(--pick-2)"/><rect x="157" y="47" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="166" y="47" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="175" y="47" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="184" y="47" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="190" y="37" width="9" height="90" rx="2" style="fill:var(--post)"/><rect x="198" y="38" width="38" height="76" rx="3" style="fill:var(--pick-2)"/><rect x="201" y="38" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="210" y="38" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="219" y="38" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="228" y="38" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="234" y="28" width="9" height="90" rx="2" style="fill:var(--post)"/><rect x="242" y="29" width="38" height="76" rx="3" style="fill:var(--pick-2)"/><rect x="245" y="29" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="254" y="29" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="263" y="29" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="272" y="29" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="278" y="19" width="9" height="90" rx="2" style="fill:var(--post)"/><rect x="286" y="20" width="38" height="76" rx="3" style="fill:var(--pick-2)"/><rect x="289" y="20" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="298" y="20" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="307" y="20" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="316" y="20" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="322" y="10" width="9" height="90" rx="2" style="fill:var(--post)"/><rect x="330" y="11" width="38" height="76" rx="3" style="fill:var(--pick-2)"/><rect x="333" y="11" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="342" y="11" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="351" y="11" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="360" y="11" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="366" y="1" width="9" height="90" rx="2" style="fill:var(--post)"/><rect x="374" y="2" width="38" height="76" rx="3" style="fill:var(--pick-2)"/><rect x="377" y="2" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="386" y="2" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="395" y="2" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="404" y="2" width="6" height="76" rx="2" style="fill:var(--pick-1)"/><rect x="410" y="-8" width="9" height="90" rx="2" style="fill:var(--post)"/><path d="M12 176 L408 128" fill="none" style="stroke:var(--accent)" stroke-width="2" stroke-dasharray="6 6" opacity=".8"/><text x="16" y="200" style="fill:var(--ink-2)" font-family="ui-monospace,Menlo,monospace" font-size="12">ПЕРЕПАД 2,4 м</text></svg><div class="case-b"><span class="kicker">КП Довиль · 78 м · евроштакетник</span><h3>Участок с перепадом 2,4 метра</h3><p>Две бригады отказались: «на таком склоне ровно не встанет». Поставили секции лесенкой с шагом 20 см по нивелиру, низ закрыли подпорной планкой.</p><p class="res">Смонтировали за <b>4 дня</b>, смета не выросла ни на рубль от подписанной.</p></div></article>
+      <article class="case rv rv-2"><svg class="case-art" viewBox="0 0 420 220" role="img" aria-label="Монтаж забора зимой"><rect width="420" height="220" style="fill:var(--art-bg)"/><circle cx="330" cy="58" r="34" style="fill:var(--sun)" opacity=".4"/><path d="M0 168 C 130 152, 280 182, 420 160 L420 220 L0 220 Z" style="fill:var(--snow)"/><rect x="16" y="76" width="30" height="94" rx="2" style="fill:var(--pick-2)"/><rect x="20" y="76" width="8" height="94" style="fill:var(--pick-1)"/><rect x="16" y="70" width="30" height="7" rx="3" style="fill:var(--snow)"/><rect x="46" y="66" width="10" height="106" rx="3" style="fill:var(--post)"/><rect x="56" y="76" width="30" height="94" rx="2" style="fill:var(--pick-2)"/><rect x="60" y="76" width="8" height="94" style="fill:var(--pick-1)"/><rect x="56" y="70" width="30" height="7" rx="3" style="fill:var(--snow)"/><rect x="86" y="66" width="10" height="106" rx="3" style="fill:var(--post)"/><rect x="96" y="76" width="30" height="94" rx="2" style="fill:var(--pick-2)"/><rect x="100" y="76" width="8" height="94" style="fill:var(--pick-1)"/><rect x="96" y="70" width="30" height="7" rx="3" style="fill:var(--snow)"/><rect x="126" y="66" width="10" height="106" rx="3" style="fill:var(--post)"/><rect x="136" y="76" width="30" height="94" rx="2" style="fill:var(--pick-2)"/><rect x="140" y="76" width="8" height="94" style="fill:var(--pick-1)"/><rect x="136" y="70" width="30" height="7" rx="3" style="fill:var(--snow)"/><rect x="166" y="66" width="10" height="106" rx="3" style="fill:var(--post)"/><rect x="176" y="76" width="30" height="94" rx="2" style="fill:var(--pick-2)"/><rect x="180" y="76" width="8" height="94" style="fill:var(--pick-1)"/><rect x="176" y="70" width="30" height="7" rx="3" style="fill:var(--snow)"/><rect x="206" y="66" width="10" height="106" rx="3" style="fill:var(--post)"/><rect x="216" y="76" width="30" height="94" rx="2" style="fill:var(--pick-2)"/><rect x="220" y="76" width="8" height="94" style="fill:var(--pick-1)"/><rect x="216" y="70" width="30" height="7" rx="3" style="fill:var(--snow)"/><rect x="246" y="66" width="10" height="106" rx="3" style="fill:var(--post)"/><rect x="256" y="76" width="30" height="94" rx="2" style="fill:var(--pick-2)"/><rect x="260" y="76" width="8" height="94" style="fill:var(--pick-1)"/><rect x="256" y="70" width="30" height="7" rx="3" style="fill:var(--snow)"/><rect x="286" y="66" width="10" height="106" rx="3" style="fill:var(--post)"/><rect x="296" y="76" width="30" height="94" rx="2" style="fill:var(--pick-2)"/><rect x="300" y="76" width="8" height="94" style="fill:var(--pick-1)"/><rect x="296" y="70" width="30" height="7" rx="3" style="fill:var(--snow)"/><rect x="326" y="66" width="10" height="106" rx="3" style="fill:var(--post)"/><rect x="336" y="76" width="30" height="94" rx="2" style="fill:var(--pick-2)"/><rect x="340" y="76" width="8" height="94" style="fill:var(--pick-1)"/><rect x="336" y="70" width="30" height="7" rx="3" style="fill:var(--snow)"/><rect x="366" y="66" width="10" height="106" rx="3" style="fill:var(--post)"/><rect x="376" y="76" width="30" height="94" rx="2" style="fill:var(--pick-2)"/><rect x="380" y="76" width="8" height="94" style="fill:var(--pick-1)"/><rect x="376" y="70" width="30" height="7" rx="3" style="fill:var(--snow)"/><rect x="406" y="66" width="10" height="106" rx="3" style="fill:var(--post)"/><circle cx="14" cy="16" r="1.6" style="fill:var(--snow)" opacity=".85"/><circle cx="75" cy="53" r="2.6" style="fill:var(--snow)" opacity=".85"/><circle cx="136" cy="90" r="3.6" style="fill:var(--snow)" opacity=".85"/><circle cx="197" cy="127" r="1.6" style="fill:var(--snow)" opacity=".85"/><circle cx="258" cy="164" r="2.6" style="fill:var(--snow)" opacity=".85"/><circle cx="319" cy="51" r="3.6" style="fill:var(--snow)" opacity=".85"/><circle cx="380" cy="88" r="1.6" style="fill:var(--snow)" opacity=".85"/><circle cx="41" cy="125" r="2.6" style="fill:var(--snow)" opacity=".85"/><circle cx="102" cy="162" r="3.6" style="fill:var(--snow)" opacity=".85"/><circle cx="163" cy="49" r="1.6" style="fill:var(--snow)" opacity=".85"/><circle cx="224" cy="86" r="2.6" style="fill:var(--snow)" opacity=".85"/><circle cx="285" cy="123" r="3.6" style="fill:var(--snow)" opacity=".85"/><circle cx="346" cy="160" r="1.6" style="fill:var(--snow)" opacity=".85"/><circle cx="407" cy="47" r="2.6" style="fill:var(--snow)" opacity=".85"/><circle cx="68" cy="84" r="3.6" style="fill:var(--snow)" opacity=".85"/><circle cx="129" cy="121" r="1.6" style="fill:var(--snow)" opacity=".85"/><circle cx="190" cy="158" r="2.6" style="fill:var(--snow)" opacity=".85"/><circle cx="251" cy="45" r="3.6" style="fill:var(--snow)" opacity=".85"/><circle cx="312" cy="82" r="1.6" style="fill:var(--snow)" opacity=".85"/><circle cx="373" cy="119" r="2.6" style="fill:var(--snow)" opacity=".85"/><circle cx="34" cy="156" r="3.6" style="fill:var(--snow)" opacity=".85"/><circle cx="95" cy="43" r="1.6" style="fill:var(--snow)" opacity=".85"/><circle cx="156" cy="80" r="2.6" style="fill:var(--snow)" opacity=".85"/><circle cx="217" cy="117" r="3.6" style="fill:var(--snow)" opacity=".85"/><circle cx="278" cy="154" r="1.6" style="fill:var(--snow)" opacity=".85"/><circle cx="339" cy="41" r="2.6" style="fill:var(--snow)" opacity=".85"/><text x="16" y="204" style="fill:var(--ink-2)" font-family="ui-monospace,Menlo,monospace" font-size="12">−18 °C · ЯМОБУР</text></svg><div class="case-b"><span class="kicker">Дмитровский р-н · 112 м · профнастил</span><h3>Монтаж в феврале при −18 °C</h3><p>Клиент был уверен, что до мая ничего не сделать. Прошли мёрзлый грунт ямобуром, забутовали щебнем — по весне ни один столб не повело.</p><p class="res">Зимняя цена оказалась на <b>31 400 ₽</b> ниже майской.</p></div></article>
+      <article class="case rv rv-3"><svg class="case-art" viewBox="0 0 420 220" role="img" aria-label="Периметр посёлка, 640 метров"><rect width="420" height="220" style="fill:var(--art-bg)"/><path d="M0 128 C 140 118, 280 132, 420 116 L420 220 L0 220 Z" style="fill:var(--field-2)"/><path d="M-30.0 174.6 L-30.0 174.6 L5.1 170.1 L35.0 166.3 L60.8 163.0 L83.3 160.1 L103.0 157.5 L120.5 155.3 L136.1 153.3 L150.2 151.4 L162.8 149.8 L174.3 148.3 L184.7 147.0 L194.3 145.8 L203.1 144.6 L211.2 143.6 L218.7 142.6 L225.6 141.7 L232.1 140.9 L238.1 140.1 L243.8 139.4 L249.0 138.7 L254.0 138.1 L258.6 137.5 L263.0 136.9 L267.1 136.4 L271.1 135.9 L274.8 135.4 L278.3 135.0 L281.6 134.5 L284.8 134.1 L287.8 133.7 L290.7 133.4 L293.4 133.0 L296.0 132.7 L298.5 132.4 L300.9 132.0 L303.2 131.7 L305.4 131.5 L307.5 131.2 L309.5 130.9 L311.5 130.7 L313.4 130.4 L315.2 130.2 L316.9 130.0 L318.6 129.8 L320.2 129.6 L321.8 129.4 L323.3 129.2 L324.7 129.0 L326.1 128.8 L327.5 128.6 L328.8 128.5 L330.1 128.3 L331.3 128.1 L332.5 128.0 L333.7 127.8 L334.8 127.7 L335.9 127.5 L337.0 127.4 L338.0 127.3 L338.0 128.3 L337.0 128.4 L335.9 128.5 L334.8 128.7 L333.7 128.8 L332.5 129.0 L331.3 129.1 L330.1 129.3 L328.8 129.5 L327.5 129.6 L326.1 129.8 L324.7 130.0 L323.3 130.2 L321.8 130.4 L320.2 130.6 L318.6 130.8 L316.9 131.0 L315.2 131.2 L313.4 131.4 L311.5 131.7 L309.5 131.9 L307.5 132.2 L305.4 132.5 L303.2 132.7 L300.9 133.0 L298.5 133.4 L296.0 133.7 L293.4 134.1 L290.7 134.4 L287.8 134.8 L284.8 135.3 L281.6 135.7 L278.3 136.2 L274.8 136.6 L271.1 137.1 L267.1 137.7 L263.0 138.3 L258.6 138.9 L254.0 139.5 L249.0 140.2 L243.8 140.9 L238.1 141.7 L232.1 142.5 L225.6 143.4 L218.7 144.4 L211.2 145.4 L203.1 146.5 L194.3 147.7 L184.7 149.0 L174.3 150.5 L162.8 152.1 L150.2 153.8 L136.1 155.7 L120.5 157.9 L103.0 160.3 L83.3 163.0 L60.8 166.1 L35.0 169.7 L5.1 173.8 L-30.0 178.6 Z" style="fill:var(--pick-3)"/><path d="M-30.0 126.8 L-30.0 126.8 L5.1 126.1 L35.0 125.5 L60.8 125.0 L83.3 124.5 L103.0 124.1 L120.5 123.8 L136.1 123.5 L150.2 123.2 L162.8 122.9 L174.3 122.7 L184.7 122.5 L194.3 122.3 L203.1 122.1 L211.2 122.0 L218.7 121.8 L225.6 121.7 L232.1 121.6 L238.1 121.4 L243.8 121.3 L249.0 121.2 L254.0 121.1 L258.6 121.0 L263.0 120.9 L267.1 120.9 L271.1 120.8 L274.8 120.7 L278.3 120.6 L281.6 120.6 L284.8 120.5 L287.8 120.4 L290.7 120.4 L293.4 120.3 L296.0 120.3 L298.5 120.2 L300.9 120.2 L303.2 120.1 L305.4 120.1 L307.5 120.0 L309.5 120.0 L311.5 120.0 L313.4 119.9 L315.2 119.9 L316.9 119.9 L318.6 119.8 L320.2 119.8 L321.8 119.8 L323.3 119.7 L324.7 119.7 L326.1 119.7 L327.5 119.7 L328.8 119.6 L330.1 119.6 L331.3 119.6 L332.5 119.5 L333.7 119.5 L334.8 119.5 L335.9 119.5 L337.0 119.5 L338.0 119.4 L338.0 120.4 L337.0 120.5 L335.9 120.5 L334.8 120.5 L333.7 120.5 L332.5 120.5 L331.3 120.6 L330.1 120.6 L328.8 120.6 L327.5 120.7 L326.1 120.7 L324.7 120.7 L323.3 120.7 L321.8 120.8 L320.2 120.8 L318.6 120.8 L316.9 120.9 L315.2 120.9 L313.4 120.9 L311.5 121.0 L309.5 121.0 L307.5 121.0 L305.4 121.1 L303.2 121.1 L300.9 121.2 L298.5 121.2 L296.0 121.3 L293.4 121.4 L290.7 121.5 L287.8 121.6 L284.8 121.6 L281.6 121.7 L278.3 121.8 L274.8 121.9 L271.1 122.0 L267.1 122.2 L263.0 122.3 L258.6 122.4 L254.0 122.5 L249.0 122.7 L243.8 122.8 L238.1 123.0 L232.1 123.2 L225.6 123.4 L218.7 123.6 L211.2 123.8 L203.1 124.0 L194.3 124.3 L184.7 124.6 L174.3 124.9 L162.8 125.2 L150.2 125.6 L136.1 126.0 L120.5 126.4 L103.0 126.9 L83.3 127.5 L60.8 128.2 L35.0 128.9 L5.1 129.8 L-30.0 130.8 Z" style="fill:var(--pick-3)"/><rect x="-36.50" y="106.00" width="13.00" height="104.00" rx="1.5" style="fill:var(--pick-2)"/><rect x="-0.89" y="106.96" width="11.96" height="95.71" rx="1.5" style="fill:var(--pick-1)"/><rect x="29.46" y="107.77" width="11.08" height="88.64" rx="1.5" style="fill:var(--pick-2)"/><rect x="55.63" y="108.48" width="10.32" height="82.54" rx="1.5" style="fill:var(--pick-1)"/><rect x="78.44" y="109.09" width="9.65" height="77.23" rx="1.5" style="fill:var(--pick-2)"/><rect x="98.49" y="109.63" width="9.07" height="72.56" rx="1.5" style="fill:var(--pick-1)"/><rect x="116.25" y="110.11" width="8.55" height="68.42" rx="1.5" style="fill:var(--pick-2)"/><rect x="132.10" y="110.53" width="8.09" height="64.73" rx="1.5" style="fill:var(--pick-1)"/><rect x="146.32" y="110.91" width="7.68" height="61.42" rx="1.5" style="fill:var(--pick-2)"/><rect x="159.16" y="111.26" width="7.30" height="58.43" rx="1.5" style="fill:var(--pick-1)"/><rect x="170.80" y="111.57" width="6.96" height="55.71" rx="1.5" style="fill:var(--pick-2)"/><rect x="181.42" y="111.86" width="6.66" height="53.24" rx="1.5" style="fill:var(--pick-1)"/><rect x="191.13" y="112.12" width="6.37" height="50.98" rx="1.5" style="fill:var(--pick-2)"/><rect x="200.05" y="112.36" width="6.11" height="48.90" rx="1.5" style="fill:var(--pick-1)"/><rect x="208.27" y="112.58" width="5.87" height="46.99" rx="1.5" style="fill:var(--pick-2)"/><rect x="215.87" y="112.78" width="5.65" height="45.22" rx="1.5" style="fill:var(--pick-1)"/><rect x="222.92" y="112.97" width="5.45" height="43.58" rx="1.5" style="fill:var(--pick-2)"/><rect x="229.47" y="113.15" width="5.26" height="42.05" rx="1.5" style="fill:var(--pick-1)"/><rect x="235.59" y="113.31" width="5.08" height="40.62" rx="1.5" style="fill:var(--pick-2)"/><rect x="241.30" y="113.47" width="4.91" height="39.29" rx="1.5" style="fill:var(--pick-1)"/><rect x="246.65" y="113.61" width="4.76" height="38.05" rx="1.5" style="fill:var(--pick-2)"/><rect x="251.67" y="113.74" width="4.61" height="36.88" rx="1.5" style="fill:var(--pick-1)"/><rect x="256.39" y="113.87" width="4.47" height="35.78" rx="1.5" style="fill:var(--pick-2)"/><rect x="260.84" y="113.99" width="4.34" height="34.74" rx="1.5" style="fill:var(--pick-1)"/><rect x="265.03" y="114.10" width="4.22" height="33.77" rx="1.5" style="fill:var(--pick-2)"/><rect x="269.00" y="114.21" width="4.11" height="32.84" rx="1.5" style="fill:var(--pick-1)"/><rect x="272.76" y="114.31" width="4.00" height="31.97" rx="1.5" style="fill:var(--pick-2)"/><rect x="276.32" y="114.41" width="3.89" height="31.14" rx="1.5" style="fill:var(--pick-1)"/><rect x="279.70" y="114.50" width="3.79" height="30.35" rx="1.5" style="fill:var(--pick-2)"/><rect x="282.91" y="114.58" width="3.70" height="29.60" rx="1.5" style="fill:var(--pick-1)"/><rect x="285.97" y="114.67" width="3.61" height="28.89" rx="1.5" style="fill:var(--pick-2)"/><rect x="288.89" y="114.75" width="3.53" height="28.21" rx="1.5" style="fill:var(--pick-1)"/><rect x="291.67" y="114.82" width="3.45" height="27.56" rx="1.5" style="fill:var(--pick-2)"/><rect x="294.33" y="114.89" width="3.37" height="26.94" rx="1.5" style="fill:var(--pick-1)"/><rect x="296.87" y="114.96" width="3.29" height="26.35" rx="1.5" style="fill:var(--pick-2)"/><rect x="299.30" y="115.02" width="3.22" height="25.79" rx="1.5" style="fill:var(--pick-1)"/><rect x="301.63" y="115.09" width="3.16" height="25.24" rx="1.5" style="fill:var(--pick-2)"/><rect x="303.86" y="115.15" width="3.09" height="24.72" rx="1.5" style="fill:var(--pick-1)"/><rect x="306.00" y="115.20" width="3.03" height="24.22" rx="1.5" style="fill:var(--pick-2)"/><rect x="308.06" y="115.26" width="2.97" height="23.74" rx="1.5" style="fill:var(--pick-1)"/><rect x="310.04" y="115.31" width="2.91" height="23.28" rx="1.5" style="fill:var(--pick-2)"/><rect x="311.94" y="115.36" width="2.86" height="22.84" rx="1.5" style="fill:var(--pick-1)"/><rect x="313.77" y="115.41" width="2.80" height="22.41" rx="1.5" style="fill:var(--pick-2)"/><rect x="315.54" y="115.46" width="2.75" height="22.00" rx="1.5" style="fill:var(--pick-1)"/><rect x="317.24" y="115.51" width="2.70" height="21.61" rx="1.5" style="fill:var(--pick-2)"/><rect x="318.88" y="115.55" width="2.65" height="21.22" rx="1.5" style="fill:var(--pick-1)"/><rect x="320.46" y="115.59" width="2.61" height="20.86" rx="1.5" style="fill:var(--pick-2)"/><rect x="321.99" y="115.63" width="2.56" height="20.50" rx="1.5" style="fill:var(--pick-1)"/><rect x="323.47" y="115.67" width="2.52" height="20.16" rx="1.5" style="fill:var(--pick-2)"/><rect x="324.90" y="115.71" width="2.48" height="19.82" rx="1.5" style="fill:var(--pick-1)"/><rect x="326.28" y="115.75" width="2.44" height="19.50" rx="1.5" style="fill:var(--pick-2)"/><rect x="327.62" y="115.79" width="2.40" height="19.19" rx="1.5" style="fill:var(--pick-1)"/><rect x="328.92" y="115.82" width="2.36" height="18.89" rx="1.5" style="fill:var(--pick-2)"/><rect x="330.17" y="115.85" width="2.32" height="18.59" rx="1.5" style="fill:var(--pick-1)"/><rect x="331.39" y="115.89" width="2.29" height="18.31" rx="1.5" style="fill:var(--pick-2)"/><rect x="332.57" y="115.92" width="2.25" height="18.03" rx="1.5" style="fill:var(--pick-1)"/><rect x="333.72" y="115.95" width="2.22" height="17.77" rx="1.5" style="fill:var(--pick-2)"/><rect x="334.83" y="115.98" width="2.19" height="17.51" rx="1.5" style="fill:var(--pick-1)"/><rect x="335.91" y="116.01" width="2.16" height="17.26" rx="1.5" style="fill:var(--pick-2)"/><rect x="336.96" y="116.04" width="2.13" height="17.01" rx="1.5" style="fill:var(--pick-1)"/><text x="16" y="204" style="fill:var(--ink-2)" font-family="ui-monospace,Menlo,monospace" font-size="12">640 м · 3 БРИГАДЫ</text></svg><div class="case-b"><span class="kicker">КП Заречье · 640 м · 3D-сетка</span><h3>Периметр посёлка для УК</h3><p>Работали по графику вместе с прокладкой сетей: три бригады параллельно, ежедневный отчёт управляющей компании.</p><p class="res">Сдали на <b>6 дней</b> раньше срока по договору.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 10. ОТЗЫВЫ ================= -->
+<section class="sec sec--tint">
+  <div class="wrap">
+    <p class="chip rv">Отзывы</p>
+    <h2 class="rv">Что пишут после сдачи объекта</h2>
+    <div class="grid g-3" style="margin-top:40px">
+      <div class="rev rv"><div class="stars"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg></div><p>Брал 64 метра штакетника с откатными воротами. Больше всего боялся, что на монтаже начнётся «а вот тут доплатить». <mark>Заплатил ровно столько, сколько в договоре</mark>, хотя грунт оказался с глиной и бурили дольше.</p><footer><span class="ava">СМ</span><span class="who"><b>Сергей М.</b><span>КП Лесной берег · 64 м</span></span></footer></div>
+      <div class="rev rv rv-2"><div class="stars"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg></div><p>Живу в городе, на участок вырваться некогда. <mark>Каждый вечер приходили фото и видео</mark> — как бурили, как бетонировали, как ставили секции. Приехал уже на приёмку, придраться не к чему.</p><footer><span class="ava">ИВ</span><span class="who"><b>Ирина В.</b><span>Истринский р-н · 88 м</span></span></footer></div>
+      <div class="rev rv rv-3"><div class="stars"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4 6.2 20.5l1.1-6.5L2.6 9.4l6.5-.9z"/></svg></div><p>Ставили в конце января. Соседи крутили пальцем у виска. <mark>Прошла зима, весна — ни один столб не выперло</mark>, калитка закрывается как в первый день. Плюс зимой вышло дешевле.</p><footer><span class="ava">АК</span><span class="who"><b>Андрей К.</b><span>Дмитровский р-н · 112 м</span></span></footer></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 11. ГАРАНТИИ ================= -->
+<section class="sec">
+  <div class="wrap">
+    <p class="chip rv">Гарантии</p>
+    <h2 class="rv">Что будет, если что-то пойдёт не так</h2>
+    <div class="grid g-4" style="margin-top:40px">
+      <div class="guar rv"><b class="num">7 лет</b><h3>Гарантия на монтаж</h3><p>Столб вышел из грунта, секцию повело, калитка просела — приезжаем и переделываем за свой счёт.</p></div>
+      <div class="guar rv rv-2"><b class="num">12 лет</b><h3>Гарантия на покрытие</h3><p>Полимерное покрытие от сквозной коррозии. Появилась ржавчина насквозь — меняем секцию.</p></div>
+      <div class="guar rv rv-3"><b class="num">30%</b><h3>Предоплата, а не 70%</h3><p>Остальное платите после подписания акта. Договор высылаем до любой оплаты — читайте спокойно.</p></div>
+      <div class="guar rv rv-4"><b class="num">40+ фото</b><h3>Паспорт объекта</h3><p>Глубина лунок, бетонирование, узлы крепления — всё снято и передано вам. Через 5 лет будет чем подтвердить гарантийный случай.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 12. FAQ ================= -->
+<section class="sec sec--tint">
+  <div class="wrap">
+    <p class="chip rv">Вопросы</p>
+    <h2 class="rv">О чём спрашивают чаще всего</h2>
+    <div class="faq rv">
+      <details><summary>Зимой правда ставите? Земля же мёрзлая</summary><div class="ans">Ставим круглый год. Мёрзлый грунт проходим ямобуром на базе ГАЗона — для техники разницы почти нет, добавляется около часа на объект. Зимой у нас нет очереди, поэтому цена ниже сезонной, а бригада выезжает через 2–3 дня после договора.</div></details>
+      <details><summary>Почему у вас дороже, чем у бригады с Авито?</summary><div class="ans">Разница обычно 25–30%, и вот из чего она складывается: бурение на 1,5 м вместо забивания на 80 см, оцинкованные столбы 60×60×2 мм вместо 40×40×1,5 мм, договор с фиксированной ценой, гарантия 7 лет и юрлицо, которое отвечает за объект. Частник дешевле ровно на эти пункты — а переделка забора через две зимы стоит дороже, чем эта разница.</div></details>
+      <details><summary>Цена точно не вырастет на монтаже?</summary><div class="ans">Нет. Итоговая сумма фиксируется в договоре после замера — замерщик заранее видит грунт, уклон, длину и подъезд. Если мы что-то не учли, это наша ошибка и наши расходы. За 12 лет ни одной доплаты «по факту» мы клиентам не выставляли.</div></details>
+      <details><summary>У меня сильный уклон. Ровно получится?</summary><div class="ans">Да. На уклоне до 15° ставим секции лесенкой с шагом 20 см, каждая секция выводится по нивелиру, а просветы у земли закрываются подпорной планкой. На перепаде больше 15° делаем бетонный цоколь — считаем отдельно на замере.</div></details>
+      <details><summary>Какая предоплата и когда остальное?</summary><div class="ans">30% после подписания договора — на материал. Остальные 70% после того, как вы приняли работу и подписали акт. Договор присылаем до оплаты, можно показать юристу.</div></details>
+      <details><summary>Ворота можно поставить не сразу?</summary><div class="ans">Можно: закладываем столбы под ворота нужного сечения сейчас, а полотно и автоматику ставим когда скажете. Если заказываете вместе с забором, ворота идут со скидкой 5%.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 13. ФИНАЛЬНАЯ ФОРМА ================= -->
+<section class="sec">
+  <div class="wrap">
+    <div class="final rv">
+      <div>
+        <p class="chip">Последний шаг</p>
+        <h2>Зафиксируем цену этого месяца</h2>
+        <p class="lead" style="margin-top:16px">Металл дорожает вслед за сезоном. Смета, рассчитанная в этом месяце, действует 30 дней — даже если монтаж вы запланируете на осень.</p>
+        <div class="gift"><b>Подарок к заказу</b>Скидка 5% на откатные ворота с автоматикой при заказе забора до конца месяца + чек-лист «7 пунктов договора, из-за которых цена вырастает на монтаже».</div>
+      </div>
+      <form id="formFinal" novalidate>
+        <label class="field">
+          <span>Телефон, на который отправить расчёт и закрепить скидку</span>
+          <input type="tel" name="phone" placeholder="+7 900 000-00-00" autocomplete="tel" inputmode="tel">
+        </label>
+        <label class="consent"><input type="checkbox" name="agree"> Согласен на обработку персональных данных и принимаю <a href="#privacy">условия передачи информации</a></label>
+        <p class="err">Укажите номер и подтвердите согласие.</p>
+        <button class="btn btn--accent btn--lg btn--block" type="submit" style="margin-top:18px">Зафиксировать цену и получить расчёт</button>
+        <p class="note">Перезвоним в течение 12 минут в рабочее время. Никаких рассылок — только по вашему объекту.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 14. ПОДВАЛ ================= -->
+<footer class="foot" id="privacy">
+  <div class="wrap">
+    <div class="grid g-4">
+      <div>
+        <div class="brandmark" style="margin-bottom:16px">
+          <span class="glyph" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M5 21V6l2.5-3L10 6v15M14 21V6l2.5-3L19 6v15M3 10h18M3 15h18"/></svg></span>
+          <span><b>Периметр</b></span>
+        </div>
+        <p>Заборы под ключ в Москве и области. Свой цех, свои бригады, фиксированная цена в договоре.</p>
+      </div>
+      <div><h4>Связь</h4><ul><li><a href="tel:+74951208419">+7 495 120-84-19</a></li><li><a href="mailto:zakaz@perimetr-zabor.ru">zakaz@perimetr-zabor.ru</a></li><li>Пн–сб, 9:00–20:00</li></ul></div>
+      <div><h4>Производство</h4><ul><li>Московская обл., Дмитров,<br>ул. Профессиональная, 14, стр. 3</li><li>Выезд до 90 км от МКАД</li></ul></div>
+      <div><h4>Документы</h4><ul><li><a href="#privacy">Политика конфиденциальности</a></li><li><a href="#privacy">Согласие на обработку ПД</a></li><li><a href="#privacy">Образец договора</a></li></ul></div>
+    </div>
+    <div class="legal"><span>ООО «Периметр»</span><span>ИНН 5007112438</span><span>ОГРН 1145007002917</span><span>Учебный демонстрационный проект: компания и все данные вымышлены</span></div>
+  </div>
+</footer>
+
+<div class="sticky">
+  <a class="btn btn--ghost" href="tel:+74951208419">Позвонить</a>
+  <button class="btn btn--accent" type="button" data-goquiz>Рассчитать</button>
+</div>
+
+<dialog id="cbDialog">
+  <div class="mbox">
+    <button class="mclose" type="button" aria-label="Закрыть" id="cbClose">×</button>
+    <h3>Перезвоните мне</h3>
+    <p>Оставьте номер — инженер наберёт в течение 12 минут в рабочее время и ответит на вопросы по вашему участку.</p>
+    <form id="formCallback" novalidate>
+      <label class="field"><span>Номер телефона</span><input type="tel" name="phone" placeholder="+7 900 000-00-00" autocomplete="tel" inputmode="tel"></label>
+      <label class="consent"><input type="checkbox" name="agree"> Согласен на обработку персональных данных</label>
+      <p class="err">Укажите номер и подтвердите согласие.</p>
+      <button class="btn btn--accent btn--block" type="submit" style="margin-top:16px">Жду звонка</button>
+    </form>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduce && "IntersectionObserver" in window) document.documentElement.classList.add("js");
+
+  /* ——— шапка при скролле ——— */
+  var top = document.getElementById("top");
+  var onScroll = function(){ top.classList.toggle("stuck", window.scrollY > 8); };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ——— появление блоков ——— */
+  var rvs = document.querySelectorAll(".rv");
+  var counted = false;
+  if (reduce || !("IntersectionObserver" in window)) {
+    rvs.forEach(function(el){ el.classList.add("in"); });
+    countUp();
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (!e.isIntersecting) return;
+        e.target.classList.add("in");
+        io.unobserve(e.target);
+        if (e.target.querySelector("[data-count]")) countUp();
+      });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.1 });
+    rvs.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ——— счётчики ——— */
+  function countUp(){
+    if (counted) return;
+    counted = true;
+    document.querySelectorAll("[data-count]").forEach(function(el){
+      var target = parseInt(el.getAttribute("data-count"), 10);
+      if (reduce) { el.textContent = fmt(target); return; }
+      var t0 = null, dur = 1100;
+      function tick(ts){
+        if (t0 === null) t0 = ts;
+        var p = Math.min(1, (ts - t0) / dur);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(Math.round(target * eased));
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+  function fmt(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
+
+  /* ——— переход к квизу ——— */
+  document.querySelectorAll("[data-goquiz]").forEach(function(b){
+    b.addEventListener("click", function(){
+      document.getElementById("quiz").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    });
+  });
+
+  document.querySelectorAll(".consent a").forEach(function(a){
+    a.addEventListener("click", function(e){ e.stopPropagation(); });
+  });
+
+  /* ——— квиз ——— */
+  var steps = Array.prototype.slice.call(document.querySelectorAll(".qstep"));
+  var total = steps.length, idx = 0, answers = {};
+  var qLabel = document.getElementById("qLabel"),
+      qPct = document.getElementById("qPct"),
+      qFill = document.getElementById("qFill"),
+      qBack = document.getElementById("qBack");
+
+  function show(i){
+    idx = Math.max(0, Math.min(total - 1, i));
+    steps.forEach(function(s, n){ s.classList.toggle("on", n === idx); });
+    var pct = Math.round((idx + 1) / total * 100);
+    qLabel.textContent = "Шаг " + (idx + 1) + " из " + total;
+    qPct.textContent = pct + "%";
+    qFill.style.width = pct + "%";
+    qBack.hidden = idx === 0;
+  }
+  function next(){ if (idx < total - 1) show(idx + 1); }
+
+  qBack.addEventListener("click", function(){ show(idx - 1); });
+  document.querySelectorAll("[data-next]").forEach(function(b){ b.addEventListener("click", next); });
+
+  document.querySelectorAll(".opts[data-single]").forEach(function(group){
+    group.addEventListener("click", function(e){
+      var opt = e.target.closest(".opt");
+      if (!opt) return;
+      group.querySelectorAll(".opt").forEach(function(o){ o.classList.remove("sel"); });
+      opt.classList.add("sel");
+      answers[group.closest(".qstep").querySelector("h3").textContent] = opt.textContent.trim();
+      setTimeout(next, reduce ? 0 : 260);
+    });
+  });
+
+  var meters = document.getElementById("meters"),
+      mVal = document.getElementById("mVal"),
+      mUnknown = document.getElementById("mUnknown");
+  meters.addEventListener("input", function(){
+    mVal.textContent = meters.value;
+    answers["Периметр"] = meters.value + " м";
+    if (mUnknown.checked) { mUnknown.checked = false; mUnknown.closest(".check").classList.remove("on"); }
+  });
+  mUnknown.addEventListener("change", function(){
+    mUnknown.closest(".check").classList.toggle("on", mUnknown.checked);
+    answers["Периметр"] = mUnknown.checked ? "не знает — считаем на замере" : meters.value + " м";
+  });
+
+  document.querySelectorAll(".checks .check input").forEach(function(c){
+    c.addEventListener("change", function(){
+      c.closest(".check").classList.toggle("on", c.checked);
+      answers["Куда отправить"] = Array.prototype.slice
+        .call(document.querySelectorAll(".checks .check input:checked"))
+        .map(function(x){ return x.value; }).join(", ");
+    });
+  });
+
+  function digits(v){ return (v || "").replace(/\D/g, "").length; }
+
+  var qErr = document.getElementById("qErr");
+  document.getElementById("qSubmit").addEventListener("click", function(){
+    var phone = document.getElementById("phone"), agree = document.getElementById("agree");
+    if (digits(phone.value) < 10 || !agree.checked) { qErr.classList.add("on"); phone.focus(); return; }
+    qErr.classList.remove("on");
+    answers["Телефон"] = phone.value;
+    /* Точка интеграции: отправка в Битрикс24 / Telegram-бот + цель аналитики
+       (например ym(XXXXXX,'reachGoal','quiz_lead')). */
+    console.log("Заявка из квиза:", answers);
+    document.getElementById("qBody").style.display = "none";
+    document.querySelector(".qfoot").style.display = "none";
+    document.getElementById("qDone").classList.add("on");
+  });
+
+  /* ——— короткие формы ——— */
+  function handleForm(form, title, text){
+    if (!form) return;
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      var phone = form.querySelector('input[type="tel"]'),
+          agree = form.querySelector('input[type="checkbox"]'),
+          err = form.querySelector(".err");
+      if (digits(phone.value) < 10 || !agree.checked) { err.classList.add("on"); phone.focus(); return; }
+      /* Точка интеграции: отправка заявки + цель аналитики. */
+      console.log("Заявка (" + title + "):", phone.value);
+      form.innerHTML = '<h3 style="margin-bottom:10px">' + title + '</h3><p style="font-size:15px; opacity:.85">' + text + '</p>';
+    });
+  }
+  handleForm(document.getElementById("formMeasure"), "Записали на замер",
+    "Перезвоним в течение 12 минут, чтобы согласовать удобное время. Замерщик привезёт образцы металла.");
+  handleForm(document.getElementById("formFinal"), "Цена зафиксирована",
+    "Расчёт и чек-лист по договору пришлём на этот номер. Скидка 5% на ворота закреплена за вами на 30 дней.");
+  handleForm(document.getElementById("formCallback"), "Заявка принята",
+    "Инженер наберёт вас в течение 12 минут в рабочее время.");
+
+  /* ——— модалка ——— */
+  var dlg = document.getElementById("cbDialog");
+  document.querySelectorAll("[data-callback]").forEach(function(b){
+    b.addEventListener("click", function(){
+      if (dlg.showModal) dlg.showModal(); else document.getElementById("quiz").scrollIntoView();
+    });
+  });
+  document.getElementById("cbClose").addEventListener("click", function(){ dlg.close(); });
+  dlg.addEventListener("click", function(e){ if (e.target === dlg) dlg.close(); });
+
+  show(0);
+})();
+</script>

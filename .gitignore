@@ -1,0 +1,36 @@
+# --- Системное ---
+.DS_Store
+**/.DS_Store
+
+# --- Тяжёлые исходники курса и модели (не для git) ---
+# Модели whisper.cpp — 4.4 ГБ, качаются заново
+sales-system/models/
+# Видео и презентации курса — 5.1 ГБ
+sales-system/00-source/
+# Извлечённое аудио — 1.6 ГБ
+sales-system/01-audio/
+
+# Подстраховка по расширениям
+*.bin
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.wav
+*.mp3
+*.m4a
+
+# --- Персональные данные: базы лидов и карточки клиентов ---
+# Репозиторий публичный — телефоны и имена ЛПР сюда не уезжают
+leads/
+sales-system/leads/
+sales-system/clients/
+
+# --- Вложенные репозитории (живут отдельно на GitHub) ---
+# github.com/Germanwin/dofamin-site
+projects/dofamin/
+# github.com/Germanwin/viv-studio
+projects/viv-studio/
+
+# Резервная копия старой раздутой истории (удалить после успешного пуша)
+.git-old/

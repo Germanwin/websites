@@ -1,0 +1,1012 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+<title>Сайт для Медкор</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700;900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============ Tokens ============ */
+  :root{
+    --bg: #F2F6F5;
+    --surface: #FFFFFF;
+    --surface-2: #E8F1EE;
+    --surface-3: #DCEAE6;
+    --ink: #142526;
+    --ink-soft: #4C5F60;
+    --ink-faint: #7C8B8C;
+    --accent: #0E6B5C;
+    --accent-strong: #0A4F45;
+    --accent-ink: #F4FBF9;
+    --gold: #A6752B;
+    --gold-soft: #F2E4CB;
+    --line: #D6E3DF;
+    --line-strong: #B9CCC7;
+    --bad: #A23B33;
+    --bad-soft: #F6E2DF;
+    --shadow: 0 1px 2px rgba(20,37,38,.04), 0 8px 24px -12px rgba(20,37,38,.14);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #0D1716;
+      --surface: #142523;
+      --surface-2: #17302B;
+      --surface-3: #1B3934;
+      --ink: #E9F2EF;
+      --ink-soft: #A3BAB5;
+      --ink-faint: #74908A;
+      --accent: #3FBBA1;
+      --accent-strong: #6FD4BC;
+      --accent-ink: #06201C;
+      --gold: #E0AE5C;
+      --gold-soft: #2E2413;
+      --line: #234039;
+      --line-strong: #2E5148;
+      --bad: #E28A80;
+      --bad-soft: #341F1C;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #0D1716;
+    --surface: #142523;
+    --surface-2: #17302B;
+    --surface-3: #1B3934;
+    --ink: #E9F2EF;
+    --ink-soft: #A3BAB5;
+    --ink-faint: #74908A;
+    --accent: #3FBBA1;
+    --accent-strong: #6FD4BC;
+    --accent-ink: #06201C;
+    --gold: #E0AE5C;
+    --gold-soft: #2E2413;
+    --line: #234039;
+    --line-strong: #2E5148;
+    --bad: #E28A80;
+    --bad-soft: #341F1C;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.5);
+  }
+
+  *{box-sizing:border-box;}
+  html{background:var(--bg);}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;
+    font-size:16.5px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Bitter',Georgia,serif;
+    font-weight:700;
+    line-height:1.14;
+    text-wrap:balance;
+    margin:0;
+    color:var(--ink);
+  }
+  p{margin:0;}
+  ::selection{background:var(--surface-3);color:var(--ink);}
+  a{color:var(--accent-strong);}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+  }
+
+  .mono{
+    font-family:'JetBrains Mono',ui-monospace,monospace;
+    font-variant-numeric:tabular-nums;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',ui-monospace,monospace;
+    font-size:.72rem;
+    letter-spacing:.11em;
+    text-transform:uppercase;
+    color:var(--accent-strong);
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:.6em;
+  }
+  .eyebrow .num{
+    color:var(--ink-faint);
+    font-weight:500;
+  }
+
+  /* ============ Shell / nav ============ */
+  .shell{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 clamp(20px,4vw,56px);
+    display:grid;
+    grid-template-columns:200px minmax(0,1fr);
+    gap:56px;
+    align-items:start;
+  }
+  @media (max-width:900px){
+    .shell{grid-template-columns:1fr;}
+  }
+
+  nav.rail{
+    position:sticky;
+    top:32px;
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    padding-top:6px;
+  }
+  @media (max-width:900px){
+    nav.rail{
+      position:static;
+      flex-direction:row;
+      overflow-x:auto;
+      gap:0;
+      padding:10px 0 14px;
+      border-bottom:1px solid var(--line);
+      margin-bottom:8px;
+    }
+  }
+  nav.rail a{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.72rem;
+    letter-spacing:.03em;
+    color:var(--ink-faint);
+    text-decoration:none;
+    padding:7px 10px 7px 12px;
+    border-left:2px solid var(--line);
+    transition:color .15s, border-color .15s, background .15s;
+    white-space:nowrap;
+    border-radius:0 6px 6px 0;
+  }
+  nav.rail a:hover{color:var(--ink);background:var(--surface-2);}
+  nav.rail a.active{
+    color:var(--accent-strong);
+    border-left-color:var(--accent);
+    background:var(--surface-2);
+    font-weight:600;
+  }
+  @media (max-width:900px){
+    nav.rail a{border-left:none;border-bottom:2px solid var(--line);border-radius:0;}
+    nav.rail a.active{border-bottom-color:var(--accent);}
+  }
+
+  main{min-width:0;}
+
+  /* ============ Hero ============ */
+  .hero{
+    padding:clamp(48px,8vw,88px) 0 44px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero .eyebrow{margin-bottom:18px;}
+  .hero h1{
+    font-size:clamp(1.9rem,3.6vw,2.9rem);
+    max-width:15ch;
+    letter-spacing:-.01em;
+  }
+  .hero .thesis{
+    margin-top:20px;
+    font-size:1.14rem;
+    color:var(--ink-soft);
+    max-width:56ch;
+    line-height:1.55;
+  }
+  .hero .meta{
+    margin-top:32px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:28px;
+  }
+  .meta-item .k{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.68rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    display:block;
+    margin-bottom:3px;
+  }
+  .meta-item .v{font-weight:600;font-size:.95rem;}
+
+  /* ============ Stage (section) ============ */
+  .stage{
+    padding:56px 0;
+    border-bottom:1px solid var(--line);
+    scroll-margin-top:24px;
+  }
+  .stage:last-of-type{border-bottom:none;}
+  .stage-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:26px;
+    flex-wrap:wrap;
+  }
+  .stage h2{
+    font-size:clamp(1.35rem,2.4vw,1.75rem);
+    margin-top:8px;
+  }
+  .lede{
+    color:var(--ink-soft);
+    max-width:62ch;
+    margin-bottom:28px;
+    font-size:1.02rem;
+  }
+
+  /* ============ Diagram: demand -> site -> booking ============ */
+  .flow{
+    display:grid;
+    grid-template-columns:1fr auto auto auto auto auto;
+    align-items:center;
+    gap:0;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:28px clamp(16px,3vw,32px);
+    box-shadow:var(--shadow);
+  }
+  @media (max-width:820px){
+    .flow{grid-template-columns:1fr;}
+  }
+  .flow-sources{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .src-chip{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:9px 13px;
+    font-size:.86rem;
+    font-weight:600;
+  }
+  .src-chip svg{flex:none;width:17px;height:17px;color:var(--accent-strong);}
+  .src-chip.dim{opacity:.72;}
+  .flow-arrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--ink-faint);
+    padding:0 14px;
+    font-size:1.3rem;
+  }
+  @media (max-width:820px){
+    .flow-arrow{transform:rotate(90deg);padding:10px 0;}
+  }
+  .flow-node{
+    text-align:center;
+    padding:18px 20px;
+    border-radius:12px;
+    min-width:150px;
+  }
+  .flow-node.site{
+    background:var(--accent);
+    color:var(--accent-ink);
+  }
+  .flow-node.outcome{
+    background:var(--surface-2);
+    border:1.5px dashed var(--line-strong);
+  }
+  .flow-node .label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.66rem;
+    letter-spacing:.07em;
+    text-transform:uppercase;
+    opacity:.75;
+    margin-bottom:4px;
+  }
+  .flow-node .title{font-family:'Bitter',serif;font-weight:700;font-size:1.05rem;}
+  .flow-note{
+    grid-column:1 / -1;
+    margin-top:22px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    font-size:.93rem;
+    color:var(--ink-soft);
+  }
+  .flow-note b{color:var(--ink);}
+
+  /* ============ Cards / grids ============ */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  @media (max-width:760px){.grid-2,.grid-4{grid-template-columns:1fr;}}
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px 22px;
+    box-shadow:var(--shadow);
+  }
+  .card h3{font-size:1.02rem;margin-bottom:8px;}
+  .card p{color:var(--ink-soft);font-size:.93rem;}
+  .card .tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.66rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--accent-strong);
+    display:block;
+    margin-bottom:10px;
+  }
+
+  /* problem callout */
+  .problem{
+    background:var(--bad-soft);
+    border:1px solid color-mix(in srgb, var(--bad) 35%, transparent);
+    border-radius:14px;
+    padding:22px 24px;
+    display:flex;
+    gap:16px;
+  }
+  .problem svg{flex:none;width:22px;height:22px;color:var(--bad);margin-top:2px;}
+  .problem b{color:var(--ink);}
+  .problem p{color:var(--ink-soft);font-size:.95rem;}
+  .problem + .problem{margin-top:12px;}
+
+  /* aggregator source card */
+  .agg-list{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin-bottom:22px;
+  }
+  @media (max-width:760px){.agg-list{grid-template-columns:1fr;}}
+  .agg-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px;
+    box-shadow:var(--shadow);
+  }
+  .agg-card .name{font-weight:700;font-size:.94rem;margin-bottom:4px;}
+  .agg-card .fact{font-size:.85rem;color:var(--ink-soft);}
+  .quote{
+    background:var(--surface-2);
+    border-left:3px solid var(--accent);
+    border-radius:0 10px 10px 0;
+    padding:14px 18px;
+    font-size:.92rem;
+    color:var(--ink);
+    margin:14px 0;
+  }
+  .quote .src{
+    display:block;
+    margin-top:6px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.72rem;
+    color:var(--ink-faint);
+    font-style:normal;
+  }
+
+  /* mechanism steps (real sequence -> numbered) */
+  .mech{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+  .mech-row{
+    display:grid;
+    grid-template-columns:44px 1fr 1fr 1fr;
+    gap:22px;
+    padding:22px 0;
+    border-top:1px solid var(--line);
+    align-items:start;
+  }
+  .mech-row:last-child{border-bottom:1px solid var(--line);}
+  @media (max-width:820px){
+    .mech-row{grid-template-columns:34px 1fr;grid-template-areas:"n f" ". a" ". b";}
+  }
+  .mech-num{
+    font-family:'Bitter',serif;
+    font-weight:700;
+    font-size:1.5rem;
+    color:var(--line-strong);
+  }
+  .mech-col .k{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.64rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    display:block;
+    margin-bottom:6px;
+  }
+  .mech-col p{font-size:.92rem;color:var(--ink-soft);}
+  .mech-col.fact p{color:var(--ink);font-weight:600;font-size:.95rem;}
+
+  /* stats */
+  .stat-bar{
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px 18px;
+    font-size:.88rem;
+    color:var(--ink-soft);
+    margin-bottom:22px;
+  }
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  @media (max-width:760px){.stats{grid-template-columns:1fr;}}
+  .stat{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px;
+    box-shadow:var(--shadow);
+  }
+  .stat .num{
+    font-family:'Bitter',serif;
+    font-weight:900;
+    font-size:2.1rem;
+    color:var(--accent-strong);
+    display:block;
+    line-height:1;
+    margin-bottom:8px;
+  }
+  .stat p{font-size:.88rem;color:var(--ink-soft);}
+  .stat .src{
+    display:block;
+    margin-top:8px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.66rem;
+    color:var(--ink-faint);
+  }
+
+  /* scope table */
+  .scope{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+  }
+  @media (max-width:700px){.scope{grid-template-columns:1fr;}}
+  .scope > div{padding:22px 24px;}
+  .scope .do{background:var(--surface);}
+  .scope .dont{background:var(--surface-2);}
+  .scope h3{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.74rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    font-weight:600;
+    margin-bottom:14px;
+  }
+  .scope .do h3{color:var(--accent-strong);}
+  .scope .dont h3{color:var(--ink-faint);}
+  .scope ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;}
+  .scope li{
+    font-size:.92rem;
+    padding-left:22px;
+    position:relative;
+    color:var(--ink-soft);
+  }
+  .scope .do li::before{content:"✓";position:absolute;left:0;color:var(--accent-strong);font-weight:700;}
+  .scope .dont li::before{content:"–";position:absolute;left:0;color:var(--ink-faint);font-weight:700;}
+  .scope-note{
+    grid-column:1/-1;
+    padding:16px 24px;
+    background:var(--surface);
+    border-top:1px solid var(--line);
+    font-size:.9rem;
+    color:var(--ink-soft);
+  }
+
+  /* process timeline */
+  .timeline{display:flex;flex-direction:column;}
+  .step{
+    display:grid;
+    grid-template-columns:100px 1fr;
+    gap:20px;
+    padding:16px 0;
+    border-top:1px solid var(--line);
+  }
+  .step:last-child{border-bottom:1px solid var(--line);}
+  .step .when{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.78rem;
+    color:var(--accent-strong);
+    font-weight:600;
+    padding-top:2px;
+  }
+  .step .what b{display:block;font-size:.98rem;margin-bottom:3px;}
+  .step .what span{font-size:.88rem;color:var(--ink-soft);}
+
+  /* price */
+  .price-box{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:26px 28px;
+    box-shadow:var(--shadow);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  .price-box .num{
+    font-family:'Bitter',serif;
+    font-weight:900;
+    font-size:1.9rem;
+    color:var(--ink);
+  }
+  .price-box .num .from{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;
+    color:var(--ink-faint);
+    display:block;
+    font-weight:500;
+    margin-bottom:4px;
+  }
+  .price-note{font-size:.88rem;color:var(--ink-soft);max-width:38ch;}
+  .price-caveat{
+    margin-top:16px;
+    font-size:.88rem;
+    color:var(--gold);
+    background:var(--gold-soft);
+    border-radius:10px;
+    padding:11px 15px;
+  }
+
+  /* objections */
+  .obj{border-top:1px solid var(--line);padding:20px 0;}
+  .obj:last-child{border-bottom:1px solid var(--line);}
+  .obj .q{
+    font-weight:700;
+    font-size:.98rem;
+    margin-bottom:6px;
+  }
+  .obj .q::before{content:"«";}
+  .obj .q::after{content:"»";}
+  .obj .a{font-size:.92rem;color:var(--ink-soft);max-width:64ch;}
+
+  /* footer / CTA */
+  .cta{
+    padding:56px 0 80px;
+  }
+  .cta-box{
+    background:var(--accent);
+    color:var(--accent-ink);
+    border-radius:18px;
+    padding:clamp(28px,4vw,44px);
+  }
+  .cta-box h2{color:var(--accent-ink);font-size:clamp(1.3rem,2.4vw,1.7rem);margin-bottom:14px;}
+  .cta-box ol{
+    margin:20px 0 0;
+    padding:0;
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .cta-box li{
+    display:flex;
+    gap:14px;
+    font-size:.96rem;
+  }
+  .cta-box li .n{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    opacity:.65;
+  }
+  .cta-box p.lede2{opacity:.92;max-width:58ch;font-size:1rem;}
+
+  .quiet-note{
+    margin-top:26px;
+    font-size:.85rem;
+    color:var(--ink-faint);
+    max-width:60ch;
+  }
+</style>
+
+<div class="shell">
+  <nav class="rail" aria-label="Разделы">
+    <a href="#mechanism">01 Откуда спрос</a>
+    <a href="#problem">02 Без сайта</a>
+    <a href="#solution">03 Что делает сайт</a>
+    <a href="#proof">04 Почему сработает</a>
+    <a href="#scope">05 Что входит</a>
+    <a href="#process">06 Как проходит</a>
+    <a href="#price">07 Стоимость</a>
+    <a href="#objections">08 Вопросы</a>
+    <a href="#next">09 Дальше</a>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">Подготовлено к звонку · 21 августа</div>
+      <h1>Как сайт начнёт приводить в «Медкор» первичных пациентов</h1>
+      <p class="thesis">
+        Спрос на стоматологию рядом уже есть — карты, поиск, рекомендации знакомых,
+        карточки на медицинских агрегаторах. Информация о клинике в сети уже есть —
+        вопрос в том, кому она сейчас приносит пользу: вам или площадкам, которые
+        показывают рядом с вами конкурентов.
+      </p>
+      <div class="meta">
+        <div class="meta-item"><span class="k">Кому</span><span class="v">Стоматология «Медкор»</span></div>
+        <div class="meta-item"><span class="k">Тема</span><span class="v">Сайт для первичных пациентов</span></div>
+        <div class="meta-item"><span class="k">Формат</span><span class="v">Только разработка сайта</span></div>
+      </div>
+    </header>
+
+    <!-- 01 -->
+    <section class="stage" id="mechanism">
+      <div class="stage-head">
+        <div>
+          <div class="eyebrow"><span class="num">01</span> Механика</div>
+          <h2>Люди уже ищут стоматологию рядом — вопрос, куда они попадают</h2>
+        </div>
+      </div>
+      <p class="lede">
+        Я не занимаюсь рекламой и не обещаю привести вам людей «из воздуха». У клиники
+        уже есть источники интереса, которые существуют независимо от того, работаю я
+        с вами или нет, — включая карточки на ПроДокторов, НаПоправку и Zoon, которые
+        я нашёл перед этим звонком. Сайт нужен не вместо них, а чтобы интерес, который
+        на них уже приходит, не оставался в чужой воронке сравнения.
+      </p>
+
+      <div class="flow">
+        <div class="flow-sources">
+          <div class="src-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.1 7-12A7 7 0 0 0 5 9c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg>
+            Карты (2ГИС, Яндекс, Google)
+          </div>
+          <div class="src-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4v16M4 12h16"/></svg>
+            Агрегаторы (ПроДокторов, НаПоправку, Zoon)
+          </div>
+          <div class="src-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4 8.6 8.6 0 0 1-3.8-.9L3 20l1.1-4.2A8.4 8.4 0 1 1 21 11.5Z"/></svg>
+            Сарафанное радио
+          </div>
+          <div class="src-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.4-4.4"/></svg>
+            Органический поиск
+          </div>
+          <div class="src-chip dim">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v12H7l-3 3V4Z"/></svg>
+            Реклама — если решите включить
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node site">
+          <span class="label">Точка сборки</span>
+          <span class="title">Сайт «Медкор»</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node outcome">
+          <span class="label">Результат</span>
+          <span class="title">Запись на приём</span>
+        </div>
+        <div class="flow-note">
+          <b>Моя задача — только средний блок.</b> Я не создаю спрос слева и не гарантирую
+          объём справа — я делаю так, чтобы человек, который уже что-то из левого списка
+          сделал (в том числе открыл вашу карточку на агрегаторе), не срывался на полпути
+          к записи — на чужой территории, где рядом всегда стоит конкурент.
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="stage" id="problem">
+      <div class="stage-head">
+        <div>
+          <div class="eyebrow"><span class="num">02</span> Сейчас</div>
+          <h2>Информация о клинике уже есть в сети. Проблема не в этом</h2>
+        </div>
+      </div>
+      <p class="lede">
+        Перед звонком я проверил: «Медкор» на Гражданском проспекте уже представлен минимум
+        на трёх профильных площадках, плюс на картах. Это хорошо и закрывать эти карточки
+        не нужно. Но у всех трёх есть одна общая черта, которая работает против вас.
+      </p>
+
+      <div class="agg-list">
+        <div class="agg-card">
+          <div class="name">ПроДокторов</div>
+          <div class="fact">Карточка клиники с врачами и отзывами уже есть в разделе стоматологий Петербурга</div>
+        </div>
+        <div class="agg-card">
+          <div class="name">НаПоправку</div>
+          <div class="fact">Отдельная карточка «Медкор, стоматологический центр» — один из 750+ профилей клиник в Москве и Петербурге на площадке</div>
+        </div>
+        <div class="agg-card">
+          <div class="name">Zoon</div>
+          <div class="fact">Карточка с рейтингом 4.2 в общем каталоге стоматологий Калининского района</div>
+        </div>
+      </div>
+
+      <div class="problem">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 9v4"/><circle cx="12" cy="16.2" r=".3" fill="currentColor"/><path d="M10.3 3.9 1.9 18.5A2 2 0 0 0 3.6 21.5h16.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        <div>
+          <p><b>Эти карточки — не ваша витрина, а чужой каталог, где вы один из вариантов.</b>
+          Смысл агрегатора — держать человека внутри сравнения как можно дольше: рядом с
+          вашей карточкой по конструкции площадки всегда показаны похожие клиники поблизости.
+          Человек, который искал именно «Медкор», по пути мимо вашей же карточки видит
+          соседей по каталогу.</p>
+        </div>
+      </div>
+
+      <div class="problem">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 9v4"/><circle cx="12" cy="16.2" r=".3" fill="currentColor"/><path d="M10.3 3.9 1.9 18.5A2 2 0 0 0 3.6 21.5h16.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        <div>
+          <p><b>Место в этом каталоге буквально продаётся конкурентам.</b> НаПоправку прямо
+          пишет клиникам в своих партнёрских материалах: платный пакет даёт «услуги будут
+          выводиться выше конкурентов». То есть по умолчанию порядок в выдаче — не заслуга
+          клиники, а результат того, кто заплатил за место. Если конкурент купит это,
+          а «Медкор» — нет, выше окажется конкурент, при том же качестве услуг.</p>
+          <p class="quote">«Ваши услуги будут выводиться выше конкурентов» — из описания платного пакета для клиник<span class="src">partner.napopravku.ru, раздел для клиник</span></p>
+        </div>
+      </div>
+
+      <div class="problem">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 9v4"/><circle cx="12" cy="16.2" r=".3" fill="currentColor"/><path d="M10.3 3.9 1.9 18.5A2 2 0 0 0 3.6 21.5h16.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        <div>
+          <p><b>Запись происходит на территории площадки, а не клиники.</b> Даже если человек
+          дошёл до записи через агрегатор — это заявка в системе агрегатора. У «Медкор» нет
+          прямого канала связи с этим человеком: нельзя написать ему через полгода про акцию,
+          нельзя настроить рассылку, нельзя разместить страницу конкретно под ту услугу, за
+          которой он пришёл. Площадка выполнила свою задачу — довела человека до заявки. Ваша
+          задача — превратить его в постоянного пациента — начинается уже без вашего контроля
+          над каналом.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section class="stage" id="solution">
+      <div class="stage-head">
+        <div>
+          <div class="eyebrow"><span class="num">03</span> Решение</div>
+          <h2>Что именно должен делать сайт — по шагам</h2>
+        </div>
+      </div>
+      <p class="lede">
+        Не «красивая визитка» и не замена карточек на агрегаторах, а последовательность
+        из четырёх вещей. Каждая закрывает конкретный момент, в который человек сейчас
+        разворачивается и уходит к соседней клинике в том же каталоге.
+      </p>
+
+      <div class="mech">
+        <div class="mech-row">
+          <div class="mech-num">1</div>
+          <div class="mech-col fact"><span class="k">Что делаем</span><p>Первый экран с понятным предложением и кнопкой записи — без прокрутки, без конкурентов рядом.</p></div>
+          <div class="mech-col"><span class="k">Что это даёт</span><p>За 3–5 секунд ясно: это стоматология, чем она хороша и куда нажать — и никто, кроме вас, не может купить место на этой странице.</p></div>
+          <div class="mech-col"><span class="k">Результат</span><p>Меньше людей закрывают вкладку или уходят на карточку соседа по каталогу.</p></div>
+        </div>
+        <div class="mech-row">
+          <div class="mech-num">2</div>
+          <div class="mech-col fact"><span class="k">Что делаем</span><p>Врачи с фото и опытом, лицензии, реальные отзывы, открытые цены.</p></div>
+          <div class="mech-col"><span class="k">Что это даёт</span><p>Снимает главный страх пациента в стоматологии — «не понимаю, к кому иду и сколько это будет стоить» — тем же контентом, что и на агрегаторах, но без сравнения с конкурентами на этой же странице.</p></div>
+          <div class="mech-col"><span class="k">Результат</span><p>Человек звонит увереннее, а не «на всякий случай», и не уходит проверять ещё три варианта.</p></div>
+        </div>
+        <div class="mech-row">
+          <div class="mech-num">3</div>
+          <div class="mech-col fact"><span class="k">Что делаем</span><p>Кнопка звонка всегда на виду + форма записи + WhatsApp/Telegram — заявка приходит напрямую вам, а не в систему площадки.</p></div>
+          <div class="mech-col"><span class="k">Что это даёт</span><p>Часть людей не хочет звонить первой — им нужен способ оставить заявку молча, и эта заявка должна попадать к вам, а не оседать в чужой CRM.</p></div>
+          <div class="mech-col"><span class="k">Результат</span><p>Не теряем тех, кто готов записаться, и сохраняем прямой контакт с ним на будущее.</p></div>
+        </div>
+        <div class="mech-row">
+          <div class="mech-num">4</div>
+          <div class="mech-col fact"><span class="k">Что делаем</span><p>Отдельные страницы по направлениям (импланты, брекеты, детская, гигиена) + техническая настройка под локальный поиск + ссылки со всех карточек-агрегаторов на сайт.</p></div>
+          <div class="mech-col"><span class="k">Что это даёт</span><p>Человек, который сравнил вас на ПроДокторов или Zoon и остановился на «Медкор», одним кликом попадает туда, где рядом больше никого нет.</p></div>
+          <div class="mech-col"><span class="k">Результат</span><p>Карточки на агрегаторах начинают работать на сайт, а не забирают трафик себе. Это часть разовой разработки — без отдельной услуги SEO или ведения.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="stage" id="proof">
+      <div class="stage-head">
+        <div>
+          <div class="eyebrow"><span class="num">04</span> Ориентиры</div>
+          <h2>Почему это работает — не моё мнение, а то, что сами площадки говорят о себе</h2>
+        </div>
+      </div>
+      <div class="stat-bar">
+        Это не обещание конкретных цифр для «Медкор» — гарантировать результат нечестно,
+        и я этого делать не буду. Но кое-что не нужно обещать — это уже открыто говорят
+        сами агрегаторы и агентства, которые продвигают на них клиники.
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <span class="num">60%</span>
+          <p>записей на ПроДокторов достаются врачам и клиникам, размещённым на первых позициях каталога — то есть купившим спецразмещение</p>
+          <span class="src">по данным агентств, продвигающих клиники на площадке</span>
+        </div>
+        <div class="stat">
+          <span class="num">750+</span>
+          <p>клиник Москвы и Петербурга конкурируют за того же пациента на одной площадке НаПоправку — «Медкор» там один из многих</p>
+          <span class="src">partner.napopravku.ru</span>
+        </div>
+        <div class="stat">
+          <span class="num">×2</span>
+          <p>типичный рост конверсии сайта в заявку после нормальной сборки вместо самодельной/визиточной версии (ориентир по другим нишам услуг, не медицина)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section class="stage" id="scope">
+      <div class="stage-head">
+        <div>
+          <div class="eyebrow"><span class="num">05</span> Границы</div>
+          <h2>Что я делаю — и честно, что нет</h2>
+        </div>
+      </div>
+      <p class="lede">
+        Я сознательно занимаюсь только сайтами и не распыляюсь на рекламу и соцсети —
+        весь фокус уходит в одну задачу: чтобы человек, который уже ищет стоматологию
+        (в том числе на агрегаторах), дошёл до записи именно к вам.
+      </p>
+      <div class="scope">
+        <div class="do">
+          <h3>Делаю</h3>
+          <ul>
+            <li>Дизайн и тексты под «Медкор» и ваши направления</li>
+            <li>Структуру сайта по услугам (импланты, брекеты, детская и т.д.)</li>
+            <li>Запись/звонок/мессенджеры — заявка приходит напрямую вам</li>
+            <li>Техническую настройку под локальный поиск</li>
+            <li>Базовую аналитику посещений и заявок</li>
+          </ul>
+        </div>
+        <div class="dont">
+          <h3>Не делаю</h3>
+          <ul>
+            <li>Рекламу — Яндекс.Директ, таргет</li>
+            <li>SMM и ведение соцсетей</li>
+            <li>Ведение карточек на ПроДокторов/НаПоправку/Zoon и работу с отзывами там</li>
+            <li>Ежемесячное продвижение сайта</li>
+          </ul>
+        </div>
+        <div class="scope-note">
+          Карточки на агрегаторах закрывать не нужно — они остаются точкой входа и туда,
+          где люди сравнивают клиники, и точкой доверия (отзывы, рейтинг). Сайт не спорит
+          с ними, а становится местом, куда они ведут — сейчас все три ссылки с этих
+          карточек фактически никуда не приводят.
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section class="stage" id="process">
+      <div class="stage-head">
+        <div>
+          <div class="eyebrow"><span class="num">06</span> Процесс</div>
+          <h2>Как проходит работа — от брифа до запуска</h2>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="step"><div class="when">Шаг 1</div><div class="what"><b>Бриф</b><span>Направления клиники, приоритетные услуги, кто согласовывает материалы</span></div></div>
+        <div class="step"><div class="when">Шаг 2</div><div class="what"><b>Структура и прототип</b><span>Разбивка по страницам-направлениям, логика записи</span></div></div>
+        <div class="step"><div class="when">Шаг 3</div><div class="what"><b>Тексты и дизайн</b><span>Врачи, отзывы, цены, фото — с вашим утверждением на каждом этапе</span></div></div>
+        <div class="step"><div class="when">Шаг 4</div><div class="what"><b>Сборка и интеграции</b><span>Запись, звонок, мессенджеры, аналитика, техническая настройка</span></div></div>
+        <div class="step"><div class="when">Шаг 5</div><div class="what"><b>Проверка и запуск</b><span>Тест на телефоне и десктопе, публикация, расстановка ссылок с карточек-агрегаторов на сайт</span></div></div>
+      </div>
+      <p class="quiet-note">Ориентир по срокам — 2–3 недели с момента брифа, в зависимости от объёма направлений.</p>
+    </section>
+
+    <!-- 07 -->
+    <section class="stage" id="price">
+      <div class="stage-head">
+        <div>
+          <div class="eyebrow"><span class="num">07</span> Стоимость</div>
+          <h2>Сколько это стоит</h2>
+        </div>
+      </div>
+      <div class="price-box">
+        <div class="num"><span class="from">Точная цифра</span>назову на звонке, после короткого брифа</div>
+        <p class="price-note">Стоимость зависит от количества направлений и объёма материалов — 5 минут вопросов дадут точную сумму вместо цифры наугад.</p>
+      </div>
+      <p class="price-caveat">
+        Цена называется в конце сознательно: сначала стоит понять объём задачи, а не
+        выдавать цифру по шаблону, которая потом окажется либо заниженной, либо не той,
+        что нужна «Медкор».
+      </p>
+    </section>
+
+    <!-- 08 -->
+    <section class="stage" id="objections">
+      <div class="stage-head">
+        <div>
+          <div class="eyebrow"><span class="num">08</span> Возможные вопросы</div>
+          <h2>Что вы можете спросить — и как я на это отвечаю</h2>
+        </div>
+      </div>
+      <div class="obj">
+        <p class="q">У нас уже есть карточки на ПроДокторов, НаПоправку и Zoon — там всё есть: врачи, отзывы, услуги. Зачем ещё и сайт?</p>
+        <p class="a">Именно поэтому я и предлагаю сайт, а не потому что не знал про эти карточки —
+        я их специально проверил перед звонком. Дело не в том, что информации о «Медкор» нет
+        в сети, а в том, кому эта информация служит в первую очередь. Все три площадки открыто
+        живут за счёт того, что рядом с вашей карточкой можно показать и продать место
+        конкуренту: НаПоправку прямо предлагает клиникам платный пакет, где «услуги будут
+        выводиться выше конкурентов», а на ПроДокторов около 60% записей достаются тем, кто
+        купил верхние позиции в каталоге. Сайт — единственная страница в интернете, где рядом
+        с «Медкор» физически не может появиться реклама другой клиники, потому что этот домен
+        принадлежит только вам.</p>
+      </div>
+      <div class="obj">
+        <p class="q">Значит, нужно вкладываться в продвижение на этих агрегаторах, а не в сайт?</p>
+        <p class="a">Это тоже рабочий путь, но у него другая экономика: каждый год конкуренты
+        могут перебить вашу ставку за верхнюю позицию, и вложение обнуляется. Сайт — актив,
+        который остаётся вашим независимо от того, что решит поменять в алгоритме площадка.
+        Разумный вариант — не выбирать одно вместо другого: карточки продолжают приводить
+        людей, а сайт — то место, куда они «дожимаются» до записи, без необходимости платить
+        агрегатору за каждую позицию.</p>
+      </div>
+      <div class="obj">
+        <p class="q">У нас и так все узнают от знакомых, зачем нам сайт</p>
+        <p class="a">Сарафан работает, но перед звонком по рекомендации человек почти всегда
+        гуглит название клиники — и по брендовому запросу «Медкор» в топе окажутся те же
+        карточки агрегаторов с конкурентами по соседству, а не страница, которая принадлежит
+        только вам. Часть рекомендаций гаснет именно на этом шаге.</p>
+      </div>
+      <div class="obj">
+        <p class="q">Можем сделать сами на конструкторе</p>
+        <p class="a">Можно — вопрос времени и результата. Разница между визиткой и сайтом,
+        который реально закрывает три страха пациента (кто врач, сколько стоит, как записаться)
+        и работает продолжением карточек на агрегаторах, а не их дублем, обычно и есть разница
+        между «сайт есть» и «сайт приносит записи».</p>
+      </div>
+      <div class="obj">
+        <p class="q">А реклама нам не нужна?</p>
+        <p class="a">Честно — я не продаю рекламу и не буду навязывать то, чем не занимаюсь.
+        Сайт при этом будет готов принять рекламный трафик в любой момент, если вы решите
+        его запустить — с любым подрядчиком.</p>
+      </div>
+      <div class="obj">
+        <p class="q">Где гарантии, что это сработает?</p>
+        <p class="a">Гарантировать конкретное число пациентов нечестно — это не в моей власти.
+        Гарантирую процесс: сроки, этапы, согласование на каждом шаге и сайт, который
+        закрывает объективные причины, по которым человек сейчас теряется на пути к записи —
+        в том числе на площадках, которые вам не принадлежат.</p>
+      </div>
+    </section>
+
+    <!-- 09 -->
+    <section class="stage cta" id="next">
+      <div class="cta-box">
+        <div class="eyebrow" style="color:var(--accent-ink);opacity:.75">09 · Дальше</div>
+        <h2>Что предлагаю сделать на этом звонке</h2>
+        <p class="lede2">Не нужно решать всё сразу — достаточно 10–15 минут, чтобы я задал
+        несколько вопросов и мог посчитать точную стоимость и сроки.</p>
+        <ol>
+          <li><span class="n">1</span> Короткий бриф: направления клиники, приоритеты, кто утверждает материалы</li>
+          <li><span class="n">2</span> В течение 1–2 дней — предложение с точной ценой, сроками и составом работ</li>
+          <li><span class="n">3</span> При согласии — договор, предоплата, старт разработки</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  (function(){
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.rail a'));
+    var sections = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+    if(!('IntersectionObserver' in window) || !sections.length) return;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        var id = '#' + e.target.id;
+        links.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === id); });
+      });
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ io.observe(s); });
+  })();
+</script>
+
+</body>
+</html>
