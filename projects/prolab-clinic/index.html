@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pro Lab Clinic — клиника косметологии на Шпалерной, СПб | Morpheus 8, губы, ягодицы</title>
+<meta name="description" content="Клиника инъекционной и аппаратной косметологии Pro Lab Clinic, Санкт-Петербург, Шпалерная 60. Morpheus 8 на оригинальной платформе InMode, контурная пластика губ, объём ягодиц без операции. Рейтинг 5,0 на Яндекс Картах, медицинская лицензия, ежедневно 10:00–21:00.">
+<meta name="theme-color" content="#0E3B33">
+<!-- Демо-прототип для согласования с клиникой: закрыт от индексации,
+     чтобы не конкурировал с prolab-clinic.ru. Перед запуском строку удалить. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="format-detection" content="telephone=no">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Pro Lab Clinic">
+<meta property="og:title" content="Pro Lab Clinic — клиника косметологии с рейтингом 5,0 у Смольного">
+<meta property="og:description" content="Morpheus 8, контурная пластика губ и объём ягодиц на оригинальной платформе InMode. Шпалерная, 60.">
+<meta property="og:image" content="assets/img/reception.webp">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230E3B33'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='15' letter-spacing='0.5' fill='%23D8B45F' text-anchor='middle'%3EPL%3C/text%3E%3C/svg%3E">
+
+<!-- Сюда вставляется счётчик Яндекс.Метрики с вебвизором.
+     Цели уже вызываются из кода форм: ym(0,'reachGoal','lead'). -->
+
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-cyrillic-500.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/manrope-cyrillic.woff2" crossorigin>
+<link rel="preload" as="image" href="assets/img/reception.webp" fetchpriority="high">
+<style>
+/* Шрифты хостим локально: Google Fonts из РФ отдаётся нестабильно и блокирует рендер */
+@font-face{font-family:'Cormorant';font-style:normal;font-weight:400 700;font-display:swap;
+  src:url(assets/fonts/cormorant-cyrillic-500.woff2) format('woff2');
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Cormorant';font-style:normal;font-weight:400 700;font-display:swap;
+  src:url(assets/fonts/cormorant-latin-500.woff2) format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122}
+@font-face{font-family:'Cormorant';font-style:italic;font-weight:400 700;font-display:swap;
+  src:url(assets/fonts/cormorant-cyrillic-500-italic.woff2) format('woff2');
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:400 800;font-display:swap;
+  src:url(assets/fonts/manrope-cyrillic.woff2) format('woff2');
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:400 800;font-display:swap;
+  src:url(assets/fonts/manrope-latin.woff2) format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122}
+
+:root{
+  --green:#0E3B33;          /* изумруд бренда — стены, бархат, логотип */
+  --green-deep:#08281F;
+  --green-soft:#1B5247;
+  --gold:#C8A15A;           /* золото монограммы */
+  --gold-light:#E6CE95;
+  --cream:#FBF5EC;          /* тёплый кремовый — стены клиники */
+  --sand:#F3E9DA;
+  --ink:#20302C;            /* основной текст, зеленовато-чёрный, не резкий */
+  --ink-soft:#5A6B66;
+  --white:#fff;
+  --radius:24px;
+  --radius-s:14px;
+  --shadow:0 18px 50px -24px rgba(14,59,51,.35);
+  --shadow-soft:0 10px 30px -18px rgba(14,59,51,.28);
+  --wrap:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:var(--ink);background:var(--white);font-size:17px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3,h4{font-family:'Cormorant',Georgia,serif;font-weight:600;line-height:1.1;margin:0;letter-spacing:.01em}
+h1{font-size:clamp(34px,4.3vw,57px)}
+h2{font-size:clamp(31px,4vw,50px)}
+h3{font-size:clamp(21px,2.2vw,27px)}
+p{margin:0}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.sec{padding:clamp(64px,8vw,116px) 0;position:relative;overflow:hidden}
+
+/* Надзаголовок секции — тонкая золотая метка */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;
+  color:var(--gold);margin-bottom:18px;
+}
+.eyebrow::before{content:'';width:26px;height:1px;background:currentColor;opacity:.7}
+.lede{color:var(--ink-soft);font-size:clamp(16px,1.4vw,19px);max-width:60ch}
+
+/* ---------- Кнопки ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:17px 32px;border-radius:100px;border:0;cursor:pointer;
+  font-family:inherit;font-size:16px;font-weight:700;line-height:1.2;
+  text-decoration:none;transition:.25s ease;
+}
+.btn-gold{
+  background:linear-gradient(135deg,#E6CE95,#C8A15A 55%,#B08B44);
+  color:#2B2110;box-shadow:0 12px 30px -12px rgba(200,161,90,.75);
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 18px 38px -12px rgba(200,161,90,.85)}
+.btn-ghost{border:1px solid rgba(255,255,255,.45);color:#fff;background:rgba(255,255,255,.06)}
+.btn-ghost:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.7)}
+.btn-outline{border:1px solid rgba(14,59,51,.25);color:var(--green);background:transparent}
+.btn-outline:hover{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-wide{width:100%}
+
+/* ---------- Шапка ---------- */
+.top{
+  position:fixed;inset:0 0 auto 0;z-index:60;
+  background:rgba(8,40,31,.82);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(200,161,90,.22);
+  transition:background .3s;
+}
+.top-in{display:flex;align-items:center;gap:28px;height:74px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0}
+.logo img{height:34px;width:auto}
+.logo-desc{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);line-height:1.35;max-width:172px}
+.nav{display:flex;gap:26px;margin-left:auto;font-size:14px;font-weight:600}
+.nav a{color:rgba(255,255,255,.82);text-decoration:none;transition:.2s;white-space:nowrap}
+.nav a:hover{color:var(--gold-light)}
+.top-phone{color:#fff;text-decoration:none;font-weight:700;font-size:16px;white-space:nowrap}
+.top-phone small{display:block;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+.top .btn{padding:12px 22px;font-size:14px}
+.burger{display:none;margin-left:auto;background:none;border:0;color:#fff;padding:8px;cursor:pointer}
+.burger svg{display:block}
+
+/* ---------- Первый экран ---------- */
+.hero{position:relative;padding:126px 0 0;background:var(--green-deep);color:#fff;overflow:hidden}
+.hero::before{ /* тёплое золотое пятно за текстом */
+  content:'';position:absolute;left:-14%;top:-10%;width:60vw;height:60vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,161,90,.24),transparent 62%);pointer-events:none;
+}
+.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:52px;align-items:center;position:relative;z-index:2}
+.hero h1{color:#fff;margin-bottom:18px}
+.hero h1 em{font-style:italic;color:var(--gold-light)}
+.hero-sub{color:rgba(255,255,255,.8);max-width:52ch;font-size:clamp(16px,1.35vw,18px)}
+.hero-bul{list-style:none;padding:0;margin:24px 0 28px;display:grid;gap:11px}
+.hero-bul li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;color:rgba(255,255,255,.9)}
+.hero-bul svg{flex-shrink:0;margin-top:3px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.hero-note{font-size:13px;color:rgba(255,255,255,.5);margin-top:16px}
+.hero-media{position:relative}
+.hero-photo{
+  border-radius:var(--radius);overflow:hidden;box-shadow:0 40px 80px -40px rgba(0,0,0,.7);
+  border:1px solid rgba(200,161,90,.3);
+}
+.hero-photo img{width:100%;height:clamp(340px,40vw,500px);object-fit:cover}
+/* Плашка с рейтингом поверх фото */
+.rating-card{
+  position:absolute;left:-26px;bottom:-30px;background:var(--cream);color:var(--ink);
+  border-radius:20px;padding:18px 24px;box-shadow:var(--shadow);display:flex;gap:16px;align-items:center;
+  border:1px solid rgba(200,161,90,.35);
+}
+.rating-num{font-family:'Cormorant',serif;font-size:44px;line-height:1;color:var(--green)}
+.rating-stars{color:var(--gold);letter-spacing:2px;font-size:14px}
+.rating-txt{font-size:12.5px;color:var(--ink-soft);line-height:1.4;max-width:150px}
+.hero-strip{
+  margin-top:clamp(48px,5.5vw,74px);border-top:1px solid rgba(255,255,255,.12);
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.hero-strip div{padding:24px 20px 30px;border-right:1px solid rgba(255,255,255,.12)}
+.hero-strip div:last-child{border-right:0}
+.hero-strip b{display:block;font-family:'Cormorant',serif;font-size:clamp(26px,2.6vw,34px);color:var(--gold-light);font-weight:600}
+.hero-strip span{font-size:13px;color:rgba(255,255,255,.62);line-height:1.4;display:block;margin-top:4px}
+
+/* ---------- Флагманы ---------- */
+.flag{background:linear-gradient(170deg,var(--cream) 0%,#FDFAF4 55%,var(--sand) 100%)}
+.flag::after{ /* мягкое золотое пятно справа */
+  content:'';position:absolute;right:-12%;top:8%;width:44vw;height:44vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,161,90,.16),transparent 65%);pointer-events:none;
+}
+.sec-head{max-width:720px;position:relative;z-index:2}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:46px;position:relative;z-index:2}
+.card{
+  background:#fff;border-radius:var(--radius);padding:32px 28px 28px;
+  border:1px solid rgba(14,59,51,.09);box-shadow:var(--shadow-soft);
+  display:flex;flex-direction:column;transition:.28s ease;position:relative;overflow:hidden;
+}
+.card::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--gold-light),var(--gold),transparent)}
+.card:hover{transform:translateY(-6px);box-shadow:0 26px 56px -26px rgba(14,59,51,.42)}
+.card-tag{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:14px}
+.card h3{margin-bottom:12px;color:var(--green)}
+.card p{color:var(--ink-soft);font-size:15.5px;margin-bottom:20px}
+.card ul{list-style:none;padding:0;margin:0 0 24px;display:grid;gap:9px}
+.card ul li{position:relative;padding-left:22px;font-size:15px;color:var(--ink)}
+.card ul li::before{content:'';position:absolute;left:0;top:9px;width:9px;height:9px;border-radius:50%;border:1.5px solid var(--gold)}
+.card-price{margin-top:auto;padding-top:20px;border-top:1px solid rgba(14,59,51,.1);display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.card-price b{font-family:'Cormorant',serif;font-size:29px;color:var(--green);font-weight:600;white-space:nowrap}
+.card-price span{font-size:12.5px;color:var(--ink-soft)}
+.flag-more{
+  margin-top:26px;background:rgba(255,255,255,.7);border:1px dashed rgba(200,161,90,.6);
+  border-radius:var(--radius-s);padding:20px 24px;display:flex;flex-wrap:wrap;gap:14px 28px;
+  align-items:center;justify-content:space-between;position:relative;z-index:2;
+}
+.flag-more p{font-size:15px;color:var(--ink-soft)}
+.flag-more b{color:var(--green)}
+
+/* ---------- Почему (тёмная секция) ---------- */
+.why{background:linear-gradient(150deg,var(--green) 0%,var(--green-deep) 70%);color:#fff}
+.why::before{content:'';position:absolute;left:50%;top:-20%;width:70vw;height:70vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,161,90,.13),transparent 62%);pointer-events:none}
+.why .eyebrow{color:var(--gold-light)}
+.why h2{color:#fff}
+.why .lede{color:rgba(255,255,255,.72)}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;position:relative;z-index:2}
+.why-list{list-style:none;padding:0;margin:36px 0 0;display:grid;gap:26px}
+.why-list li{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start}
+.why-ic{
+  width:46px;height:46px;border-radius:14px;flex-shrink:0;
+  background:rgba(200,161,90,.14);border:1px solid rgba(200,161,90,.4);
+  display:grid;place-items:center;color:var(--gold-light);
+}
+.why-list h4{font-size:19px;color:#fff;margin-bottom:5px}
+.why-list p{font-size:15px;color:rgba(255,255,255,.68)}
+.why-media{position:relative}
+.why-media img{border-radius:var(--radius);border:1px solid rgba(200,161,90,.3);box-shadow:0 34px 70px -36px rgba(0,0,0,.8)}
+.why-badge{
+  position:absolute;right:-18px;bottom:-22px;background:var(--gold);color:#2B2110;
+  border-radius:18px;padding:16px 20px;max-width:210px;box-shadow:var(--shadow);
+}
+.why-badge b{display:block;font-family:'Cormorant',serif;font-size:22px;line-height:1.1;margin-bottom:4px}
+.why-badge span{font-size:12.5px;line-height:1.4;display:block;opacity:.82}
+
+/* ---------- Интерьер ---------- */
+.inter{background:linear-gradient(180deg,#fff 0%,#F6F7F5 100%)}
+.inter::after{content:'';position:absolute;left:-16%;bottom:-18%;width:52vw;height:52vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(27,82,71,.09),transparent 66%);pointer-events:none}
+.gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:190px;gap:16px;margin-top:44px;position:relative;z-index:2}
+.gal figure{margin:0;border-radius:20px;overflow:hidden;position:relative;box-shadow:var(--shadow-soft)}
+.gal img{width:100%;height:100%;object-fit:cover;transition:.5s ease}
+.gal figure:hover img{transform:scale(1.05)}
+.gal figcaption{
+  position:absolute;left:0;right:0;bottom:0;padding:26px 18px 14px;
+  background:linear-gradient(transparent,rgba(8,40,31,.82));color:#fff;font-size:13.5px;font-weight:600;
+}
+.g-a{grid-column:span 2;grid-row:span 2}
+.g-b{grid-column:span 2}
+.g-c{grid-column:span 1}
+.g-d{grid-column:span 1}
+
+/* ---------- Отзывы ---------- */
+.rev{background:linear-gradient(165deg,var(--sand) 0%,var(--cream) 60%,#FDFBF6 100%)}
+.rev::before{content:'';position:absolute;right:-10%;top:-12%;width:46vw;height:46vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,161,90,.2),transparent 64%);pointer-events:none}
+.rev-top{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-end;justify-content:space-between;position:relative;z-index:2}
+.rev-score{display:flex;gap:18px;align-items:center;background:#fff;border-radius:20px;padding:20px 26px;
+  border:1px solid rgba(200,161,90,.35);box-shadow:var(--shadow-soft)}
+.rev-score .rating-num{font-size:52px}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px;position:relative;z-index:2}
+.quote{background:#fff;border-radius:var(--radius);padding:30px 28px;border:1px solid rgba(14,59,51,.08);
+  box-shadow:var(--shadow-soft);display:flex;flex-direction:column}
+.quote .stars{color:var(--gold);letter-spacing:3px;font-size:14px;margin-bottom:14px}
+.quote p{font-size:16px;line-height:1.62;margin-bottom:20px}
+.quote mark{background:linear-gradient(transparent 58%,rgba(200,161,90,.35) 0);color:inherit;padding:0 2px}
+.quote footer{margin-top:auto;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--ink-soft)}
+.quote-av{width:38px;height:38px;border-radius:50%;background:var(--green);color:var(--gold-light);
+  display:grid;place-items:center;font-family:'Cormorant',serif;font-size:18px;flex-shrink:0}
+.quote footer b{color:var(--ink);font-weight:700;display:block;font-size:14.5px}
+.quote footer span{font-size:12.5px}
+
+/* ---------- Врачи ---------- */
+.docs{background:#fff}
+.docs::after{content:'';position:absolute;right:-14%;top:10%;width:46vw;height:46vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(27,82,71,.08),transparent 66%);pointer-events:none}
+.doc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px;position:relative;z-index:2}
+.doc{border-radius:var(--radius);overflow:hidden;background:var(--cream);border:1px solid rgba(14,59,51,.08);
+  box-shadow:var(--shadow-soft);display:flex;flex-direction:column}
+.doc-photo{height:330px;overflow:hidden;background:var(--sand)}
+.doc-photo img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
+.doc-body{padding:24px 26px 28px}
+.doc-body h3{color:var(--green);margin-bottom:4px}
+.doc-role{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:14px}
+.doc-body p{font-size:15px;color:var(--ink-soft)}
+.doc-soon{
+  display:grid;place-items:center;text-align:center;padding:40px 28px;
+  background:linear-gradient(160deg,var(--green) 0%,var(--green-deep) 100%);color:#fff;
+}
+.doc-soon h3{color:#fff;margin-bottom:12px}
+.doc-soon p{color:rgba(255,255,255,.7);font-size:15px}
+
+/* ---------- Форма ---------- */
+.cta{background:linear-gradient(140deg,var(--green-soft) 0%,var(--green) 45%,var(--green-deep) 100%);color:#fff}
+.cta::before{content:'';position:absolute;left:-8%;bottom:-30%;width:60vw;height:60vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,161,90,.2),transparent 62%);pointer-events:none}
+.cta-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center;position:relative;z-index:2}
+.cta h2{color:#fff;margin-bottom:18px}
+.cta .lede{color:rgba(255,255,255,.75)}
+.cta-list{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:12px}
+.cta-list li{display:flex;gap:11px;align-items:flex-start;font-size:15.5px;color:rgba(255,255,255,.88)}
+.cta-list svg{flex-shrink:0;margin-top:3px}
+.form{background:var(--cream);color:var(--ink);border-radius:var(--radius);padding:34px 32px;box-shadow:0 34px 70px -32px rgba(0,0,0,.6)}
+.form h3{color:var(--green);margin-bottom:8px}
+.form>p{font-size:14.5px;color:var(--ink-soft);margin-bottom:22px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:var(--ink)}
+.field input{
+  width:100%;padding:15px 18px;border-radius:12px;border:1px solid rgba(14,59,51,.18);
+  background:#fff;font-family:inherit;font-size:16px;color:var(--ink);transition:.2s;
+}
+.field input:focus{outline:0;border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,161,90,.2)}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--ink-soft);margin:14px 0 20px;line-height:1.45}
+.consent input{margin-top:2px;accent-color:var(--green);width:16px;height:16px;flex-shrink:0}
+.consent a{color:var(--green)}
+.form-ok{display:none;text-align:center;padding:26px 6px}
+.form-ok b{display:block;font-family:'Cormorant',serif;font-size:28px;color:var(--green);margin-bottom:10px}
+.form-ok p{font-size:15px;color:var(--ink-soft)}
+.form.sent .form-body{display:none}
+.form.sent .form-ok{display:block}
+
+/* ---------- Контакты ---------- */
+.cont{background:linear-gradient(180deg,#FDFAF4 0%,var(--sand) 100%)}
+.cont-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start;position:relative;z-index:2}
+.cont-list{list-style:none;padding:0;margin:34px 0 0;display:grid;gap:22px}
+.cont-list li{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+.cont-ic{width:44px;height:44px;border-radius:13px;background:#fff;border:1px solid rgba(200,161,90,.4);
+  display:grid;place-items:center;color:var(--green);flex-shrink:0}
+.cont-list b{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.cont-list span{font-size:16.5px;color:var(--ink)}
+.cont-list a{color:var(--ink);text-decoration:none;border-bottom:1px solid rgba(200,161,90,.5)}
+.cont-way{background:#fff;border-radius:var(--radius);padding:30px 30px 26px;box-shadow:var(--shadow-soft);border:1px solid rgba(14,59,51,.07)}
+.cont-way h3{color:var(--green);margin-bottom:18px}
+.cont-way ol{margin:0;padding-left:20px;display:grid;gap:9px;font-size:15.5px;color:var(--ink-soft)}
+.cont-way ol::marker{color:var(--gold)}
+.lic{margin-top:22px;display:flex;gap:18px;align-items:center;background:rgba(255,255,255,.7);
+  border:1px solid rgba(200,161,90,.4);border-radius:var(--radius-s);padding:16px 20px}
+.lic img{width:66px;border-radius:8px;box-shadow:var(--shadow-soft)}
+.lic p{font-size:13.5px;color:var(--ink-soft)}
+.lic b{color:var(--green);display:block;font-size:14.5px;margin-bottom:3px}
+
+/* ---------- Подвал ---------- */
+.foot{background:var(--green-deep);color:rgba(255,255,255,.65);padding:52px 0 34px;font-size:14px}
+.foot-in{display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;align-items:flex-start}
+.foot img{height:46px;margin-bottom:14px}
+.foot a{color:rgba(255,255,255,.8)}
+.foot-links{display:grid;gap:9px}
+.foot-note{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:12.5px;color:rgba(255,255,255,.42);line-height:1.6}
+
+/* Плашка прототипа */
+.proto{
+  position:fixed;right:20px;bottom:20px;z-index:70;max-width:280px;
+  background:rgba(8,40,31,.94);color:#fff;border:1px solid rgba(200,161,90,.45);
+  border-radius:16px;padding:14px 40px 14px 16px;font-size:12.5px;line-height:1.5;
+  box-shadow:var(--shadow);backdrop-filter:blur(8px);
+}
+.proto b{color:var(--gold-light);display:block;margin-bottom:3px;font-size:13px}
+.proto button{position:absolute;right:8px;top:8px;background:none;border:0;color:rgba(255,255,255,.6);
+  font-size:18px;line-height:1;cursor:pointer;padding:4px 7px}
+.proto.hidden{display:none}
+
+/* Мобильная нижняя панель */
+.sticky{
+  display:none;position:fixed;left:0;right:0;bottom:0;z-index:65;
+  background:rgba(8,40,31,.96);backdrop-filter:blur(10px);
+  border-top:1px solid rgba(200,161,90,.3);padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  gap:10px;
+}
+.sticky a{flex:1;padding:14px 8px;font-size:14.5px}
+
+/* ---------- Адаптив ---------- */
+@media (max-width:1024px){
+  .hero-grid,.why-grid,.cta-grid,.cont-grid{grid-template-columns:1fr;gap:40px}
+  .rating-card{left:auto;right:16px;bottom:-24px}
+  .cards,.rev-grid,.doc-grid{grid-template-columns:1fr 1fr}
+  .doc-grid .doc:last-child{grid-column:span 2}
+  .nav{display:none}
+  .gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:170px}
+  .g-a{grid-column:span 2;grid-row:span 2}
+  .g-b,.g-c,.g-d{grid-column:span 1}
+}
+@media (max-width:700px){
+  body{font-size:16px}
+  .top-in{height:64px;gap:14px}
+  .logo img{height:28px}
+  .logo-desc,.top .btn,.top-phone small{display:none}
+  .burger{display:block}
+  .hero{padding-top:104px}
+  .hero-photo img{height:300px}
+  .rating-card{position:static;margin-top:18px;width:100%;border-radius:18px}
+  .hero-strip{grid-template-columns:1fr 1fr;margin-top:44px}
+  .hero-strip div{border-bottom:1px solid rgba(255,255,255,.12)}
+  .hero-strip div:nth-child(2n){border-right:0}
+  .cards,.rev-grid,.doc-grid,.gal{grid-template-columns:1fr}
+  .doc-grid .doc:last-child{grid-column:span 1}
+  .gal{grid-auto-rows:210px}
+  .g-a,.g-b,.g-c,.g-d{grid-column:span 1;grid-row:span 1}
+  .why-badge{position:static;margin-top:16px;max-width:none}
+  .sec{padding:58px 0}
+  .form{padding:28px 22px}
+  .sticky{display:flex}
+  body{padding-bottom:74px}
+  .proto{left:12px;right:12px;bottom:84px;max-width:none}
+  .flag-more{flex-direction:column;align-items:flex-start}
+  .rev-score{width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= ШАПКА ================= -->
+<header class="top" id="top">
+  <div class="wrap top-in">
+    <a class="logo" href="#top">
+      <img src="assets/img/logo-light.png" alt="Pro Lab Clinic">
+      <span class="logo-desc">Клиника косметологии · Шпалерная, 60</span>
+    </a>
+    <nav class="nav">
+      <a href="#uslugi">Процедуры</a>
+      <a href="#pochemu">Почему мы</a>
+      <a href="#klinika">Клиника</a>
+      <a href="#otzyvy">Отзывы</a>
+      <a href="#vrachi">Врачи</a>
+      <a href="#kontakty">Контакты</a>
+    </nav>
+    <a class="top-phone" href="tel:+79217690000">+7 (921) 769-00-00<small>Ежедневно 10:00–21:00</small></a>
+    <a class="btn btn-gold" href="#zapis">Записаться</a>
+    <button class="burger" aria-label="Меню" onclick="document.querySelector('.nav').style.display='flex'">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ================= ПЕРВЫЙ ЭКРАН ================= -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Санкт-Петербург · у Смольного</span>
+        <h1>Клиника косметологии, которой ставят <em>5,0 из 5</em></h1>
+        <p class="hero-sub">Morpheus&nbsp;8, контурная пластика губ и объём ягодиц без операции — на оригинальной платформе InMode. Врач подбирает протокол на консультации и называет полную стоимость до начала работы.</p>
+        <ul class="hero-bul">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> 95 оценок на Яндекс Картах и ни одной ниже пяти звёзд</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Медицинская лицензия с 2022 года — процедуры делает врач</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Оригинальная платформа InMode Md, а не аппараты-аналоги</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> 10 минут от Смольного, ежедневно с 10:00 до 21:00</li>
+        </ul>
+        <div class="hero-cta">
+          <a class="btn btn-gold" href="#zapis">Подобрать процедуру и узнать цену</a>
+          <a class="btn btn-ghost" href="https://api.whatsapp.com/send?phone=79217690000" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-5.8c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.1-.2 0-.4.1-.5l.4-.5c.1-.2.1-.3 0-.5l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.5.1-.7.3-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.2.2-.6.2-1.1.1-1.2 0-.1-.2-.2-.4-.3z"/></svg>
+            Написать в WhatsApp
+          </a>
+        </div>
+        <p class="hero-note">Консультация ни к чему не обязывает: врач осмотрит, скажет, что реально нужно, и что делать не стоит.</p>
+      </div>
+
+      <div class="hero-media">
+        <div class="hero-photo">
+          <img src="assets/img/reception.webp" width="1280" height="853" alt="Ресепшен Pro Lab Clinic: мраморная стойка, изумрудные бархатные кресла, латунь" fetchpriority="high">
+        </div>
+        <div class="rating-card">
+          <div>
+            <div class="rating-num">5,0</div>
+            <div class="rating-stars">★★★★★</div>
+          </div>
+          <p class="rating-txt">Средняя оценка клиники на Яндекс&nbsp;Картах — 95 оценок, 62 отзыва</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-strip">
+      <div><b>5,0</b><span>рейтинг на Яндекс Картах</span></div>
+      <div><b>InMode</b><span>оригинальная платформа Md</span></div>
+      <div><b>с 2022</b><span>медицинская лицензия</span></div>
+      <div><b>до 21:00</b><span>работаем без выходных</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ФЛАГМАНЫ ================= -->
+<section class="sec flag" id="uslugi">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Что делаем чаще всего</span>
+      <h2>Три процедуры, ради которых<br>к нам едут через весь город</h2>
+      <p class="lede" style="margin-top:18px">Цены указаны вилкой: итог зависит от объёма препарата и количества зон. Точную сумму врач называет на консультации — до того, как вы на что-то согласитесь.</p>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card-tag">Аппаратная косметология</div>
+        <h3>Morpheus&nbsp;8</h3>
+        <p>Микроигольчатый RF-лифтинг на платформе InMode: игольчатые электроды прогревают дерму изнутри, кожа уплотняется и подтягивается.</p>
+        <ul>
+          <li>Овал лица, брыли, второй подбородок</li>
+          <li>Плотность и качество кожи, поры, рубцы</li>
+          <li>Без операции, реабилитация 3–5 дней</li>
+        </ul>
+        <div class="card-price"><b>45 000 – 65 000 ₽</b><span>зависит от зон</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-tag">Инъекционная косметология</div>
+        <h3>Объём ягодиц<br>без операции</h3>
+        <p>Инъекционная коррекция формы и объёма: результат виден сразу, без наркоза, разрезов и месяца в компрессионном белье.</p>
+        <ul>
+          <li>Объём и форма без имплантов</li>
+          <li>Коррекция асимметрии и «провалов»</li>
+          <li>Возвращение к обычной жизни в тот же день</li>
+        </ul>
+        <div class="card-price"><b>от 45 000 ₽</b><span>по объёму препарата</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-tag">Инъекционная косметология</div>
+        <h3>Контурная пластика губ</h3>
+        <p>Естественный объём и форма по вашей анатомии. Работаем так, чтобы через неделю никто не спросил «ты что-то делала?», а сказал «ты хорошо выглядишь».</p>
+        <ul>
+          <li>Объём, форма, чёткий контур</li>
+          <li>Коррекция асимметрии и «утиных» губ</li>
+          <li>Умеем и убрать филлер, если он не нравится</li>
+        </ul>
+        <div class="card-price"><b>18 000 – 22 000 ₽</b><span>с препаратом</span></div>
+      </article>
+    </div>
+
+    <div class="flag-more">
+      <p>Мы делаем ещё около тридцати процедур: <b>биоревитализация от 15 000 ₽</b>, <b>IPL-фототерапия LUMECCA 15 000 ₽</b>, ботулинотерапия, плазмотерапия PRP, коллагеновая терапия, мезотерапия, чистки <b>от 5 500 ₽</b>, пилинги, уходы, лазерная эпиляция, трихоскопия.</p>
+      <a class="btn btn-outline" href="#zapis">Спросить про свою процедуру</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ПОЧЕМУ МЫ ================= -->
+<section class="sec why" id="pochemu">
+  <div class="wrap">
+    <div class="why-grid">
+      <div>
+        <span class="eyebrow">Почему сюда</span>
+        <h2>Мы отвечаем не за процедуру,<br>а за ваше лицо</h2>
+        <p class="lede">В косметологии решают три вещи: кто держит шприц, чем работает и на чём. Вот что мы можем показать по каждому пункту.</p>
+
+        <ul class="why-list">
+          <li>
+            <span class="why-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l8 4v6c0 5-3.4 8.7-8 10-4.6-1.3-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg></span>
+            <div><h4>Медицинская лицензия, а не «кабинет красоты»</h4><p>№ ЛО41-01 148-78/00632532 от 19.12.2022. Инъекции и аппаратные процедуры выполняют врачи-косметологи, а не мастера после курсов.</p></div>
+          </li>
+          <li>
+            <span class="why-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+            <div><h4>Оригинальная платформа InMode Md</h4><p>На ней работают и Morpheus 8, и LUMECCA. Это тот самый израильский аппарат из исследований, а не «аналог с теми же функциями» за треть цены.</p></div>
+          </li>
+          <li>
+            <span class="why-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19V5m0 14h16"/><path d="M8 15l3.5-4 3 2.5L20 7"/></svg></span>
+            <div><h4>Индивидуальный протокол, а не прайс-лист</h4><p>Сначала осмотр и разбор задачи, потом план: что делаем, в каком порядке, сколько это стоит целиком. Иногда честный ответ — «вам это не нужно».</p></div>
+          </li>
+          <li>
+            <span class="why-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8L12 3z"/></svg></span>
+            <div><h4>5,0 из 5 при 95 оценках</h4><p>Отзывы можно прочитать целиком на Яндекс Картах. Чаще всего хвалят врачей, атмосферу и то, что здесь не уговаривают на лишнее.</p></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="why-media">
+        <img src="assets/img/inmode.webp" width="900" height="1200" alt="Аппарат InMode Md в Pro Lab Clinic — платформа для Morpheus 8 и LUMECCA" loading="lazy">
+        <div class="why-badge"><b>InMode Md</b><span>Тот же аппарат, что в клиниках Тель-Авива и Лондона — стоит у нас на Шпалерной</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= КЛИНИКА ================= -->
+<section class="sec inter" id="klinika">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Клиника</span>
+      <h2>Место, про которое пишут<br>«просто красиво тут»</h2>
+      <p class="lede" style="margin-top:18px">Интерьер упоминается почти в каждом втором отзыве — и ни разу плохо. Мрамор, латунь, изумрудный бархат и хрусталь: сюда приятно приходить, даже когда процедура занимает двадцать минут.</p>
+    </div>
+
+    <div class="gal">
+      <figure class="g-a"><img src="assets/img/lounge.webp" width="1280" height="853" alt="Зона ожидания Pro Lab Clinic: мраморный пол, изумрудные бархатные кресла, латунь" loading="lazy"><figcaption>Зона ожидания — чай, кофе и тишина</figcaption></figure>
+      <figure class="g-b"><img src="assets/img/room-1.webp" width="1280" height="853" alt="Кабинет косметолога Pro Lab Clinic" loading="lazy"><figcaption>Кабинет косметолога</figcaption></figure>
+      <figure class="g-c"><img src="assets/img/leopard.webp" width="960" height="1280" alt="Роспись стены с леопардом на изумрудном фоне" loading="lazy"><figcaption>Та самая стена</figcaption></figure>
+      <figure class="g-d"><img src="assets/img/room-2.webp" width="1280" height="853" alt="Процедурный кабинет с креслом и оборудованием" loading="lazy"><figcaption>Процедурная</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ОТЗЫВЫ ================= -->
+<section class="sec rev" id="otzyvy">
+  <div class="wrap">
+    <div class="rev-top">
+      <div class="sec-head" style="margin:0">
+        <span class="eyebrow">Отзывы</span>
+        <h2>Что говорят те,<br>кто уже дошёл</h2>
+      </div>
+      <div class="rev-score">
+        <div>
+          <div class="rating-num">5,0</div>
+          <div class="rating-stars">★★★★★</div>
+        </div>
+        <p class="rating-txt">95 оценок и 62 отзыва на Яндекс Картах.<br>4,6 в 2ГИС</p>
+      </div>
+    </div>
+
+    <div class="rev-grid">
+      <article class="quote">
+        <div class="stars">★★★★★</div>
+        <p>«Прекрасная клиника городского формата <mark>с профессиональными сотрудниками</mark> и настоящими мастерами своего дела».</p>
+        <footer><span class="quote-av">P</span><span><b>para_games</b><span>2ГИС</span></span></footer>
+      </article>
+      <article class="quote">
+        <div class="stars">★★★★★</div>
+        <p>«Прекрасное место, <mark>отличный сервис и высокий профессионализм</mark> сотрудников».</p>
+        <footer><span class="quote-av">Е</span><span><b>Екатерина Р.</b><span>2ГИС</span></span></footer>
+      </article>
+      <article class="quote">
+        <div class="stars">★★★★★</div>
+        <p>«Прекрасная клиника! <mark>Отличные врачи косметологи!</mark>»</p>
+        <footer><span class="quote-av">В</span><span><b>Виктория Василькова</b><span>2ГИС</span></span></footer>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ВРАЧИ ================= -->
+<section class="sec docs" id="vrachi">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Команда</span>
+      <h2>Врачи, которые будут<br>работать с вашим лицом</h2>
+      <p class="lede" style="margin-top:18px">У каждого своя специализация. На консультации вы сразу знаете, кто именно ведёт вашу задачу и почему выбран этот врач.</p>
+    </div>
+
+    <div class="doc-grid">
+      <article class="doc">
+        <div class="doc-photo"><img src="assets/img/doc-bella.webp" width="700" height="1000" alt="Бэлла Эркенова, врач-косметолог Pro Lab Clinic" loading="lazy"></div>
+        <div class="doc-body">
+          <h3>Бэлла Эркенова</h3>
+          <div class="doc-role">Врач-косметолог</div>
+          <p>Контурная пластика губ, коррекция носогубных складок, фотоомоложение. Работает на естественный результат — «как будто вы просто отдохнули».</p>
+        </div>
+      </article>
+
+      <article class="doc">
+        <div class="doc-photo"><img src="assets/img/doc-kyubra.webp" width="700" height="1000" alt="Кюбра Заманова, врач-косметолог Pro Lab Clinic" loading="lazy"></div>
+        <div class="doc-body">
+          <h3>Кюбра Заманова</h3>
+          <div class="doc-role">Врач-косметолог</div>
+          <p>Липоредукция нижней трети лица, контурная пластика. Специализируется на чёткости овала и коррекции подбородочной зоны.</p>
+        </div>
+      </article>
+
+      <article class="doc doc-soon">
+        <h3>В команде ещё два врача</h3>
+        <p>Айдан Амирова и Султан Генацвале — их карточки, регалии, сертификаты и работы «до/после» появятся здесь на следующем этапе.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ФОРМА ================= -->
+<section class="sec cta" id="zapis">
+  <div class="wrap">
+    <div class="cta-grid">
+      <div>
+        <span class="eyebrow">Запись</span>
+        <h2>Расскажите, что хотите<br>изменить — подберём процедуру</h2>
+        <p class="lede">Не обязательно знать название процедуры. Достаточно сказать «не нравится овал» или «хочу губы, но боюсь переборщить» — врач сам разберётся и предложит вариант.</p>
+        <ul class="cta-list">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E6CE95" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Перезвоним в течение рабочего дня, без спама и рассылок</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E6CE95" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Назовём вилку цены сразу по телефону</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E6CE95" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Подберём время, включая вечернее — работаем до 21:00</li>
+        </ul>
+      </div>
+
+      <form class="form" id="lead" onsubmit="return sendLead(this)">
+        <div class="form-body">
+          <h3>Подобрать процедуру</h3>
+          <p>Оставьте телефон — остальное обсудим голосом, это быстрее переписки.</p>
+          <div class="field">
+            <label for="ph">Ваш телефон</label>
+            <input id="ph" name="phone" type="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" required>
+          </div>
+          <div class="field">
+            <label for="nm">Как к вам обращаться <span style="font-weight:400;color:#5A6B66">— по желанию</span></label>
+            <input id="nm" name="name" type="text" placeholder="Имя">
+          </div>
+          <label class="consent">
+            <input type="checkbox" required>
+            <span>Согласен на обработку персональных данных в соответствии с <a href="privacy.html">политикой конфиденциальности</a></span>
+          </label>
+          <button class="btn btn-gold btn-wide" type="submit">Подобрать процедуру</button>
+        </div>
+        <div class="form-ok">
+          <b>Спасибо, заявка принята</b>
+          <p>Администратор клиники перезвонит вам с номера +7 (921) 769-00-00.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ================= КОНТАКТЫ ================= -->
+<section class="sec cont" id="kontakty">
+  <div class="wrap">
+    <div class="cont-grid">
+      <div>
+        <span class="eyebrow">Контакты</span>
+        <h2>Шпалерная, 60 —<br>рядом со Смольным</h2>
+        <ul class="cont-list">
+          <li>
+            <span class="cont-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+            <div><b>Адрес</b><span>Санкт-Петербург, ул. Шпалерная, 60, пом. 57н<br>ЖК «На Шпалерной», 1 этаж</span></div>
+          </li>
+          <li>
+            <span class="cont-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1.1 1A16 16 0 014 5.1 1 1 0 015 4z"/></svg></span>
+            <div><b>Телефон и мессенджеры</b><span><a href="tel:+79217690000">+7 (921) 769-00-00</a> — звонок, WhatsApp, Telegram</span></div>
+          </li>
+          <li>
+            <span class="cont-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+            <div><b>Часы работы</b><span>Ежедневно с 10:00 до 21:00, по записи</span></div>
+          </li>
+          <li>
+            <span class="cont-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+            <div><b>Почта</b><span><a href="mailto:prolabclinic.spb@mail.ru">prolabclinic.spb@mail.ru</a></span></div>
+          </li>
+        </ul>
+
+        <div class="lic">
+          <img src="assets/img/license.webp" alt="Лицензия Pro Lab Clinic" loading="lazy">
+          <p><b>Лицензия № ЛО41-01 148-78/00632532</b>от 19.12.2022. Выписку из реестра показываем по запросу в клинике.</p>
+        </div>
+      </div>
+
+      <div class="cont-way">
+        <h3>Как добраться</h3>
+        <ol>
+          <li>Пешком от метро «Чернышевская»: выйдите на Кирочную и идите в сторону Смольного — 15–20 минут спокойным шагом.</li>
+          <li>Поверните на Шпалерную улицу, дом 60. Вход с улицы, над входом золотые буквы PRO LAB CLINIC.</li>
+          <li>На машине — ориентир Смольный, парковка вдоль Шпалерной.</li>
+        </ol>
+        <img src="assets/img/facade.webp" alt="Вход в Pro Lab Clinic на Шпалерной, 60" loading="lazy" style="border-radius:16px;margin-top:22px">
+        <p style="font-size:13px;color:var(--ink-soft);margin-top:12px">На следующем этапе здесь будет интерактивная карта и кнопка «построить маршрут».</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ПОДВАЛ ================= -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-in">
+      <div style="max-width:300px">
+        <img src="assets/img/logo-light.png" alt="Pro Lab Clinic">
+        <p>Клиника инъекционной и аппаратной косметологии в центре Санкт-Петербурга.</p>
+      </div>
+      <div class="foot-links">
+        <a href="#uslugi">Процедуры</a>
+        <a href="#pochemu">Почему мы</a>
+        <a href="#klinika">Клиника</a>
+        <a href="#otzyvy">Отзывы</a>
+        <a href="#vrachi">Врачи</a>
+      </div>
+      <div class="foot-links">
+        <a href="tel:+79217690000">+7 (921) 769-00-00</a>
+        <a href="mailto:prolabclinic.spb@mail.ru">prolabclinic.spb@mail.ru</a>
+        <a href="privacy.html">Политика конфиденциальности</a>
+        <span>Шпалерная, 60 · ежедневно 10:00–21:00</span>
+      </div>
+    </div>
+    <p class="foot-note">
+      Имеются противопоказания, необходима консультация специалиста. Информация на сайте
+      не является публичной офертой. Лицензия № ЛО41-01 148-78/00632532 от 19.12.2022.
+      <br>Реквизиты юридического лица будут указаны здесь после согласования с клиникой.
+    </p>
+  </div>
+</footer>
+
+<!-- Мобильная панель действий -->
+<div class="sticky">
+  <a class="btn btn-ghost" href="tel:+79217690000">Позвонить</a>
+  <a class="btn btn-gold" href="#zapis">Записаться</a>
+</div>
+
+<!-- Пометка о статусе работы -->
+<div class="proto" id="proto">
+  <button onclick="document.getElementById('proto').classList.add('hidden')" aria-label="Скрыть">×</button>
+  <b>Прототип главной страницы</b>
+  Показывает направление дизайна и структуру. Полный каталог процедур, все врачи, фото «до/после», прайс и карта — на следующих этапах.
+</div>
+
+<script>
+/* Заявка. Пока без бэкенда: показываем экран благодарности и дёргаем цель аналитики.
+   Когда появится приёмник (почта, CRM, Telegram-бот) — заменить тело функции на fetch. */
+function sendLead(form){
+  form.classList.add('sent');
+  try{ if(window.ym) ym(0,'reachGoal','lead'); }catch(e){}
+  return false;
+}
+
+/* Шапка становится плотнее после прокрутки */
+addEventListener('scroll',function(){
+  document.getElementById('top').style.background =
+    scrollY > 40 ? 'rgba(8,40,31,.95)' : 'rgba(8,40,31,.82)';
+},{passive:true});
+
+/* Простая маска телефона */
+var ph = document.getElementById('ph');
+ph.addEventListener('input',function(){
+  var d = this.value.replace(/\D/g,'').replace(/^8/,'7').replace(/^([^7])/,'7$1').slice(0,11);
+  if(!d){ this.value=''; return; }
+  var out='+7';
+  if(d.length>1) out+=' ('+d.slice(1,4);
+  if(d.length>=5) out+=') '+d.slice(4,7);
+  if(d.length>=8) out+='-'+d.slice(7,9);
+  if(d.length>=10) out+='-'+d.slice(9,11);
+  this.value=out;
+});
+</script>
+</body>
+</html>
