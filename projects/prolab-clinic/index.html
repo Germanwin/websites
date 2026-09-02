@@ -110,14 +110,13 @@ p{margin:0}
 
 /* ---------- Шапка ---------- */
 .top{
-  position:fixed;inset:0 0 auto 0;z-index:60;
-  background:linear-gradient(180deg,rgba(8,40,31,.78),rgba(8,40,31,0));
+  position:fixed;inset:0 0 auto 0;z-index:60;background:transparent;
   transition:background .3s, border-color .3s;border-bottom:1px solid transparent;
 }
 .top.solid{background:rgba(8,40,31,.95);backdrop-filter:blur(14px);border-bottom-color:rgba(200,161,90,.22)}
 .top-in{display:flex;align-items:center;gap:26px;height:var(--head)}
 .logo{display:flex;align-items:center;gap:12px;flex-shrink:0}
-.logo img{height:32px;width:auto}
+.logo img{height:32px;width:auto;filter:drop-shadow(0 1px 5px rgba(8,40,31,.7))}
 .logo-desc{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);line-height:1.35;max-width:172px}
 .nav{display:flex;gap:25px;margin-left:auto;font-size:14px;font-weight:600}
 .nav a{color:rgba(255,255,255,.85);transition:.2s;white-space:nowrap}
@@ -125,8 +124,11 @@ p{margin:0}
 .top-phone{color:#fff;font-weight:700;font-size:16px;white-space:nowrap}
 .top-phone small{display:block;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:2px}
 .top .btn{padding:12px 22px;font-size:14px}
+/* своя тёмная подложка у пилюли — чтобы читалась на светлом фото
+   без затемняющей полосы во всю ширину шапки */
 .top-call{display:none;align-items:center;gap:7px;font-size:13px;font-weight:700;margin-left:auto;
-  border:1px solid rgba(200,161,90,.5);border-radius:100px;padding:9px 14px;color:var(--gold-light)}
+  border:1px solid rgba(200,161,90,.5);border-radius:100px;padding:9px 14px;color:var(--gold-light);
+  background:rgba(8,40,31,.55)}
 
 /* ---------- Первый экран ---------- */
 .hero{position:relative;padding:calc(var(--head) + 44px) 0 0;
@@ -428,7 +430,11 @@ details.spo[open] summary::after{content:'–'}
   .hero-media{order:-1;margin-right:calc(50% - 50vw);margin-left:calc(50% - 50vw)}
   .hero-photo{height:min(48svh,440px);min-height:0;border-radius:0;border-left:0;border-right:0;border-top:0}
   .hero-photo::before{display:none}
-  .hero-photo::after{background:linear-gradient(0deg,rgba(8,40,31,.75),rgba(8,40,31,0) 46%)}
+  /* фото уходит под шапку целиком: телефон, часы и логотип лежат на кадре.
+     Виньетка сверху тянется на треть фото — читается как свет в кадре,
+     а не как полоса с краем ровно по высоте шапки */
+  .hero-photo::after{background:linear-gradient(180deg,rgba(8,40,31,.8) 0%,rgba(8,40,31,.66) 14%,
+    rgba(8,40,31,.34) 26%,rgba(8,40,31,0) 44%,rgba(8,40,31,0) 56%,rgba(8,40,31,.75) 100%)}
   .hero-bul{grid-template-columns:1fr 1fr}
   .rating-card{left:auto;right:var(--pad);bottom:26px;width:150px;height:150px}
   .rating-num{font-size:38px}
@@ -475,9 +481,12 @@ details.spo[open] summary::after{content:'–'}
   .hero-photo img{height:100%}
   .hero-photo::before{display:none}
   /* сверху лёгкая тень под логотип, снизу — плавный уход в зелёный */
+  /* Затемнение принадлежит фотографии, а не шапке: тянется плавно почти до
+     середины кадра, поэтому читается как виньетка, а не как полоса с краем
+     ровно по высоте хедера. Снизу — уход в изумруд. */
   .hero-photo::after{opacity:1;
-    background:linear-gradient(180deg,rgba(8,40,31,.72) 0%,rgba(8,40,31,.28) 14%,rgba(8,40,31,.06) 32%,
-      rgba(8,40,31,.16) 62%,rgba(8,40,31,.86) 90%,#08281F 100%)}
+    background:linear-gradient(180deg,rgba(8,40,31,.66) 0%,rgba(8,40,31,.5) 16%,rgba(8,40,31,.26) 34%,
+      rgba(8,40,31,.1) 50%,rgba(8,40,31,.16) 64%,rgba(8,40,31,.86) 90%,#08281F 100%)}
 
   .hero-copy{display:flex;flex-direction:column;padding:18px var(--pad) 30px}
   .hero-copy>.eyebrow{order:1}
@@ -590,8 +599,6 @@ details.spo[open] summary::after{content:'–'}
    ========================================================================= */
 @media (max-width:699px){
   html{scroll-behavior:auto}
-  /* логотип лежит прямо на светлом фото — тень сверху должна быть плотнее */
-  .top{background:linear-gradient(180deg,rgba(8,40,31,.92) 0%,rgba(8,40,31,.55) 55%,rgba(8,40,31,0) 100%)}
   .top.solid{background:#08281F;backdrop-filter:none}
   .sticky{background:#08281F;backdrop-filter:none}
   .proto{backdrop-filter:none}
