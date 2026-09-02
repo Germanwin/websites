@@ -18,6 +18,22 @@
 <meta property="og:image" content="assets/img/reception.webp">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230E3B33'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='15' letter-spacing='0.5' fill='%23D8B45F' text-anchor='middle'%3EPL%3C/text%3E%3C/svg%3E">
 
+<script>
+/* Мобильная версия живёт отдельным файлом m.html: на телефоне у неё своя,
+   более крупная и «фотографическая» структура. Уводим туда до первой отрисовки,
+   чтобы не мигало. «Полная версия сайта» открывается по ссылке из подвала m.html
+   (?full=1) и запоминается на время сессии. */
+(function(){
+  try{
+    if(location.search.indexOf('full=1') > -1){ sessionStorage.setItem('pl-full','1'); return; }
+    if(sessionStorage.getItem('pl-full') === '1') return;
+    if(window.matchMedia && matchMedia('(max-width:700px)').matches){
+      location.replace('m.html' + location.hash);
+    }
+  }catch(e){}
+})();
+</script>
+
 <!-- Сюда вставляется счётчик Яндекс.Метрики с вебвизором.
      Цели уже вызываются из кода форм: ym(0,'reachGoal','lead'). -->
 
@@ -66,7 +82,7 @@ body{
   color:var(--ink);background:var(--white);font-size:17px;line-height:1.6;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
-img{max-width:100%;display:block}
+img{max-width:100%;height:auto;display:block}
 a{color:inherit}
 h1,h2,h3,h4{font-family:'Cormorant',Georgia,serif;font-weight:600;line-height:1.1;margin:0;letter-spacing:.01em}
 h1{font-size:clamp(34px,4.3vw,57px)}
