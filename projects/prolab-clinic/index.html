@@ -23,7 +23,9 @@
 
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-cyrillic-500.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/manrope-cyrillic.woff2" crossorigin>
-<link rel="preload" as="image" href="assets/img/reception.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/reception.webp" fetchpriority="high"
+      imagesrcset="assets/img/sm/reception-820.webp 820w, assets/img/reception.webp 1280w"
+      imagesizes="(max-width:1023px) 100vw, 560px">
 <style>
 /* Шрифты хостим локально: Google Fonts из РФ отдаётся нестабильно и блокирует рендер */
 @font-face{font-family:'Cormorant';font-style:normal;font-weight:400 700;font-display:swap;
@@ -588,7 +590,8 @@ details.spo[open] summary::after{content:'–'}
    ========================================================================= */
 @media (max-width:699px){
   html{scroll-behavior:auto}
-  .top{background:linear-gradient(180deg,rgba(8,40,31,.85),rgba(8,40,31,0))}
+  /* логотип лежит прямо на светлом фото — тень сверху должна быть плотнее */
+  .top{background:linear-gradient(180deg,rgba(8,40,31,.92) 0%,rgba(8,40,31,.55) 55%,rgba(8,40,31,0) 100%)}
   .top.solid{background:#08281F;backdrop-filter:none}
   .sticky{background:#08281F;backdrop-filter:none}
   .proto{backdrop-filter:none}
@@ -664,7 +667,11 @@ details.spo[open] summary::after{content:'–'}
 
       <div class="hero-media">
         <div class="hero-photo">
-          <img src="assets/img/reception.webp" width="1280" height="853" alt="Ресепшен Pro Lab Clinic: мраморная стойка, изумрудные бархатные кресла, латунь" fetchpriority="high">
+          <img src="assets/img/reception.webp"
+               srcset="assets/img/sm/reception-820.webp 820w, assets/img/reception.webp 1280w"
+               sizes="(max-width:1023px) 100vw, 560px"
+               width="1280" height="853" fetchpriority="high" decoding="async"
+               alt="Ресепшен Pro Lab Clinic: мраморная стойка, изумрудные бархатные кресла, латунь">
         </div>
         <div class="rating-card">
           <div class="rating-num">5,0</div>
@@ -793,7 +800,11 @@ details.spo[open] summary::after{content:'–'}
       </div>
 
       <div class="why-media">
-        <img src="assets/img/inmode.webp" width="900" height="1200" alt="Аппарат InMode Md в Pro Lab Clinic — платформа для Morpheus 8 и LUMECCA" loading="lazy">
+        <img src="assets/img/inmode.webp"
+             srcset="assets/img/sm/inmode-700.webp 700w, assets/img/inmode.webp 900w"
+             sizes="(max-width:1023px) 100vw, 560px"
+             width="900" height="1200" loading="lazy" decoding="async"
+             alt="Аппарат InMode Md в Pro Lab Clinic — платформа для Morpheus 8 и LUMECCA">
         <div class="why-badge"><b>InMode Md</b><span>Тот же аппарат, что в клиниках Тель-Авива и Лондона — стоит у нас на Шпалерной</span></div>
       </div>
     </div>
@@ -810,11 +821,11 @@ details.spo[open] summary::after{content:'–'}
     </div>
 
     <div class="gal">
-      <figure class="g-lounge"><img src="assets/img/lounge.webp" width="1280" height="853" alt="Зона ожидания Pro Lab Clinic: мраморный пол, изумрудные бархатные кресла, латунь" loading="lazy"><figcaption>Зона ожидания — чай, кофе и тишина</figcaption></figure>
-      <figure class="g-spa"><img src="assets/img/spa.webp" width="960" height="1280" alt="Гардеробная зона: белый мрамор, латунь, изумрудный бархат, халат" loading="lazy"><figcaption>Халат и тапочки ждут</figcaption></figure>
-      <figure class="g-leo"><img src="assets/img/leopard.webp" width="960" height="1280" alt="Роспись стены с леопардом на изумрудном фоне" loading="lazy"><figcaption>Та самая стена</figcaption></figure>
-      <figure class="g-r1"><img src="assets/img/room-1.webp" width="1280" height="853" alt="Кабинет косметолога Pro Lab Clinic" loading="lazy"><figcaption>Кабинет</figcaption></figure>
-      <figure class="g-r2"><img src="assets/img/room-2.webp" width="1280" height="853" alt="Процедурный кабинет с креслом и оборудованием" loading="lazy"><figcaption>Процедурная</figcaption></figure>
+      <figure class="g-lounge"><img src="assets/img/lounge.webp" srcset="assets/img/sm/lounge-520.webp 520w, assets/img/lounge.webp 1280w" sizes="(max-width:1023px) 50vw, 580px" width="1280" height="853" decoding="async" alt="Зона ожидания Pro Lab Clinic: мраморный пол, изумрудные бархатные кресла, латунь" loading="lazy"><figcaption>Зона ожидания — чай, кофе и тишина</figcaption></figure>
+      <figure class="g-spa"><img src="assets/img/spa.webp" srcset="assets/img/sm/spa-520.webp 520w, assets/img/spa.webp 960w" sizes="(max-width:699px) 50vw, (max-width:1023px) 50vw, 190px" width="960" height="1280" decoding="async" alt="Гардеробная зона: белый мрамор, латунь, изумрудный бархат, халат" loading="lazy"><figcaption>Халат и тапочки ждут</figcaption></figure>
+      <figure class="g-leo"><img src="assets/img/leopard.webp" srcset="assets/img/sm/leopard-520.webp 520w, assets/img/leopard.webp 960w" sizes="(max-width:699px) 50vw, (max-width:1023px) 25vw, 190px" width="960" height="1280" decoding="async" alt="Роспись стены с леопардом на изумрудном фоне" loading="lazy"><figcaption>Та самая стена</figcaption></figure>
+      <figure class="g-r1"><img src="assets/img/room-1.webp" srcset="assets/img/sm/room-1-520.webp 520w, assets/img/room-1.webp 1280w" sizes="(max-width:699px) 50vw, (max-width:1023px) 25vw, 190px" width="1280" height="853" decoding="async" alt="Кабинет косметолога Pro Lab Clinic" loading="lazy"><figcaption>Кабинет</figcaption></figure>
+      <figure class="g-r2"><img src="assets/img/room-2.webp" srcset="assets/img/sm/room-2-520.webp 520w, assets/img/room-2.webp 1280w" sizes="(max-width:699px) 50vw, (max-width:1023px) 50vw, 190px" width="1280" height="853" decoding="async" alt="Процедурный кабинет с креслом и оборудованием" loading="lazy"><figcaption>Процедурная</figcaption></figure>
     </div>
   </div>
 </section>
@@ -824,7 +835,10 @@ details.spo[open] summary::after{content:'–'}
   <div class="wrap">
     <div class="care-grid">
       <div class="care-photo">
-        <img src="assets/img/coffee.webp" width="960" height="1280" alt="Кофе и фирменный комплимент от клиники на подносе" loading="lazy">
+        <img src="assets/img/coffee.webp"
+             srcset="assets/img/sm/coffee-760.webp 760w, assets/img/coffee.webp 960w"
+             sizes="(max-width:1023px) 100vw, 590px" decoding="async"
+             width="960" height="1280" alt="Кофе и фирменный комплимент от клиники на подносе" loading="lazy">
       </div>
       <div>
         <span class="eyebrow">Как проходит визит</span>
@@ -883,7 +897,7 @@ details.spo[open] summary::after{content:'–'}
 
     <div class="doc-grid">
       <article class="doc">
-        <div class="doc-photo"><img src="assets/img/doc-bella.webp" width="700" height="1000" alt="Бэлла Эркенова, врач-косметолог Pro Lab Clinic" loading="lazy"></div>
+        <div class="doc-photo"><img src="assets/img/doc-bella.webp" srcset="assets/img/sm/doc-bella-340.webp 340w, assets/img/doc-bella.webp 700w" sizes="(max-width:699px) 120px, (max-width:1023px) 50vw, 380px" width="700" height="1000" decoding="async" alt="Бэлла Эркенова, врач-косметолог Pro Lab Clinic" loading="lazy"></div>
         <div class="doc-body">
           <h3>Бэлла Эркенова</h3>
           <div class="doc-role">Врач-косметолог</div>
@@ -892,7 +906,7 @@ details.spo[open] summary::after{content:'–'}
       </article>
 
       <article class="doc">
-        <div class="doc-photo"><img src="assets/img/doc-kyubra.webp" width="700" height="1000" alt="Кюбра Заманова, врач-косметолог Pro Lab Clinic" loading="lazy"></div>
+        <div class="doc-photo"><img src="assets/img/doc-kyubra.webp" srcset="assets/img/sm/doc-kyubra-340.webp 340w, assets/img/doc-kyubra.webp 700w" sizes="(max-width:699px) 120px, (max-width:1023px) 50vw, 380px" width="700" height="1000" decoding="async" alt="Кюбра Заманова, врач-косметолог Pro Lab Clinic" loading="lazy"></div>
         <div class="doc-body">
           <h3>Кюбра Заманова</h3>
           <div class="doc-role">Врач-косметолог</div>
@@ -977,7 +991,10 @@ details.spo[open] summary::after{content:'–'}
         </ul>
 
         <div class="lic">
-          <img src="assets/img/license.webp" width="793" height="1400" alt="Лицензия Pro Lab Clinic" loading="lazy">
+          <img src="assets/img/license.webp"
+               srcset="assets/img/sm/license-200.webp 200w, assets/img/license.webp 793w"
+               sizes="60px" decoding="async"
+               width="793" height="1400" alt="Лицензия Pro Lab Clinic" loading="lazy">
           <p><b>Лицензия № ЛО41-01 148-78/00632532</b>от 19.12.2022. Выписку из реестра показываем по запросу в клинике.</p>
         </div>
       </div>
@@ -989,7 +1006,10 @@ details.spo[open] summary::after{content:'–'}
           <li>Поверните на Шпалерную улицу, дом 60. Вход с улицы, над входом золотые буквы PRO LAB CLINIC.</li>
           <li>На машине — ориентир Смольный, парковка вдоль Шпалерной.</li>
         </ol>
-        <img src="assets/img/facade.webp" width="1280" height="853" alt="Вход в Pro Lab Clinic на Шпалерной, 60" loading="lazy">
+        <img src="assets/img/facade.webp"
+             srcset="assets/img/sm/facade-820.webp 820w, assets/img/facade.webp 1280w"
+             sizes="(max-width:1023px) 100vw, 520px" decoding="async"
+             width="1280" height="853" alt="Вход в Pro Lab Clinic на Шпалерной, 60" loading="lazy">
         <p class="spo-note">На следующем этапе здесь будет интерактивная карта и кнопка «построить маршрут».</p>
       </div>
     </div>
