@@ -130,7 +130,7 @@ p{margin:0}
 .hero{position:relative;padding:calc(var(--head) + 52px) 0 0;background:var(--green-deep);color:#fff;overflow:hidden}
 .hero::before{content:'';position:absolute;left:-14%;top:-10%;width:60vw;height:60vw;border-radius:50%;
   background:radial-gradient(circle,rgba(200,161,90,.24),transparent 62%);pointer-events:none}
-.hero-in{display:grid;grid-template-columns:1.02fr .98fr;gap:52px;align-items:center;position:relative;z-index:2}
+.hero-in{display:grid;grid-template-columns:1.12fr .88fr;gap:46px;align-items:center;position:relative;z-index:2}
 .hero h1{color:#fff;margin-bottom:18px}
 .hero h1 em{font-style:italic;color:var(--gold-light)}
 .hero-sub{color:rgba(255,255,255,.82);max-width:52ch;font-size:clamp(16px,1.35vw,18px)}
@@ -138,6 +138,11 @@ p{margin:0}
 .hero-bul li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;color:rgba(255,255,255,.9)}
 .hero-bul svg{flex-shrink:0;margin-top:3px}
 .hero-cta{display:flex;flex-wrap:wrap;gap:13px;align-items:center}
+.hero-urg{display:inline-flex;align-items:center;gap:10px;margin:0 0 22px;padding:8px 16px 8px 13px;
+  border:1px solid rgba(200,161,90,.42);border-radius:100px;background:rgba(200,161,90,.1);
+  font-size:13px;line-height:1.35;color:var(--gold-light)}
+.hero-urg i{width:6px;height:6px;border-radius:50%;background:var(--gold-light);flex-shrink:0;
+  box-shadow:0 0 0 4px rgba(200,161,90,.16)}
 .hero-note{font-size:13px;color:rgba(255,255,255,.5);margin-top:16px}
 .hero-media{position:relative}
 .hero-photo{border-radius:var(--radius);overflow:hidden;border:1px solid rgba(200,161,90,.3);
@@ -412,6 +417,7 @@ details.spo[open] summary::after{content:'–'}
       rgba(8,40,31,.16) 62%,rgba(8,40,31,.86) 90%,#08281F 100%)}
   .hero-copy{padding:22px var(--pad) calc(92px + env(safe-area-inset-bottom))}
   .hero-bul{display:none}          /* дублируют плитку фактов ниже */
+  .hero-urg{margin-bottom:16px;padding:7px 13px 7px 11px;font-size:12.5px}
   .hero-note{display:none}
   .hero-cta{display:grid;gap:11px}
   .hero-cta .btn{width:100%}
@@ -483,6 +489,14 @@ details.spo[open] summary::after{content:'–'}
     box-shadow:none;backdrop-filter:none}
   .proto button{display:none}
 }
+
+/* Узкие телефоны: первый экран не должен уезжать под нижнюю панель */
+@media (max-width:400px){
+  h1{font-size:35px}
+  .hero-photo{height:31svh;min-height:180px}
+  .hero-sub{font-size:15.5px}
+  .hero-urg{font-size:12px;padding:6px 12px 6px 10px}
+}
 </style>
 </head>
 <body>
@@ -516,23 +530,24 @@ details.spo[open] summary::after{content:'–'}
   <div class="wrap">
     <div class="hero-in">
       <div class="hero-copy">
-        <span class="eyebrow">Санкт-Петербург · у Смольного</span>
-        <h1>Клиника косметологии, которой ставят <em>5,0 из 5</em></h1>
-        <p class="hero-sub">Morpheus&nbsp;8, контурная пластика губ и объём ягодиц без операции — на оригинальной платформе InMode. Врач подбирает протокол на консультации и называет полную стоимость до начала работы.</p>
+        <span class="eyebrow">Санкт-Петербург · Шпалерная, 60 · у Смольного</span>
+        <h1>Чёткий овал и плотная кожа — <em>за 1–3 процедуры</em> Morpheus&nbsp;8</h1>
+        <p class="hero-sub">Без операции и наркоза, на оригинальной платформе InMode&nbsp;Md. Врач с медицинской лицензией смотрит кожу и называет полную стоимость протокола до начала работы — от 45 000 ₽.</p>
         <ul class="hero-bul">
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> 95 оценок на Яндекс Картах и ни одной ниже пяти звёзд</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Медицинская лицензия с 2022 года — процедуры делает врач</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Оригинальная платформа InMode Md, а не аппараты-аналоги</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> 10 минут от Смольного, ежедневно с 10:00 до 21:00</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> 5,0 на Яндекс Картах: 95 оценок и ни одной ниже пяти звёзд</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Оригинальная платформа InMode&nbsp;Md, а не аппараты-аналоги</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Медицинская лицензия с 2022 года — работает врач, а не мастер</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> 10 минут от Смольного, ежедневно до 21:00 — можно после работы</li>
         </ul>
+        <p class="hero-urg"><i></i>Сезон начался: солнце ушло — сентябрьский протокол раскроется к декабрю</p>
         <div class="hero-cta">
-          <a class="btn btn-gold" href="#zapis">Подобрать процедуру и узнать цену</a>
+          <a class="btn btn-gold" href="#zapis">Подобрать протокол и цену</a>
           <a class="btn btn-ghost" href="https://api.whatsapp.com/send?phone=79217690000" target="_blank" rel="noopener">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-5.8c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.1-.2 0-.4.1-.5l.4-.5c.1-.2.1-.3 0-.5l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.5.1-.7.3-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.2.2-.6.2-1.1.1-1.2 0-.1-.2-.2-.4-.3z"/></svg>
             Написать в WhatsApp
           </a>
         </div>
-        <p class="hero-note">Консультация ни к чему не обязывает: врач осмотрит, скажет, что реально нужно, и что делать не стоит.</p>
+        <p class="hero-note">Консультация ни к чему не обязывает: врач скажет, что аппарат действительно даст, а чего не даст и от чего лучше отказаться. Записываем на ближайшие свободные дни.</p>
       </div>
 
       <div class="hero-media">
