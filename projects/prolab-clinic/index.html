@@ -66,11 +66,11 @@
   --head:74px;              /* высота шапки */
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
 body{
   margin:0;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   color:var(--ink);background:#fff;font-size:17px;line-height:1.6;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;overflow-x:clip;
 }
 img{max-width:100%;height:auto;display:block}
 a{color:inherit;text-decoration:none}
@@ -127,42 +127,74 @@ p{margin:0}
   border:1px solid rgba(200,161,90,.5);border-radius:100px;padding:9px 14px;color:var(--gold-light)}
 
 /* ---------- Первый экран ---------- */
-.hero{position:relative;padding:calc(var(--head) + 52px) 0 0;background:var(--green-deep);color:#fff;overflow:hidden}
-.hero::before{content:'';position:absolute;left:-14%;top:-10%;width:60vw;height:60vw;border-radius:50%;
-  background:radial-gradient(circle,rgba(200,161,90,.24),transparent 62%);pointer-events:none}
-.hero-in{display:grid;grid-template-columns:1.12fr .88fr;gap:46px;align-items:center;position:relative;z-index:2}
-.hero h1{color:#fff;margin-bottom:18px}
+.hero{position:relative;padding:calc(var(--head) + 44px) 0 0;
+  background:var(--green-deep);color:#fff;overflow:hidden}
+/* тёплый свет: золото из-за фото справа и мягкий изумруд слева */
+.hero::before{content:'';position:absolute;right:8%;top:-18%;width:58vw;height:58vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,161,90,.26),transparent 62%);pointer-events:none;z-index:1}
+.hero::after{content:'';position:absolute;left:-22%;bottom:-30%;width:52vw;height:52vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(27,82,71,.85),transparent 66%);pointer-events:none;z-index:1}
+.hero-in{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:54px;
+  align-items:stretch;position:relative;z-index:3}
+.hero-copy{align-self:center;padding-bottom:clamp(34px,4vw,56px)}
+
+.hero h1{color:#fff;margin-bottom:16px;font-size:clamp(31px,3.5vw,46px);line-height:1.13;letter-spacing:0}
 .hero h1 em{font-style:italic;color:var(--gold-light)}
-.hero-lead{font-family:'Cormorant',Georgia,serif;font-style:italic;font-size:clamp(19px,1.75vw,25px);
-  line-height:1.25;color:var(--gold-light);max-width:none;margin:0 0 16px}
-.hero-sub{color:rgba(255,255,255,.82);max-width:52ch;font-size:clamp(16px,1.35vw,18px)}
-.hero-bul{list-style:none;padding:0;margin:24px 0 28px;display:grid;gap:11px}
-.hero-bul li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;color:rgba(255,255,255,.9)}
-.hero-bul svg{flex-shrink:0;margin-top:3px}
+.hero h1 b{font-weight:600;color:var(--gold-light);white-space:nowrap}
+.hero-lead{font-family:'Cormorant',Georgia,serif;font-style:italic;font-size:clamp(19px,1.8vw,26px);
+  line-height:1.25;color:rgba(255,255,255,.72);margin:0 0 18px;position:relative;padding-left:20px}
+.hero-lead::before{content:'';position:absolute;left:0;top:.28em;bottom:.28em;width:2px;
+  background:linear-gradient(180deg,var(--gold),rgba(200,161,90,0))}
+.hero-sub{color:rgba(255,255,255,.8);max-width:54ch;font-size:clamp(15.5px,1.25vw,17px)}
+
+/* факты сеткой 2×2 — вместо столбика галочек */
+.hero-bul{list-style:none;padding:0;margin:26px 0 24px;display:grid;grid-template-columns:1fr 1fr;gap:16px 24px}
+.hero-bul li{display:flex;gap:11px;align-items:center;font-size:14.5px;line-height:1.35;color:rgba(255,255,255,.92)}
+.hero-bul i{flex-shrink:0;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;
+  border:1px solid rgba(200,161,90,.45);background:rgba(200,161,90,.13)}
+
+/* срочность — золотая полоса-акцент, а не блёклая пилюля */
+.hero-urg{display:flex;gap:12px;align-items:center;margin:0 0 24px;padding:13px 20px;
+  border-radius:0 14px 14px 0;border-left:2px solid var(--gold);
+  background:linear-gradient(90deg,rgba(200,161,90,.2),rgba(200,161,90,.03));
+  font-size:13.5px;line-height:1.4;color:#F2E7CD;max-width:62ch}
+.hero-urg i{width:7px;height:7px;border-radius:50%;background:var(--gold-light);flex-shrink:0;
+  box-shadow:0 0 0 4px rgba(200,161,90,.18)}
+
 .hero-cta{display:flex;flex-wrap:wrap;gap:13px;align-items:center}
-.hero-urg{display:inline-flex;align-items:center;gap:10px;margin:0 0 22px;padding:8px 16px 8px 13px;
-  border:1px solid rgba(200,161,90,.42);border-radius:100px;background:rgba(200,161,90,.1);
-  font-size:13px;line-height:1.35;color:var(--gold-light)}
-.hero-urg i{width:6px;height:6px;border-radius:50%;background:var(--gold-light);flex-shrink:0;
-  box-shadow:0 0 0 4px rgba(200,161,90,.16)}
-.hero-note{font-size:13px;color:rgba(255,255,255,.5);margin-top:16px}
-.hero-media{position:relative}
-.hero-photo{border-radius:var(--radius);overflow:hidden;border:1px solid rgba(200,161,90,.3);
-  box-shadow:0 40px 80px -40px rgba(0,0,0,.7);position:relative}
-.hero-photo img{width:100%;height:clamp(340px,40vw,500px);object-fit:cover}
-.hero-photo::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s}
-.rating-card{
-  position:absolute;left:-26px;bottom:-30px;background:var(--cream);color:var(--ink);
-  border-radius:20px;padding:18px 24px;box-shadow:var(--shadow);display:flex;gap:16px;align-items:center;
-  border:1px solid rgba(200,161,90,.35);
-}
-.rating-num{font-family:'Cormorant',serif;font-size:44px;line-height:1;color:var(--green)}
-.rating-stars{color:var(--gold);letter-spacing:2px;font-size:14px}
-.rating-txt{font-size:12.5px;color:var(--ink-soft);line-height:1.4;max-width:152px}
+.hero-cta .btn-gold{padding:19px 38px;font-size:17px}
+.hero-note{font-size:13px;color:rgba(255,255,255,.62);margin-top:16px;max-width:60ch}
+
+/* фото уходит в правый край экрана — журнальный разворот, а не карточка */
+.hero-media{position:relative;align-self:stretch;display:flex;align-items:stretch;
+  margin-right:calc(50% - 50vw)}
+.hero-photo{position:relative;width:100%;height:100%;min-height:540px;overflow:hidden;
+  border-radius:30px 0 0 0;border:1px solid rgba(200,161,90,.3);border-right:0;
+  box-shadow:0 50px 90px -45px rgba(0,0,0,.8)}
+.hero-photo img{width:100%;height:100%;object-fit:cover}
+/* внутренний золотой кант */
+.hero-photo::before{content:'';position:absolute;inset:15px 0 0 15px;z-index:2;pointer-events:none;
+  border:1px solid rgba(230,206,149,.3);border-right:0;border-bottom:0;border-radius:20px 0 0 0}
+/* мягкое втекание фото в изумруд слева и снизу */
+.hero-photo::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,#08281F 0%,rgba(8,40,31,.6) 9%,rgba(8,40,31,0) 38%),
+             linear-gradient(0deg,rgba(8,40,31,.55),rgba(8,40,31,0) 34%)}
+
+/* медальон рейтинга */
+.rating-card{position:absolute;left:-38px;bottom:128px;z-index:4;
+  width:154px;height:154px;border-radius:50%;background:var(--cream);color:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  border:1px solid rgba(200,161,90,.5);box-shadow:0 34px 64px -26px rgba(0,0,0,.6)}
+.rating-card::before{content:'';position:absolute;inset:9px;border-radius:50%;
+  border:1px solid rgba(200,161,90,.38);pointer-events:none}
+.rating-num{font-family:'Cormorant',serif;font-size:40px;line-height:1;color:var(--green)}
+.rating-stars{color:var(--gold);letter-spacing:2px;font-size:13px;margin-top:3px}
+.rating-txt{font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);
+  line-height:1.45;max-width:104px;margin-top:7px}
 .rating-txt-s{display:none;font-size:13px;white-space:nowrap}
-.strip{margin-top:clamp(44px,5.5vw,74px);border-top:1px solid rgba(255,255,255,.12);
-  display:grid;grid-template-columns:repeat(4,1fr);position:relative;z-index:2}
-.strip div{padding:24px 20px 30px;border-right:1px solid rgba(255,255,255,.12)}
+.stripsec{background:var(--green);position:relative;z-index:2;border-top:1px solid rgba(200,161,90,.22)}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);position:relative;z-index:2}
+.strip div{padding:26px 20px 30px;border-right:1px solid rgba(255,255,255,.12)}
 .strip div:last-child{border-right:0}
 .strip b{display:block;font-family:'Cormorant',serif;font-size:clamp(26px,2.6vw,34px);color:var(--gold-light);font-weight:600;line-height:1}
 .strip span{font-size:13px;color:rgba(255,255,255,.62);line-height:1.4;display:block;margin-top:6px}
@@ -369,12 +401,35 @@ details.spo[open] summary::after{content:'–'}
 /* =========================================================================
    ПЛАНШЕТ  700–1023
    ========================================================================= */
+/* Ноутбуки с невысоким экраном: первый экран должен помещаться целиком */
+@media (min-width:1024px) and (max-height:880px){
+  .hero{padding-top:calc(var(--head) + 20px)}
+  .hero h1{font-size:clamp(30px,2.85vw,40px)}
+  .hero-lead{font-size:20px;margin-bottom:14px}
+  .hero-sub{font-size:15.5px}
+  .hero-bul{margin:20px 0 18px;gap:13px 22px}
+  .hero-urg{margin-bottom:18px;padding:11px 18px;font-size:13px}
+  .hero-cta .btn-gold{padding:17px 32px;font-size:16px}
+  .hero-note{margin-top:12px}
+  .hero-photo{min-height:0}
+  .rating-card{width:132px;height:132px;bottom:104px;left:-32px}
+  .rating-num{font-size:34px}
+}
+
 @media (max-width:1023px){
   :root{--pad:28px}
   .nav{display:none}
   .hero-in,.why-grid,.cta-grid,.cont-grid,.care-grid{grid-template-columns:1fr;gap:40px}
-  .hero-media{order:-1}
-  .rating-card{left:auto;right:20px;bottom:-26px}
+  .hero{padding-top:0}
+  .hero-in{gap:34px}
+  .hero-copy{align-self:auto;padding-bottom:0}
+  .hero-media{order:-1;margin-right:calc(50% - 50vw);margin-left:calc(50% - 50vw)}
+  .hero-photo{height:min(48svh,440px);min-height:0;border-radius:0;border-left:0;border-right:0;border-top:0}
+  .hero-photo::before{display:none}
+  .hero-photo::after{background:linear-gradient(0deg,rgba(8,40,31,.75),rgba(8,40,31,0) 46%)}
+  .hero-bul{grid-template-columns:1fr 1fr}
+  .rating-card{left:auto;right:var(--pad);bottom:26px;width:150px;height:150px}
+  .rating-num{font-size:38px}
   .cards,.rev-grid,.doc-grid{grid-template-columns:1fr 1fr}
   .doc-grid .doc:last-child{grid-column:span 2}
   .why-media img{max-height:460px;object-fit:cover}
@@ -405,34 +460,51 @@ details.spo[open] summary::after{content:'–'}
   .top-call{display:inline-flex}
   .logo img{height:28px}
 
-  /* Первый экран: фото во всю ширину сверху, текст — на чистом изумруде */
-  .hero{padding:0;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end}
-  .hero::before{display:none}
+  /* Первый экран: фото во всю ширину сверху, текст — на чистом изумруде.
+     Порядок на телефоне другой, чем на десктопе: оффер, цена и кнопки должны
+     попасть в один экран, поэтому объяснение процедуры и сезонность уезжают
+     под кнопки. Сначала «что и сколько», потом подробности. */
+  .hero{padding:0;min-height:0;display:block}
+  .hero::before,.hero::after{display:none}
   .hero>.wrap{padding-left:0;padding-right:0;width:100%}
   .hero-in{display:flex;flex-direction:column;gap:0}
-  .hero-media{order:-1;margin:0}
-  .hero-photo{border-radius:0;border:0;box-shadow:none;height:36svh;min-height:215px}
+  .hero-media{display:block;order:-1;margin:0}
+  .hero-photo{border-radius:0;border:0;box-shadow:none;height:30svh;min-height:190px;max-height:none}
   .hero-photo img{height:100%}
+  .hero-photo::before{display:none}
   /* сверху лёгкая тень под логотип, снизу — плавный уход в зелёный */
   .hero-photo::after{opacity:1;
     background:linear-gradient(180deg,rgba(8,40,31,.72) 0%,rgba(8,40,31,.28) 14%,rgba(8,40,31,.06) 32%,
       rgba(8,40,31,.16) 62%,rgba(8,40,31,.86) 90%,#08281F 100%)}
-  .hero-copy{padding:22px var(--pad) calc(92px + env(safe-area-inset-bottom))}
-  .hero-bul{display:none}          /* дублируют плитку фактов ниже */
-  .hero-urg{margin-bottom:16px;padding:7px 13px 7px 11px;font-size:12.5px}
-  .hero-lead{font-size:20px;max-width:none;margin-bottom:12px}
-  .hero-note{display:none}
-  .hero-cta{display:grid;gap:11px}
+
+  .hero-copy{display:flex;flex-direction:column;padding:18px var(--pad) 30px}
+  .hero-copy>.eyebrow{order:1}
+  .hero-copy>h1{order:2}
+  .hero-copy>.hero-lead{order:3}
+  .hero-copy>.hero-cta{order:4}
+  .hero-copy>.hero-sub{order:5;margin-top:22px}
+  .hero-copy>.hero-urg{order:6}
+  .hero .eyebrow{font-size:10.5px;letter-spacing:.14em;margin-bottom:11px}
+  /* .hero h1 бьёт по специфичности медиазапросный h1 — задаём размер этим же селектором */
+  .hero h1{font-size:30px;margin-bottom:12px}
+  .hero-lead{font-size:19px;max-width:none;margin:0 0 16px;padding-left:14px}
+  .hero-bul,.hero-note{display:none} /* факты дублирует плитка ниже, сноска — форма */
+  .hero-urg{margin:16px 0 0;padding:11px 15px;font-size:12.5px;line-height:1.45}
+  .hero-sub{max-width:none}
+  .hero-cta{display:grid;gap:10px}
   .hero-cta .btn{width:100%}
-  .rating-card{position:static;margin:18px var(--pad) 0;padding:9px 18px 9px 12px;gap:12px;border-radius:100px;
-    background:rgba(251,245,236,.14);border-color:rgba(200,161,90,.5);color:#fff;box-shadow:none;
-    backdrop-filter:blur(6px);display:inline-flex;align-items:center}
+  .hero-cta .btn-gold{padding:17px 20px;font-size:16px}
+  .rating-card{position:static;width:auto;height:auto;margin:16px var(--pad) 0;padding:9px 18px 9px 14px;gap:12px;
+    border-radius:100px;background:rgba(255,255,255,.1);border-color:rgba(200,161,90,.5);color:#fff;box-shadow:none;
+    display:inline-flex;flex-direction:row;align-items:center;text-align:left}
+  .rating-card::before{display:none}
   .rating-num{font-size:25px;color:var(--gold-light)}
   .rating-stars{font-size:10.5px;letter-spacing:1.5px}
   .hero .rating-txt{display:none}
   .hero .rating-txt-s{display:block;color:rgba(255,255,255,.85)}
 
   /* Плитка фактов вместо тонкой полосы */
+  .stripsec{border-top:0}
   .strip{margin:0;border-top:0;grid-template-columns:1fr 1fr;background:var(--green)}
   .strip div{padding:24px var(--pad);border-bottom:1px solid rgba(255,255,255,.12)}
   .strip div:nth-child(odd){border-right:1px solid rgba(255,255,255,.12)}
@@ -495,11 +567,46 @@ details.spo[open] summary::after{content:'–'}
 
 /* Узкие телефоны: первый экран не должен уезжать под нижнюю панель */
 @media (max-width:400px){
-  h1{font-size:35px}
-  .hero-photo{height:31svh;min-height:180px}
-  .hero-sub{font-size:15.5px}
-  .hero-lead{font-size:18.5px}
-  .hero-urg{font-size:12px;padding:6px 12px 6px 10px}
+  h2{font-size:30px}
+  .hero h1{font-size:27px}
+  .hero-photo{height:26svh;min-height:165px}
+  .hero-sub{font-size:15px}
+  .hero-lead{font-size:17.5px}
+  .hero-urg{font-size:12px;padding:10px 13px}
+  .strip b{font-size:26px}
+}
+
+/* =========================================================================
+   ПРОКРУТКА НА ТЕЛЕФОНЕ
+   Три источника лагов, все убираем на узких экранах:
+   1. backdrop-filter на липких панелях — браузер пересчитывает размытие
+      каждый кадр прокрутки, на телефоне это самый дорогой эффект на странице.
+      Заодно уходит просвечивание: плотный фон вместо полупрозрачного.
+   2. Декоративные круги в vw с радиальным градиентом — огромная площадь
+      перерисовки ради пятна, которое на телефоне почти не видно.
+   3. Плавная прокрутка по якорям через всю простыню страницы.
+   ========================================================================= */
+@media (max-width:699px){
+  html{scroll-behavior:auto}
+  .top{background:linear-gradient(180deg,rgba(8,40,31,.85),rgba(8,40,31,0))}
+  .top.solid{background:#08281F;backdrop-filter:none}
+  .sticky{background:#08281F;backdrop-filter:none}
+  .proto{backdrop-filter:none}
+  .flag::after,.why::before,.inter::after,.rev::before,.docs::after,.cta::before{display:none}
+}
+
+/* На тач-экранах :hover залипает после тапа и тащит за собой перерисовку —
+   отключаем сдвиги и зумы, оставляем только нажатие */
+@media (hover:none){
+  .card:hover{transform:none;box-shadow:var(--shadow-soft)}
+  .btn-gold:hover,.btn:hover{transform:none}
+  .gal img{transition:none}
+  .gal figure:hover img{transform:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
 </style>
 </head>
@@ -535,24 +642,24 @@ details.spo[open] summary::after{content:'–'}
     <div class="hero-in">
       <div class="hero-copy">
         <span class="eyebrow">Санкт-Петербург · Шпалерная, 60 · медицинская лицензия</span>
-        <h1>Подтяжка лица <em>без&nbsp;операции</em></h1>
+        <h1>Подтяжка лица <em>без операции</em> — за 2 процедуры и <b>от 45 000 ₽</b>, с&nbsp;результатом к Новому году</h1>
         <p class="hero-lead">Когда крем уже не справляется, а на операцию вы не готовы.</p>
-        <p class="hero-sub">2–3 процедуры микроигольчатого RF-лифтинга Morpheus&nbsp;8 на оригинальном израильском InMode: кожа подтягивается за счёт собственного коллагена. Без наркоза и швов — вечером вы дома. Полную цену врач называет до начала, от 45 000 ₽.</p>
+        <p class="hero-sub">Микроигольчатый RF-лифтинг Morpheus&nbsp;8 на оригинальном израильском InMode: кожа подтягивается собственным коллагеном. Врач с лицензией смотрит вашу кожу и называет полную цену до начала работы.</p>
         <ul class="hero-bul">
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Без наркоза, швов и больницы: домой в тот же день, следы уходят за 2–3 дня</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Оригинальный InMode&nbsp;Md из Израиля, а не аппараты-копии</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Делает врач, клиника с медицинской лицензией с 2022 года</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A15A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> 5,0 на Яндекс Картах: 95 оценок и ни одной ниже пяти звёзд</li>
+          <li><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E6CE95" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg></i> Без наркоза и швов — домой в тот же день</li>
+          <li><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E6CE95" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg></i> Оригинальный InMode из Израиля, не копии</li>
+          <li><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E6CE95" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg></i> Делает врач, лицензия клиники с 2022 года</li>
+          <li><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E6CE95" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg></i> 5,0 на Яндекс Картах — 95 оценок</li>
         </ul>
-        <p class="hero-urg"><i></i>Сезон начался: лифтинг делают с сентября, пока нет активного солнца</p>
+        <p class="hero-urg"><i></i>Сезон начался: лифтинг делают с сентября, пока нет активного солнца. Начнёте сейчас — успеете пройти курс до праздников.</p>
         <div class="hero-cta">
-          <a class="btn btn-gold" href="#zapis">Подобрать процедуру и цену</a>
+          <a class="btn btn-gold" href="#zapis">Рассчитать стоимость</a>
           <a class="btn btn-ghost" href="https://api.whatsapp.com/send?phone=79217690000" target="_blank" rel="noopener">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-5.8c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.1-.2 0-.4.1-.5l.4-.5c.1-.2.1-.3 0-.5l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.5.1-.7.3-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.2.2-.6.2-1.1.1-1.2 0-.1-.2-.2-.4-.3z"/></svg>
             Написать в WhatsApp
           </a>
         </div>
-        <p class="hero-note">Консультация ни к чему не обязывает: врач посмотрит кожу и честно скажет, чего ждать в вашем случае, а от чего лучше отказаться. Записываем на ближайшие свободные дни.</p>
+        <p class="hero-note">Врач посмотрит кожу, скажет, сколько процедур нужно именно вам, и назовёт точную цену. Консультация ни к чему не обязывает.</p>
       </div>
 
       <div class="hero-media">
@@ -560,16 +667,18 @@ details.spo[open] summary::after{content:'–'}
           <img src="assets/img/reception.webp" width="1280" height="853" alt="Ресепшен Pro Lab Clinic: мраморная стойка, изумрудные бархатные кресла, латунь" fetchpriority="high">
         </div>
         <div class="rating-card">
-          <div>
-            <div class="rating-num">5,0</div>
-            <div class="rating-stars">★★★★★</div>
-          </div>
-          <p class="rating-txt">Средняя оценка клиники на Яндекс&nbsp;Картах — 95 оценок, 62 отзыва</p>
+          <div class="rating-num">5,0</div>
+          <div class="rating-stars">★★★★★</div>
+          <p class="rating-txt">95 оценок<br>Яндекс Карты</p>
           <p class="rating-txt-s">95 оценок на Яндекс&nbsp;Картах</p>
         </div>
       </div>
     </div>
+  </div>
+</section>
 
+<section class="stripsec">
+  <div class="wrap">
     <div class="strip">
       <div><b>5,0</b><span>рейтинг на Яндекс Картах</span></div>
       <div><b>InMode</b><span>оригинальная платформа Md</span></div>
@@ -820,7 +929,7 @@ details.spo[open] summary::after{content:'–'}
 
       <form class="form" id="lead" onsubmit="return sendLead(this)">
         <div class="form-body">
-          <h3>Подобрать процедуру</h3>
+          <h3>Рассчитать стоимость</h3>
           <p>Оставьте телефон — остальное обсудим голосом, это быстрее переписки.</p>
           <div class="field">
             <label for="ph">Ваш телефон</label>
@@ -830,7 +939,7 @@ details.spo[open] summary::after{content:'–'}
             <input type="checkbox" required>
             <span>Согласен на обработку персональных данных в соответствии с <a href="privacy.html">политикой конфиденциальности</a></span>
           </label>
-          <button class="btn btn-gold btn-wide" type="submit">Подобрать процедуру</button>
+          <button class="btn btn-gold btn-wide" type="submit">Рассчитать стоимость</button>
         </div>
         <div class="form-ok">
           <b>Спасибо, заявка принята</b>
@@ -956,10 +1065,20 @@ ph.addEventListener('input',function(){
    принудительно — контент не может остаться невидимым. */
 (function(){
   if(!window.IntersectionObserver || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  /* На телефоне проявления нет вовсе: сорок элементов с прозрачностью и сдвигом
+     заставляют браузер перерисовывать полстраницы на каждом кадре прокрутки —
+     это и есть основной источник рывков. Контент показывается сразу. */
+  if(matchMedia('(max-width: 699px)').matches) return;
   var sel = '.sec .sec-head, .sec .card, .sec .doc, .sec .quote, .gal figure, .why-list li, .cont-list, .way, .care-photo, .care-grid > div, details.spo';
   var els = [].slice.call(document.querySelectorAll(sel));
   if(!els.length) return;
-  function show(el){ el.style.opacity = 1; el.style.transform = 'none'; }
+  /* после проявления снимаем инлайновые свойства: элемент перестаёт быть
+     отдельным слоем композитора и больше не стоит ничего */
+  function show(el){
+    el.style.opacity = '';
+    el.style.transform = '';
+    setTimeout(function(){ el.style.transition = ''; }, 600);
+  }
   els.forEach(function(el){
     el.style.opacity = 0;
     el.style.transform = 'translateY(14px)';
